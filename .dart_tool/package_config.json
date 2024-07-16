@@ -86,6 +86,42 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "flutter_secure_storage",
+      "rootUri": "file:///Users/edward.bayliss/.pub-cache/hosted/pub.dev/flutter_secure_storage-9.2.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_secure_storage_linux",
+      "rootUri": "file:///Users/edward.bayliss/.pub-cache/hosted/pub.dev/flutter_secure_storage_linux-1.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_secure_storage_macos",
+      "rootUri": "file:///Users/edward.bayliss/.pub-cache/hosted/pub.dev/flutter_secure_storage_macos-3.1.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_secure_storage_platform_interface",
+      "rootUri": "file:///Users/edward.bayliss/.pub-cache/hosted/pub.dev/flutter_secure_storage_platform_interface-1.1.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_secure_storage_web",
+      "rootUri": "file:///Users/edward.bayliss/.pub-cache/hosted/pub.dev/flutter_secure_storage_web-1.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_secure_storage_windows",
+      "rootUri": "file:///Users/edward.bayliss/.pub-cache/hosted/pub.dev/flutter_secure_storage_windows-3.1.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "flutter_svg",
       "rootUri": "file:///Users/edward.bayliss/.pub-cache/hosted/pub.dev/flutter_svg-2.0.10+1",
       "packageUri": "lib/",
@@ -120,6 +156,12 @@
       "rootUri": "file:///Users/edward.bayliss/.pub-cache/hosted/pub.dev/image-3.3.0",
       "packageUri": "lib/",
       "languageVersion": "2.15"
+    },
+    {
+      "name": "js",
+      "rootUri": "file:///Users/edward.bayliss/.pub-cache/hosted/pub.dev/js-0.6.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
     },
     {
       "name": "leak_tracker",
@@ -252,6 +294,12 @@
       "rootUri": "file:///Users/edward.bayliss/.pub-cache/hosted/pub.dev/plugin_platform_interface-2.1.8",
       "packageUri": "lib/",
       "languageVersion": "3.0"
+    },
+    {
+      "name": "qr_code_scanner",
+      "rootUri": "file:///Users/edward.bayliss/.pub-cache/hosted/pub.dev/qr_code_scanner-1.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
     },
     {
       "name": "shared_preferences",
@@ -452,6 +500,12 @@
       "languageVersion": "3.2"
     },
     {
+      "name": "win32",
+      "rootUri": "file:///Users/edward.bayliss/.pub-cache/hosted/pub.dev/win32-5.5.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
       "name": "xdg_directories",
       "rootUri": "file:///Users/edward.bayliss/.pub-cache/hosted/pub.dev/xdg_directories-1.0.4",
       "packageUri": "lib/",
@@ -476,7 +530,7 @@
       "languageVersion": "2.19"
     }
   ],
-  "generated": "2024-07-15T13:41:48.863372Z",
+  "generated": "2024-07-16T13:36:52.338821Z",
   "generator": "pub",
   "generatorVersion": "3.4.3",
   "flutterRoot": "file:///opt/homebrew/Caskroom/flutter/3.22.2/flutter",

@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
+import 'package:burtonaletrail_app/QRScanner.dart';
 import 'package:burtonaletrail_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -28,11 +30,27 @@ class _WebViewPageState extends State<WebViewPage> {
   @override
   Widget build(BuildContext context) {
     // Encode the email and password as JSON for the POST body
-    String postData = jsonEncode({
+    String stringPostData = jsonEncode({
       'email': widget.email,
       'password': widget.password,
     });
-    print(postData);
+
+      Map<String, String> postData = {
+    'email': widget.email,
+    'password': widget.password,
+  };
+        
+    String encodeQueryParameters(Map<String, String> params) {
+      return params.entries
+          .map((e) => '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+          .join('&');
+    }
+
+        String urlWithQueryParams(String url, Map<String, String> params) {
+      return Uri.parse(url).replace(query: encodeQueryParameters(params)).toString();
+    }
+
+
 
     return Scaffold(
       // appBar: PreferredSize(
@@ -48,9 +66,11 @@ class _WebViewPageState extends State<WebViewPage> {
               Expanded(
                 child: InAppWebView(
                   initialUrlRequest: URLRequest(
-                    url: Uri.parse(widget.url),
-                    method: 'POST',
-                    body: utf8.encode(postData),
+                    url: Uri.parse(
+                          urlWithQueryParams(widget.url, postData),
+                        ),                    
+                    method: 'GET',                    
+                    body: null,                    
                     headers: {
                       'Content-Type': 'application/json',
                     },
@@ -92,6 +112,15 @@ class _WebViewPageState extends State<WebViewPage> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(builder: (context) => LoginScreen()),
+                      );
+                      return NavigationActionPolicy.CANCEL;
+                    }                
+                    if (url != null && url.contains('pawtul.com/scan')) {
+                    
+                      // Redirect to the LoginScreen
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => QRViewExample()),
                       );
                       return NavigationActionPolicy.CANCEL;
                     }

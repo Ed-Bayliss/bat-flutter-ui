@@ -1,0 +1,891 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/edward.bayliss/Developer/BAT/build/ios/Release-iphoneos/webview_flutter_wkwebview/webview_flutter_wkwebview.framework/webview_flutter_wkwebview'
+relocations:
+  - { offsetInCU: 0x34, offset: 0x5ACB0, size: 0x8, addend: 0x0, symName: _webview_flutter_wkwebviewVersionString, symObjAddr: 0x0, symBinAddr: 0x21688, symSize: 0x0 }
+  - { offsetInCU: 0x69, offset: 0x5ACE5, size: 0x8, addend: 0x0, symName: _webview_flutter_wkwebviewVersionNumber, symObjAddr: 0x38, symBinAddr: 0x216C0, symSize: 0x0 }
+  - { offsetInCU: 0x27, offset: 0x5AD22, size: 0x8, addend: 0x0, symName: '-[FWFWebViewFactory initWithManager:]', symObjAddr: 0x0, symBinAddr: 0x4000, symSize: 0x50 }
+  - { offsetInCU: 0x137, offset: 0x5AE32, size: 0x8, addend: 0x0, symName: '-[FWFWebViewFactory initWithManager:]', symObjAddr: 0x0, symBinAddr: 0x4000, symSize: 0x50 }
+  - { offsetInCU: 0x17E, offset: 0x5AE79, size: 0x8, addend: 0x0, symName: '-[FWFWebViewFactory createArgsCodec]', symObjAddr: 0x50, symBinAddr: 0x4050, symSize: 0xC }
+  - { offsetInCU: 0x1B1, offset: 0x5AEAC, size: 0x8, addend: 0x0, symName: '-[FWFWebViewFactory createWithFrame:viewIdentifier:arguments:]', symObjAddr: 0x5C, symBinAddr: 0x405C, symSize: 0xB4 }
+  - { offsetInCU: 0x230, offset: 0x5AF2B, size: 0x8, addend: 0x0, symName: '-[FWFWebViewFactory instanceManager]', symObjAddr: 0x110, symBinAddr: 0x4110, symSize: 0x18 }
+  - { offsetInCU: 0x267, offset: 0x5AF62, size: 0x8, addend: 0x0, symName: '-[FWFWebViewFactory setInstanceManager:]', symObjAddr: 0x128, symBinAddr: 0x4128, symSize: 0xC }
+  - { offsetInCU: 0x2A8, offset: 0x5AFA3, size: 0x8, addend: 0x0, symName: '-[FWFWebViewFactory .cxx_destruct]', symObjAddr: 0x134, symBinAddr: 0x4134, symSize: 0x8 }
+  - { offsetInCU: 0x2DB, offset: 0x5AFD6, size: 0x8, addend: 0x0, symName: '+[FLTWebViewFlutterPlugin registerWithRegistrar:]', symObjAddr: 0x13C, symBinAddr: 0x413C, symSize: 0x668 }
+  - { offsetInCU: 0x647, offset: 0x5B342, size: 0x8, addend: 0x0, symName: '___49+[FLTWebViewFlutterPlugin registerWithRegistrar:]_block_invoke', symObjAddr: 0x7A4, symBinAddr: 0x47A4, symSize: 0xE8 }
+  - { offsetInCU: 0x6E0, offset: 0x5B3DB, size: 0x8, addend: 0x0, symName: '___49+[FLTWebViewFlutterPlugin registerWithRegistrar:]_block_invoke_2', symObjAddr: 0x88C, symBinAddr: 0x488C, symSize: 0x14 }
+  - { offsetInCU: 0x72B, offset: 0x5B426, size: 0x8, addend: 0x0, symName: '___49+[FLTWebViewFlutterPlugin registerWithRegistrar:]_block_invoke_3', symObjAddr: 0x8A0, symBinAddr: 0x48A0, symSize: 0x4 }
+  - { offsetInCU: 0x75E, offset: 0x5B459, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s, symObjAddr: 0x8A4, symBinAddr: 0x48A4, symSize: 0x8 }
+  - { offsetInCU: 0x785, offset: 0x5B480, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s, symObjAddr: 0x8AC, symBinAddr: 0x48AC, symSize: 0x8 }
+  - { offsetInCU: 0x7A4, offset: 0x5B49F, size: 0x8, addend: 0x0, symName: '-[FLTWebViewFlutterPlugin detachFromEngineForRegistrar:]', symObjAddr: 0x8B4, symBinAddr: 0x48B4, symSize: 0x58 }
+  - { offsetInCU: 0x27, offset: 0x5B71A, size: 0x8, addend: 0x0, symName: _FWFNativeNSURLRequestFromRequestData, symObjAddr: 0x0, symBinAddr: 0x490C, symSize: 0x180 }
+  - { offsetInCU: 0x283, offset: 0x5B976, size: 0x8, addend: 0x0, symName: _FWFNativeNSURLRequestFromRequestData, symObjAddr: 0x0, symBinAddr: 0x490C, symSize: 0x180 }
+  - { offsetInCU: 0x2CE, offset: 0x5B9C1, size: 0x8, addend: 0x0, symName: _FWFNativeNSHTTPCookieFromCookieData, symObjAddr: 0x180, symBinAddr: 0x4A8C, symSize: 0x170 }
+  - { offsetInCU: 0x355, offset: 0x5BA48, size: 0x8, addend: 0x0, symName: _FWFNativeNSHTTPCookiePropertyKeyFromEnumData, symObjAddr: 0x2F0, symBinAddr: 0x4BFC, symSize: 0xFC }
+  - { offsetInCU: 0x380, offset: 0x5BA73, size: 0x8, addend: 0x0, symName: _FWFNativeNSKeyValueObservingOptionsFromEnumData, symObjAddr: 0x3EC, symBinAddr: 0x4CF8, symSize: 0x30 }
+  - { offsetInCU: 0x3F6, offset: 0x5BAE9, size: 0x8, addend: 0x0, symName: _FWFNativeWKUserScriptFromScriptData, symObjAddr: 0x41C, symBinAddr: 0x4D28, symSize: 0xC0 }
+  - { offsetInCU: 0x43F, offset: 0x5BB32, size: 0x8, addend: 0x0, symName: _FWFNativeWKUserScriptInjectionTimeFromEnumData, symObjAddr: 0x4DC, symBinAddr: 0x4DE8, symSize: 0x24 }
+  - { offsetInCU: 0x45E, offset: 0x5BB51, size: 0x8, addend: 0x0, symName: _FWFNativeWKAudiovisualMediaTypeFromEnumData, symObjAddr: 0x500, symBinAddr: 0x4E0C, symSize: 0x30 }
+  - { offsetInCU: 0x489, offset: 0x5BB7C, size: 0x8, addend: 0x0, symName: _FWFNativeWKWebsiteDataTypeFromEnumData, symObjAddr: 0x530, symBinAddr: 0x4E3C, symSize: 0x38 }
+  - { offsetInCU: 0x4DB, offset: 0x5BBCE, size: 0x8, addend: 0x0, symName: _FWFWKNavigationActionDataFromNativeWKNavigationAction, symObjAddr: 0x568, symBinAddr: 0x4E74, symSize: 0xF8 }
+  - { offsetInCU: 0x540, offset: 0x5BC33, size: 0x8, addend: 0x0, symName: _FWFNSUrlRequestDataFromNativeNSURLRequest, symObjAddr: 0x660, symBinAddr: 0x4F6C, symSize: 0x1F4 }
+  - { offsetInCU: 0x56B, offset: 0x5BC5E, size: 0x8, addend: 0x0, symName: _FWFWKFrameInfoDataFromNativeWKFrameInfo, symObjAddr: 0x854, symBinAddr: 0x5160, symSize: 0x98 }
+  - { offsetInCU: 0x5AC, offset: 0x5BC9F, size: 0x8, addend: 0x0, symName: _FWFWKNavigationTypeFromNativeWKNavigationType, symObjAddr: 0x8EC, symBinAddr: 0x51F8, symSize: 0x24 }
+  - { offsetInCU: 0x628, offset: 0x5BD1B, size: 0x8, addend: 0x0, symName: _FWFWKNavigationResponseDataFromNativeNavigationResponse, symObjAddr: 0x910, symBinAddr: 0x521C, symSize: 0xB0 }
+  - { offsetInCU: 0x679, offset: 0x5BD6C, size: 0x8, addend: 0x0, symName: _FWFNSHttpUrlResponseDataFromNativeNSURLResponse, symObjAddr: 0x9C0, symBinAddr: 0x52CC, symSize: 0x2C }
+  - { offsetInCU: 0x6A2, offset: 0x5BD95, size: 0x8, addend: 0x0, symName: _FWFNativeWKNavigationActionPolicyFromEnumData, symObjAddr: 0x9EC, symBinAddr: 0x52F8, symSize: 0x24 }
+  - { offsetInCU: 0x6CD, offset: 0x5BDC0, size: 0x8, addend: 0x0, symName: _FWFNSErrorDataFromNativeNSError, symObjAddr: 0xA10, symBinAddr: 0x531C, symSize: 0x27C }
+  - { offsetInCU: 0x736, offset: 0x5BE29, size: 0x8, addend: 0x0, symName: _FWFNativeWKNavigationResponsePolicyFromEnum, symObjAddr: 0xC8C, symBinAddr: 0x5598, symSize: 0x14 }
+  - { offsetInCU: 0x761, offset: 0x5BE54, size: 0x8, addend: 0x0, symName: _FWFNSKeyValueChangeKeyEnumDataFromNativeNSKeyValueChangeKey, symObjAddr: 0xCA0, symBinAddr: 0x55AC, symSize: 0x108 }
+  - { offsetInCU: 0x78C, offset: 0x5BE7F, size: 0x8, addend: 0x0, symName: _FWFWKScriptMessageDataFromNativeWKScriptMessage, symObjAddr: 0xDA8, symBinAddr: 0x56B4, symSize: 0x8C }
+  - { offsetInCU: 0x7B9, offset: 0x5BEAC, size: 0x8, addend: 0x0, symName: _FWFWKSecurityOriginDataFromNativeWKSecurityOrigin, symObjAddr: 0xE34, symBinAddr: 0x5740, symSize: 0xA4 }
+  - { offsetInCU: 0x7E6, offset: 0x5BED9, size: 0x8, addend: 0x0, symName: _FWFNativeWKPermissionDecisionFromData, symObjAddr: 0xED8, symBinAddr: 0x57E4, symSize: 0x24 }
+  - { offsetInCU: 0x813, offset: 0x5BF06, size: 0x8, addend: 0x0, symName: _FWFWKMediaCaptureTypeDataFromNativeWKMediaCaptureType, symObjAddr: 0xEFC, symBinAddr: 0x5808, symSize: 0x40 }
+  - { offsetInCU: 0x840, offset: 0x5BF33, size: 0x8, addend: 0x0, symName: _FWFNativeNSURLSessionAuthChallengeDispositionFromFWFNSUrlSessionAuthChallengeDisposition, symObjAddr: 0xF3C, symBinAddr: 0x5848, symSize: 0xC }
+  - { offsetInCU: 0x86D, offset: 0x5BF60, size: 0x8, addend: 0x0, symName: _FWFNativeNSURLCredentialPersistenceFromFWFNSUrlCredentialPersistence, symObjAddr: 0xF48, symBinAddr: 0x5854, symSize: 0xC }
+  - { offsetInCU: 0x27, offset: 0x5C41E, size: 0x8, addend: 0x0, symName: '-[FWFNSKeyValueObservingOptionsEnumBox initWithValue:]', symObjAddr: 0x0, symBinAddr: 0x5860, symSize: 0x48 }
+  - { offsetInCU: 0x35, offset: 0x5C42C, size: 0x8, addend: 0x0, symName: _FWFWKWebsiteDataStoreHostApiGetCodec, symObjAddr: 0x39C4, symBinAddr: 0x9224, symSize: 0x40 }
+  - { offsetInCU: 0x5D, offset: 0x5C454, size: 0x8, addend: 0x0, symName: _FWFWKWebsiteDataStoreHostApiGetCodec.sSharedObject, symObjAddr: 0x52258, symBinAddr: 0x3C9C0, symSize: 0x0 }
+  - { offsetInCU: 0x74, offset: 0x5C46B, size: 0x8, addend: 0x0, symName: _FWFWKWebsiteDataStoreHostApiGetCodec.sPred, symObjAddr: 0x52260, symBinAddr: 0x3C9C8, symSize: 0x0 }
+  - { offsetInCU: 0xA7, offset: 0x5C49E, size: 0x8, addend: 0x0, symName: _FWFUIViewHostApiGetCodec, symObjAddr: 0x420C, symBinAddr: 0x9A5C, symSize: 0x44 }
+  - { offsetInCU: 0xCF, offset: 0x5C4C6, size: 0x8, addend: 0x0, symName: _FWFUIViewHostApiGetCodec.sSharedObject, symObjAddr: 0x52268, symBinAddr: 0x3C9D0, symSize: 0x0 }
+  - { offsetInCU: 0xDA, offset: 0x5C4D1, size: 0x8, addend: 0x0, symName: _FWFUIScrollViewHostApiGetCodec, symObjAddr: 0x4600, symBinAddr: 0x9E50, symSize: 0x44 }
+  - { offsetInCU: 0x102, offset: 0x5C4F9, size: 0x8, addend: 0x0, symName: _FWFUIScrollViewHostApiGetCodec.sSharedObject, symObjAddr: 0x52270, symBinAddr: 0x3C9D8, symSize: 0x0 }
+  - { offsetInCU: 0x10D, offset: 0x5C504, size: 0x8, addend: 0x0, symName: _FWFWKWebViewConfigurationHostApiGetCodec, symObjAddr: 0x5108, symBinAddr: 0xA958, symSize: 0x40 }
+  - { offsetInCU: 0x135, offset: 0x5C52C, size: 0x8, addend: 0x0, symName: _FWFWKWebViewConfigurationHostApiGetCodec.sSharedObject, symObjAddr: 0x52278, symBinAddr: 0x3C9E0, symSize: 0x0 }
+  - { offsetInCU: 0x14C, offset: 0x5C543, size: 0x8, addend: 0x0, symName: _FWFWKWebViewConfigurationHostApiGetCodec.sPred, symObjAddr: 0x52280, symBinAddr: 0x3C9E8, symSize: 0x0 }
+  - { offsetInCU: 0x173, offset: 0x5C56A, size: 0x8, addend: 0x0, symName: _FWFWKWebViewConfigurationFlutterApiGetCodec, symObjAddr: 0x5A10, symBinAddr: 0xB260, symSize: 0x44 }
+  - { offsetInCU: 0x19B, offset: 0x5C592, size: 0x8, addend: 0x0, symName: _FWFWKWebViewConfigurationFlutterApiGetCodec.sSharedObject, symObjAddr: 0x52288, symBinAddr: 0x3C9F0, symSize: 0x0 }
+  - { offsetInCU: 0x1A6, offset: 0x5C59D, size: 0x8, addend: 0x0, symName: _FWFWKUserContentControllerHostApiGetCodec, symObjAddr: 0x5FDC, symBinAddr: 0xB82C, symSize: 0x40 }
+  - { offsetInCU: 0x1CE, offset: 0x5C5C5, size: 0x8, addend: 0x0, symName: _FWFWKUserContentControllerHostApiGetCodec.sSharedObject, symObjAddr: 0x52290, symBinAddr: 0x3C9F8, symSize: 0x0 }
+  - { offsetInCU: 0x1E5, offset: 0x5C5DC, size: 0x8, addend: 0x0, symName: _FWFWKUserContentControllerHostApiGetCodec.sPred, symObjAddr: 0x52298, symBinAddr: 0x3CA00, symSize: 0x0 }
+  - { offsetInCU: 0x20C, offset: 0x5C603, size: 0x8, addend: 0x0, symName: _FWFWKPreferencesHostApiGetCodec, symObjAddr: 0x6A74, symBinAddr: 0xC2C4, symSize: 0x44 }
+  - { offsetInCU: 0x234, offset: 0x5C62B, size: 0x8, addend: 0x0, symName: _FWFWKPreferencesHostApiGetCodec.sSharedObject, symObjAddr: 0x522A0, symBinAddr: 0x3CA08, symSize: 0x0 }
+  - { offsetInCU: 0x23F, offset: 0x5C636, size: 0x8, addend: 0x0, symName: _FWFWKScriptMessageHandlerHostApiGetCodec, symObjAddr: 0x6E70, symBinAddr: 0xC6C0, symSize: 0x44 }
+  - { offsetInCU: 0x267, offset: 0x5C65E, size: 0x8, addend: 0x0, symName: _FWFWKScriptMessageHandlerHostApiGetCodec.sSharedObject, symObjAddr: 0x522A8, symBinAddr: 0x3CA10, symSize: 0x0 }
+  - { offsetInCU: 0x272, offset: 0x5C669, size: 0x8, addend: 0x0, symName: _FWFWKScriptMessageHandlerFlutterApiGetCodec, symObjAddr: 0x7274, symBinAddr: 0xCAC4, symSize: 0x40 }
+  - { offsetInCU: 0x29A, offset: 0x5C691, size: 0x8, addend: 0x0, symName: _FWFWKScriptMessageHandlerFlutterApiGetCodec.sSharedObject, symObjAddr: 0x522B0, symBinAddr: 0x3CA18, symSize: 0x0 }
+  - { offsetInCU: 0x2B1, offset: 0x5C6A8, size: 0x8, addend: 0x0, symName: _FWFWKScriptMessageHandlerFlutterApiGetCodec.sPred, symObjAddr: 0x522B8, symBinAddr: 0x3CA20, symSize: 0x0 }
+  - { offsetInCU: 0x2D8, offset: 0x5C6CF, size: 0x8, addend: 0x0, symName: _FWFWKNavigationDelegateHostApiGetCodec, symObjAddr: 0x76F8, symBinAddr: 0xCF48, symSize: 0x44 }
+  - { offsetInCU: 0x300, offset: 0x5C6F7, size: 0x8, addend: 0x0, symName: _FWFWKNavigationDelegateHostApiGetCodec.sSharedObject, symObjAddr: 0x522C0, symBinAddr: 0x3CA28, symSize: 0x0 }
+  - { offsetInCU: 0x30B, offset: 0x5C702, size: 0x8, addend: 0x0, symName: _FWFWKNavigationDelegateFlutterApiGetCodec, symObjAddr: 0x7C84, symBinAddr: 0xD4D4, symSize: 0x40 }
+  - { offsetInCU: 0x333, offset: 0x5C72A, size: 0x8, addend: 0x0, symName: _FWFWKNavigationDelegateFlutterApiGetCodec.sSharedObject, symObjAddr: 0x522C8, symBinAddr: 0x3CA30, symSize: 0x0 }
+  - { offsetInCU: 0x34A, offset: 0x5C741, size: 0x8, addend: 0x0, symName: _FWFWKNavigationDelegateFlutterApiGetCodec.sPred, symObjAddr: 0x522D0, symBinAddr: 0x3CA38, symSize: 0x0 }
+  - { offsetInCU: 0x371, offset: 0x5C768, size: 0x8, addend: 0x0, symName: _FWFNSObjectHostApiGetCodec, symObjAddr: 0x9B40, symBinAddr: 0xF390, symSize: 0x40 }
+  - { offsetInCU: 0x399, offset: 0x5C790, size: 0x8, addend: 0x0, symName: _FWFNSObjectHostApiGetCodec.sSharedObject, symObjAddr: 0x522D8, symBinAddr: 0x3CA40, symSize: 0x0 }
+  - { offsetInCU: 0x3B0, offset: 0x5C7A7, size: 0x8, addend: 0x0, symName: _FWFNSObjectHostApiGetCodec.sPred, symObjAddr: 0x522E0, symBinAddr: 0x3CA48, symSize: 0x0 }
+  - { offsetInCU: 0x3D7, offset: 0x5C7CE, size: 0x8, addend: 0x0, symName: _FWFNSObjectFlutterApiGetCodec, symObjAddr: 0xA394, symBinAddr: 0xFBE4, symSize: 0x40 }
+  - { offsetInCU: 0x3FF, offset: 0x5C7F6, size: 0x8, addend: 0x0, symName: _FWFNSObjectFlutterApiGetCodec.sSharedObject, symObjAddr: 0x522E8, symBinAddr: 0x3CA50, symSize: 0x0 }
+  - { offsetInCU: 0x416, offset: 0x5C80D, size: 0x8, addend: 0x0, symName: _FWFNSObjectFlutterApiGetCodec.sPred, symObjAddr: 0x522F0, symBinAddr: 0x3CA58, symSize: 0x0 }
+  - { offsetInCU: 0x43D, offset: 0x5C834, size: 0x8, addend: 0x0, symName: _FWFWKWebViewHostApiGetCodec, symObjAddr: 0xB198, symBinAddr: 0x109E8, symSize: 0x40 }
+  - { offsetInCU: 0x465, offset: 0x5C85C, size: 0x8, addend: 0x0, symName: _FWFWKWebViewHostApiGetCodec.sSharedObject, symObjAddr: 0x522F8, symBinAddr: 0x3CA60, symSize: 0x0 }
+  - { offsetInCU: 0x47C, offset: 0x5C873, size: 0x8, addend: 0x0, symName: _FWFWKWebViewHostApiGetCodec.sPred, symObjAddr: 0x52300, symBinAddr: 0x3CA68, symSize: 0x0 }
+  - { offsetInCU: 0x4A3, offset: 0x5C89A, size: 0x8, addend: 0x0, symName: _FWFWKUIDelegateHostApiGetCodec, symObjAddr: 0xD278, symBinAddr: 0x12AC8, symSize: 0x44 }
+  - { offsetInCU: 0x4CB, offset: 0x5C8C2, size: 0x8, addend: 0x0, symName: _FWFWKUIDelegateHostApiGetCodec.sSharedObject, symObjAddr: 0x52308, symBinAddr: 0x3CA70, symSize: 0x0 }
+  - { offsetInCU: 0x4D6, offset: 0x5C8CD, size: 0x8, addend: 0x0, symName: _FWFWKUIDelegateFlutterApiGetCodec, symObjAddr: 0xD79C, symBinAddr: 0x12FEC, symSize: 0x40 }
+  - { offsetInCU: 0x4FE, offset: 0x5C8F5, size: 0x8, addend: 0x0, symName: _FWFWKUIDelegateFlutterApiGetCodec.sSharedObject, symObjAddr: 0x52310, symBinAddr: 0x3CA78, symSize: 0x0 }
+  - { offsetInCU: 0x515, offset: 0x5C90C, size: 0x8, addend: 0x0, symName: _FWFWKUIDelegateFlutterApiGetCodec.sPred, symObjAddr: 0x52318, symBinAddr: 0x3CA80, symSize: 0x0 }
+  - { offsetInCU: 0x53C, offset: 0x5C933, size: 0x8, addend: 0x0, symName: _FWFWKHttpCookieStoreHostApiGetCodec, symObjAddr: 0xEE54, symBinAddr: 0x146A4, symSize: 0x40 }
+  - { offsetInCU: 0x564, offset: 0x5C95B, size: 0x8, addend: 0x0, symName: _FWFWKHttpCookieStoreHostApiGetCodec.sSharedObject, symObjAddr: 0x52320, symBinAddr: 0x3CA88, symSize: 0x0 }
+  - { offsetInCU: 0x57B, offset: 0x5C972, size: 0x8, addend: 0x0, symName: _FWFWKHttpCookieStoreHostApiGetCodec.sPred, symObjAddr: 0x52328, symBinAddr: 0x3CA90, symSize: 0x0 }
+  - { offsetInCU: 0x5A2, offset: 0x5C999, size: 0x8, addend: 0x0, symName: _FWFNSUrlHostApiGetCodec, symObjAddr: 0xF2E0, symBinAddr: 0x14B30, symSize: 0x44 }
+  - { offsetInCU: 0x5CA, offset: 0x5C9C1, size: 0x8, addend: 0x0, symName: _FWFNSUrlHostApiGetCodec.sSharedObject, symObjAddr: 0x52330, symBinAddr: 0x3CA98, symSize: 0x0 }
+  - { offsetInCU: 0x5D5, offset: 0x5C9CC, size: 0x8, addend: 0x0, symName: _FWFNSUrlFlutterApiGetCodec, symObjAddr: 0xF51C, symBinAddr: 0x14D6C, symSize: 0x44 }
+  - { offsetInCU: 0x5FD, offset: 0x5C9F4, size: 0x8, addend: 0x0, symName: _FWFNSUrlFlutterApiGetCodec.sSharedObject, symObjAddr: 0x52338, symBinAddr: 0x3CAA0, symSize: 0x0 }
+  - { offsetInCU: 0x608, offset: 0x5C9FF, size: 0x8, addend: 0x0, symName: _FWFUIScrollViewDelegateHostApiGetCodec, symObjAddr: 0xF8D0, symBinAddr: 0x15120, symSize: 0x44 }
+  - { offsetInCU: 0x630, offset: 0x5CA27, size: 0x8, addend: 0x0, symName: _FWFUIScrollViewDelegateHostApiGetCodec.sSharedObject, symObjAddr: 0x52340, symBinAddr: 0x3CAA8, symSize: 0x0 }
+  - { offsetInCU: 0x63B, offset: 0x5CA32, size: 0x8, addend: 0x0, symName: _FWFUIScrollViewDelegateFlutterApiGetCodec, symObjAddr: 0xFAF8, symBinAddr: 0x15348, symSize: 0x44 }
+  - { offsetInCU: 0x663, offset: 0x5CA5A, size: 0x8, addend: 0x0, symName: _FWFUIScrollViewDelegateFlutterApiGetCodec.sSharedObject, symObjAddr: 0x52348, symBinAddr: 0x3CAB0, symSize: 0x0 }
+  - { offsetInCU: 0x66E, offset: 0x5CA65, size: 0x8, addend: 0x0, symName: _FWFNSUrlCredentialHostApiGetCodec, symObjAddr: 0xFF34, symBinAddr: 0x15784, symSize: 0x44 }
+  - { offsetInCU: 0x696, offset: 0x5CA8D, size: 0x8, addend: 0x0, symName: _FWFNSUrlCredentialHostApiGetCodec.sSharedObject, symObjAddr: 0x52350, symBinAddr: 0x3CAB8, symSize: 0x0 }
+  - { offsetInCU: 0x6A1, offset: 0x5CA98, size: 0x8, addend: 0x0, symName: _FWFNSUrlProtectionSpaceFlutterApiGetCodec, symObjAddr: 0x101D8, symBinAddr: 0x15A28, symSize: 0x44 }
+  - { offsetInCU: 0x6C9, offset: 0x5CAC0, size: 0x8, addend: 0x0, symName: _FWFNSUrlProtectionSpaceFlutterApiGetCodec.sSharedObject, symObjAddr: 0x52358, symBinAddr: 0x3CAC0, symSize: 0x0 }
+  - { offsetInCU: 0x6D4, offset: 0x5CACB, size: 0x8, addend: 0x0, symName: _FWFNSUrlAuthenticationChallengeFlutterApiGetCodec, symObjAddr: 0x10680, symBinAddr: 0x15ED0, symSize: 0x44 }
+  - { offsetInCU: 0x6FC, offset: 0x5CAF3, size: 0x8, addend: 0x0, symName: _FWFNSUrlAuthenticationChallengeFlutterApiGetCodec.sSharedObject, symObjAddr: 0x52360, symBinAddr: 0x3CAC8, symSize: 0x0 }
+  - { offsetInCU: 0x168C, offset: 0x5DA83, size: 0x8, addend: 0x0, symName: '-[FWFNSKeyValueObservingOptionsEnumBox initWithValue:]', symObjAddr: 0x0, symBinAddr: 0x5860, symSize: 0x48 }
+  - { offsetInCU: 0x16D3, offset: 0x5DACA, size: 0x8, addend: 0x0, symName: '-[FWFNSKeyValueObservingOptionsEnumBox value]', symObjAddr: 0x48, symBinAddr: 0x58A8, symSize: 0x8 }
+  - { offsetInCU: 0x170A, offset: 0x5DB01, size: 0x8, addend: 0x0, symName: '-[FWFNSKeyValueObservingOptionsEnumBox setValue:]', symObjAddr: 0x50, symBinAddr: 0x58B0, symSize: 0x8 }
+  - { offsetInCU: 0x1747, offset: 0x5DB3E, size: 0x8, addend: 0x0, symName: '-[FWFNSKeyValueChangeEnumBox initWithValue:]', symObjAddr: 0x58, symBinAddr: 0x58B8, symSize: 0x48 }
+  - { offsetInCU: 0x178E, offset: 0x5DB85, size: 0x8, addend: 0x0, symName: '-[FWFNSKeyValueChangeEnumBox value]', symObjAddr: 0xA0, symBinAddr: 0x5900, symSize: 0x8 }
+  - { offsetInCU: 0x17C5, offset: 0x5DBBC, size: 0x8, addend: 0x0, symName: '-[FWFNSKeyValueChangeEnumBox setValue:]', symObjAddr: 0xA8, symBinAddr: 0x5908, symSize: 0x8 }
+  - { offsetInCU: 0x1802, offset: 0x5DBF9, size: 0x8, addend: 0x0, symName: '-[FWFNSKeyValueChangeKeyEnumBox initWithValue:]', symObjAddr: 0xB0, symBinAddr: 0x5910, symSize: 0x48 }
+  - { offsetInCU: 0x1849, offset: 0x5DC40, size: 0x8, addend: 0x0, symName: '-[FWFNSKeyValueChangeKeyEnumBox value]', symObjAddr: 0xF8, symBinAddr: 0x5958, symSize: 0x8 }
+  - { offsetInCU: 0x1880, offset: 0x5DC77, size: 0x8, addend: 0x0, symName: '-[FWFNSKeyValueChangeKeyEnumBox setValue:]', symObjAddr: 0x100, symBinAddr: 0x5960, symSize: 0x8 }
+  - { offsetInCU: 0x18BD, offset: 0x5DCB4, size: 0x8, addend: 0x0, symName: '-[FWFWKUserScriptInjectionTimeEnumBox initWithValue:]', symObjAddr: 0x108, symBinAddr: 0x5968, symSize: 0x48 }
+  - { offsetInCU: 0x1904, offset: 0x5DCFB, size: 0x8, addend: 0x0, symName: '-[FWFWKUserScriptInjectionTimeEnumBox value]', symObjAddr: 0x150, symBinAddr: 0x59B0, symSize: 0x8 }
+  - { offsetInCU: 0x193B, offset: 0x5DD32, size: 0x8, addend: 0x0, symName: '-[FWFWKUserScriptInjectionTimeEnumBox setValue:]', symObjAddr: 0x158, symBinAddr: 0x59B8, symSize: 0x8 }
+  - { offsetInCU: 0x1978, offset: 0x5DD6F, size: 0x8, addend: 0x0, symName: '-[FWFWKAudiovisualMediaTypeEnumBox initWithValue:]', symObjAddr: 0x160, symBinAddr: 0x59C0, symSize: 0x48 }
+  - { offsetInCU: 0x19BF, offset: 0x5DDB6, size: 0x8, addend: 0x0, symName: '-[FWFWKAudiovisualMediaTypeEnumBox value]', symObjAddr: 0x1A8, symBinAddr: 0x5A08, symSize: 0x8 }
+  - { offsetInCU: 0x19F6, offset: 0x5DDED, size: 0x8, addend: 0x0, symName: '-[FWFWKAudiovisualMediaTypeEnumBox setValue:]', symObjAddr: 0x1B0, symBinAddr: 0x5A10, symSize: 0x8 }
+  - { offsetInCU: 0x1A33, offset: 0x5DE2A, size: 0x8, addend: 0x0, symName: '-[FWFWKWebsiteDataTypeEnumBox initWithValue:]', symObjAddr: 0x1B8, symBinAddr: 0x5A18, symSize: 0x48 }
+  - { offsetInCU: 0x1A7A, offset: 0x5DE71, size: 0x8, addend: 0x0, symName: '-[FWFWKWebsiteDataTypeEnumBox value]', symObjAddr: 0x200, symBinAddr: 0x5A60, symSize: 0x8 }
+  - { offsetInCU: 0x1AB1, offset: 0x5DEA8, size: 0x8, addend: 0x0, symName: '-[FWFWKWebsiteDataTypeEnumBox setValue:]', symObjAddr: 0x208, symBinAddr: 0x5A68, symSize: 0x8 }
+  - { offsetInCU: 0x1AEE, offset: 0x5DEE5, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationActionPolicyEnumBox initWithValue:]', symObjAddr: 0x210, symBinAddr: 0x5A70, symSize: 0x48 }
+  - { offsetInCU: 0x1B35, offset: 0x5DF2C, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationActionPolicyEnumBox value]', symObjAddr: 0x258, symBinAddr: 0x5AB8, symSize: 0x8 }
+  - { offsetInCU: 0x1B6C, offset: 0x5DF63, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationActionPolicyEnumBox setValue:]', symObjAddr: 0x260, symBinAddr: 0x5AC0, symSize: 0x8 }
+  - { offsetInCU: 0x1BA9, offset: 0x5DFA0, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationResponsePolicyEnumBox initWithValue:]', symObjAddr: 0x268, symBinAddr: 0x5AC8, symSize: 0x48 }
+  - { offsetInCU: 0x1BF0, offset: 0x5DFE7, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationResponsePolicyEnumBox value]', symObjAddr: 0x2B0, symBinAddr: 0x5B10, symSize: 0x8 }
+  - { offsetInCU: 0x1C27, offset: 0x5E01E, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationResponsePolicyEnumBox setValue:]', symObjAddr: 0x2B8, symBinAddr: 0x5B18, symSize: 0x8 }
+  - { offsetInCU: 0x1C64, offset: 0x5E05B, size: 0x8, addend: 0x0, symName: '-[FWFNSHttpCookiePropertyKeyEnumBox initWithValue:]', symObjAddr: 0x2C0, symBinAddr: 0x5B20, symSize: 0x48 }
+  - { offsetInCU: 0x1CAB, offset: 0x5E0A2, size: 0x8, addend: 0x0, symName: '-[FWFNSHttpCookiePropertyKeyEnumBox value]', symObjAddr: 0x308, symBinAddr: 0x5B68, symSize: 0x8 }
+  - { offsetInCU: 0x1CE2, offset: 0x5E0D9, size: 0x8, addend: 0x0, symName: '-[FWFNSHttpCookiePropertyKeyEnumBox setValue:]', symObjAddr: 0x310, symBinAddr: 0x5B70, symSize: 0x8 }
+  - { offsetInCU: 0x1D1F, offset: 0x5E116, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationTypeBox initWithValue:]', symObjAddr: 0x318, symBinAddr: 0x5B78, symSize: 0x48 }
+  - { offsetInCU: 0x1D66, offset: 0x5E15D, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationTypeBox value]', symObjAddr: 0x360, symBinAddr: 0x5BC0, symSize: 0x8 }
+  - { offsetInCU: 0x1D9D, offset: 0x5E194, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationTypeBox setValue:]', symObjAddr: 0x368, symBinAddr: 0x5BC8, symSize: 0x8 }
+  - { offsetInCU: 0x1DDA, offset: 0x5E1D1, size: 0x8, addend: 0x0, symName: '-[FWFWKPermissionDecisionBox initWithValue:]', symObjAddr: 0x370, symBinAddr: 0x5BD0, symSize: 0x48 }
+  - { offsetInCU: 0x1E21, offset: 0x5E218, size: 0x8, addend: 0x0, symName: '-[FWFWKPermissionDecisionBox value]', symObjAddr: 0x3B8, symBinAddr: 0x5C18, symSize: 0x8 }
+  - { offsetInCU: 0x1E58, offset: 0x5E24F, size: 0x8, addend: 0x0, symName: '-[FWFWKPermissionDecisionBox setValue:]', symObjAddr: 0x3C0, symBinAddr: 0x5C20, symSize: 0x8 }
+  - { offsetInCU: 0x1E95, offset: 0x5E28C, size: 0x8, addend: 0x0, symName: '-[FWFWKMediaCaptureTypeBox initWithValue:]', symObjAddr: 0x3C8, symBinAddr: 0x5C28, symSize: 0x48 }
+  - { offsetInCU: 0x1EDC, offset: 0x5E2D3, size: 0x8, addend: 0x0, symName: '-[FWFWKMediaCaptureTypeBox value]', symObjAddr: 0x410, symBinAddr: 0x5C70, symSize: 0x8 }
+  - { offsetInCU: 0x1F14, offset: 0x5E30B, size: 0x8, addend: 0x0, symName: '-[FWFWKMediaCaptureTypeBox setValue:]', symObjAddr: 0x418, symBinAddr: 0x5C78, symSize: 0x8 }
+  - { offsetInCU: 0x1F52, offset: 0x5E349, size: 0x8, addend: 0x0, symName: '-[FWFNSUrlSessionAuthChallengeDispositionBox initWithValue:]', symObjAddr: 0x420, symBinAddr: 0x5C80, symSize: 0x48 }
+  - { offsetInCU: 0x1F99, offset: 0x5E390, size: 0x8, addend: 0x0, symName: '-[FWFNSUrlSessionAuthChallengeDispositionBox value]', symObjAddr: 0x468, symBinAddr: 0x5CC8, symSize: 0x8 }
+  - { offsetInCU: 0x1FD1, offset: 0x5E3C8, size: 0x8, addend: 0x0, symName: '-[FWFNSUrlSessionAuthChallengeDispositionBox setValue:]', symObjAddr: 0x470, symBinAddr: 0x5CD0, symSize: 0x8 }
+  - { offsetInCU: 0x200F, offset: 0x5E406, size: 0x8, addend: 0x0, symName: '-[FWFNSUrlCredentialPersistenceBox initWithValue:]', symObjAddr: 0x478, symBinAddr: 0x5CD8, symSize: 0x48 }
+  - { offsetInCU: 0x2056, offset: 0x5E44D, size: 0x8, addend: 0x0, symName: '-[FWFNSUrlCredentialPersistenceBox value]', symObjAddr: 0x4C0, symBinAddr: 0x5D20, symSize: 0x8 }
+  - { offsetInCU: 0x208E, offset: 0x5E485, size: 0x8, addend: 0x0, symName: '-[FWFNSUrlCredentialPersistenceBox setValue:]', symObjAddr: 0x4C8, symBinAddr: 0x5D28, symSize: 0x8 }
+  - { offsetInCU: 0x20CC, offset: 0x5E4C3, size: 0x8, addend: 0x0, symName: '+[FWFNSKeyValueObservingOptionsEnumData makeWithValue:]', symObjAddr: 0x4D0, symBinAddr: 0x5D30, symSize: 0x3C }
+  - { offsetInCU: 0x2122, offset: 0x5E519, size: 0x8, addend: 0x0, symName: '+[FWFNSKeyValueObservingOptionsEnumData fromList:]', symObjAddr: 0x50C, symBinAddr: 0x5D6C, symSize: 0x84 }
+  - { offsetInCU: 0x2194, offset: 0x5E58B, size: 0x8, addend: 0x0, symName: _GetNullableObjectAtIndex, symObjAddr: 0x590, symBinAddr: 0x5DF0, symSize: 0x70 }
+  - { offsetInCU: 0x21DF, offset: 0x5E5D6, size: 0x8, addend: 0x0, symName: '+[FWFNSKeyValueObservingOptionsEnumData nullableFromList:]', symObjAddr: 0x600, symBinAddr: 0x5E60, symSize: 0x30 }
+  - { offsetInCU: 0x2224, offset: 0x5E61B, size: 0x8, addend: 0x0, symName: '-[FWFNSKeyValueObservingOptionsEnumData toList]', symObjAddr: 0x630, symBinAddr: 0x5E90, symSize: 0xA0 }
+  - { offsetInCU: 0x225C, offset: 0x5E653, size: 0x8, addend: 0x0, symName: '-[FWFNSKeyValueObservingOptionsEnumData value]', symObjAddr: 0x6D0, symBinAddr: 0x5F30, symSize: 0x8 }
+  - { offsetInCU: 0x2294, offset: 0x5E68B, size: 0x8, addend: 0x0, symName: '-[FWFNSKeyValueObservingOptionsEnumData setValue:]', symObjAddr: 0x6D8, symBinAddr: 0x5F38, symSize: 0x8 }
+  - { offsetInCU: 0x22D2, offset: 0x5E6C9, size: 0x8, addend: 0x0, symName: '+[FWFNSKeyValueChangeKeyEnumData makeWithValue:]', symObjAddr: 0x6E0, symBinAddr: 0x5F40, symSize: 0x3C }
+  - { offsetInCU: 0x2328, offset: 0x5E71F, size: 0x8, addend: 0x0, symName: '+[FWFNSKeyValueChangeKeyEnumData fromList:]', symObjAddr: 0x71C, symBinAddr: 0x5F7C, symSize: 0x84 }
+  - { offsetInCU: 0x239A, offset: 0x5E791, size: 0x8, addend: 0x0, symName: '+[FWFNSKeyValueChangeKeyEnumData nullableFromList:]', symObjAddr: 0x7A0, symBinAddr: 0x6000, symSize: 0x30 }
+  - { offsetInCU: 0x23DF, offset: 0x5E7D6, size: 0x8, addend: 0x0, symName: '-[FWFNSKeyValueChangeKeyEnumData toList]', symObjAddr: 0x7D0, symBinAddr: 0x6030, symSize: 0xA0 }
+  - { offsetInCU: 0x2417, offset: 0x5E80E, size: 0x8, addend: 0x0, symName: '-[FWFNSKeyValueChangeKeyEnumData value]', symObjAddr: 0x870, symBinAddr: 0x60D0, symSize: 0x8 }
+  - { offsetInCU: 0x244F, offset: 0x5E846, size: 0x8, addend: 0x0, symName: '-[FWFNSKeyValueChangeKeyEnumData setValue:]', symObjAddr: 0x878, symBinAddr: 0x60D8, symSize: 0x8 }
+  - { offsetInCU: 0x248D, offset: 0x5E884, size: 0x8, addend: 0x0, symName: '+[FWFWKUserScriptInjectionTimeEnumData makeWithValue:]', symObjAddr: 0x880, symBinAddr: 0x60E0, symSize: 0x3C }
+  - { offsetInCU: 0x24E3, offset: 0x5E8DA, size: 0x8, addend: 0x0, symName: '+[FWFWKUserScriptInjectionTimeEnumData fromList:]', symObjAddr: 0x8BC, symBinAddr: 0x611C, symSize: 0x84 }
+  - { offsetInCU: 0x2555, offset: 0x5E94C, size: 0x8, addend: 0x0, symName: '+[FWFWKUserScriptInjectionTimeEnumData nullableFromList:]', symObjAddr: 0x940, symBinAddr: 0x61A0, symSize: 0x30 }
+  - { offsetInCU: 0x259A, offset: 0x5E991, size: 0x8, addend: 0x0, symName: '-[FWFWKUserScriptInjectionTimeEnumData toList]', symObjAddr: 0x970, symBinAddr: 0x61D0, symSize: 0xA0 }
+  - { offsetInCU: 0x25D2, offset: 0x5E9C9, size: 0x8, addend: 0x0, symName: '-[FWFWKUserScriptInjectionTimeEnumData value]', symObjAddr: 0xA10, symBinAddr: 0x6270, symSize: 0x8 }
+  - { offsetInCU: 0x260A, offset: 0x5EA01, size: 0x8, addend: 0x0, symName: '-[FWFWKUserScriptInjectionTimeEnumData setValue:]', symObjAddr: 0xA18, symBinAddr: 0x6278, symSize: 0x8 }
+  - { offsetInCU: 0x2648, offset: 0x5EA3F, size: 0x8, addend: 0x0, symName: '+[FWFWKAudiovisualMediaTypeEnumData makeWithValue:]', symObjAddr: 0xA20, symBinAddr: 0x6280, symSize: 0x3C }
+  - { offsetInCU: 0x269E, offset: 0x5EA95, size: 0x8, addend: 0x0, symName: '+[FWFWKAudiovisualMediaTypeEnumData fromList:]', symObjAddr: 0xA5C, symBinAddr: 0x62BC, symSize: 0x84 }
+  - { offsetInCU: 0x2710, offset: 0x5EB07, size: 0x8, addend: 0x0, symName: '+[FWFWKAudiovisualMediaTypeEnumData nullableFromList:]', symObjAddr: 0xAE0, symBinAddr: 0x6340, symSize: 0x30 }
+  - { offsetInCU: 0x2755, offset: 0x5EB4C, size: 0x8, addend: 0x0, symName: '-[FWFWKAudiovisualMediaTypeEnumData toList]', symObjAddr: 0xB10, symBinAddr: 0x6370, symSize: 0xA0 }
+  - { offsetInCU: 0x278D, offset: 0x5EB84, size: 0x8, addend: 0x0, symName: '-[FWFWKAudiovisualMediaTypeEnumData value]', symObjAddr: 0xBB0, symBinAddr: 0x6410, symSize: 0x8 }
+  - { offsetInCU: 0x27C5, offset: 0x5EBBC, size: 0x8, addend: 0x0, symName: '-[FWFWKAudiovisualMediaTypeEnumData setValue:]', symObjAddr: 0xBB8, symBinAddr: 0x6418, symSize: 0x8 }
+  - { offsetInCU: 0x2803, offset: 0x5EBFA, size: 0x8, addend: 0x0, symName: '+[FWFWKWebsiteDataTypeEnumData makeWithValue:]', symObjAddr: 0xBC0, symBinAddr: 0x6420, symSize: 0x3C }
+  - { offsetInCU: 0x2859, offset: 0x5EC50, size: 0x8, addend: 0x0, symName: '+[FWFWKWebsiteDataTypeEnumData fromList:]', symObjAddr: 0xBFC, symBinAddr: 0x645C, symSize: 0x84 }
+  - { offsetInCU: 0x28CB, offset: 0x5ECC2, size: 0x8, addend: 0x0, symName: '+[FWFWKWebsiteDataTypeEnumData nullableFromList:]', symObjAddr: 0xC80, symBinAddr: 0x64E0, symSize: 0x30 }
+  - { offsetInCU: 0x2910, offset: 0x5ED07, size: 0x8, addend: 0x0, symName: '-[FWFWKWebsiteDataTypeEnumData toList]', symObjAddr: 0xCB0, symBinAddr: 0x6510, symSize: 0xA0 }
+  - { offsetInCU: 0x2948, offset: 0x5ED3F, size: 0x8, addend: 0x0, symName: '-[FWFWKWebsiteDataTypeEnumData value]', symObjAddr: 0xD50, symBinAddr: 0x65B0, symSize: 0x8 }
+  - { offsetInCU: 0x2980, offset: 0x5ED77, size: 0x8, addend: 0x0, symName: '-[FWFWKWebsiteDataTypeEnumData setValue:]', symObjAddr: 0xD58, symBinAddr: 0x65B8, symSize: 0x8 }
+  - { offsetInCU: 0x29BE, offset: 0x5EDB5, size: 0x8, addend: 0x0, symName: '+[FWFWKNavigationActionPolicyEnumData makeWithValue:]', symObjAddr: 0xD60, symBinAddr: 0x65C0, symSize: 0x3C }
+  - { offsetInCU: 0x2A14, offset: 0x5EE0B, size: 0x8, addend: 0x0, symName: '+[FWFWKNavigationActionPolicyEnumData fromList:]', symObjAddr: 0xD9C, symBinAddr: 0x65FC, symSize: 0x84 }
+  - { offsetInCU: 0x2A86, offset: 0x5EE7D, size: 0x8, addend: 0x0, symName: '+[FWFWKNavigationActionPolicyEnumData nullableFromList:]', symObjAddr: 0xE20, symBinAddr: 0x6680, symSize: 0x30 }
+  - { offsetInCU: 0x2ACB, offset: 0x5EEC2, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationActionPolicyEnumData toList]', symObjAddr: 0xE50, symBinAddr: 0x66B0, symSize: 0xA0 }
+  - { offsetInCU: 0x2B03, offset: 0x5EEFA, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationActionPolicyEnumData value]', symObjAddr: 0xEF0, symBinAddr: 0x6750, symSize: 0x8 }
+  - { offsetInCU: 0x2B3B, offset: 0x5EF32, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationActionPolicyEnumData setValue:]', symObjAddr: 0xEF8, symBinAddr: 0x6758, symSize: 0x8 }
+  - { offsetInCU: 0x2B79, offset: 0x5EF70, size: 0x8, addend: 0x0, symName: '+[FWFNSHttpCookiePropertyKeyEnumData makeWithValue:]', symObjAddr: 0xF00, symBinAddr: 0x6760, symSize: 0x3C }
+  - { offsetInCU: 0x2BCF, offset: 0x5EFC6, size: 0x8, addend: 0x0, symName: '+[FWFNSHttpCookiePropertyKeyEnumData fromList:]', symObjAddr: 0xF3C, symBinAddr: 0x679C, symSize: 0x84 }
+  - { offsetInCU: 0x2C41, offset: 0x5F038, size: 0x8, addend: 0x0, symName: '+[FWFNSHttpCookiePropertyKeyEnumData nullableFromList:]', symObjAddr: 0xFC0, symBinAddr: 0x6820, symSize: 0x30 }
+  - { offsetInCU: 0x2C86, offset: 0x5F07D, size: 0x8, addend: 0x0, symName: '-[FWFNSHttpCookiePropertyKeyEnumData toList]', symObjAddr: 0xFF0, symBinAddr: 0x6850, symSize: 0xA0 }
+  - { offsetInCU: 0x2CBE, offset: 0x5F0B5, size: 0x8, addend: 0x0, symName: '-[FWFNSHttpCookiePropertyKeyEnumData value]', symObjAddr: 0x1090, symBinAddr: 0x68F0, symSize: 0x8 }
+  - { offsetInCU: 0x2CF6, offset: 0x5F0ED, size: 0x8, addend: 0x0, symName: '-[FWFNSHttpCookiePropertyKeyEnumData setValue:]', symObjAddr: 0x1098, symBinAddr: 0x68F8, symSize: 0x8 }
+  - { offsetInCU: 0x2D34, offset: 0x5F12B, size: 0x8, addend: 0x0, symName: '+[FWFWKPermissionDecisionData makeWithValue:]', symObjAddr: 0x10A0, symBinAddr: 0x6900, symSize: 0x3C }
+  - { offsetInCU: 0x2D8A, offset: 0x5F181, size: 0x8, addend: 0x0, symName: '+[FWFWKPermissionDecisionData fromList:]', symObjAddr: 0x10DC, symBinAddr: 0x693C, symSize: 0x84 }
+  - { offsetInCU: 0x2DFC, offset: 0x5F1F3, size: 0x8, addend: 0x0, symName: '+[FWFWKPermissionDecisionData nullableFromList:]', symObjAddr: 0x1160, symBinAddr: 0x69C0, symSize: 0x30 }
+  - { offsetInCU: 0x2E41, offset: 0x5F238, size: 0x8, addend: 0x0, symName: '-[FWFWKPermissionDecisionData toList]', symObjAddr: 0x1190, symBinAddr: 0x69F0, symSize: 0xA0 }
+  - { offsetInCU: 0x2E79, offset: 0x5F270, size: 0x8, addend: 0x0, symName: '-[FWFWKPermissionDecisionData value]', symObjAddr: 0x1230, symBinAddr: 0x6A90, symSize: 0x8 }
+  - { offsetInCU: 0x2EB1, offset: 0x5F2A8, size: 0x8, addend: 0x0, symName: '-[FWFWKPermissionDecisionData setValue:]', symObjAddr: 0x1238, symBinAddr: 0x6A98, symSize: 0x8 }
+  - { offsetInCU: 0x2EEF, offset: 0x5F2E6, size: 0x8, addend: 0x0, symName: '+[FWFWKMediaCaptureTypeData makeWithValue:]', symObjAddr: 0x1240, symBinAddr: 0x6AA0, symSize: 0x3C }
+  - { offsetInCU: 0x2F45, offset: 0x5F33C, size: 0x8, addend: 0x0, symName: '+[FWFWKMediaCaptureTypeData fromList:]', symObjAddr: 0x127C, symBinAddr: 0x6ADC, symSize: 0x84 }
+  - { offsetInCU: 0x2FB7, offset: 0x5F3AE, size: 0x8, addend: 0x0, symName: '+[FWFWKMediaCaptureTypeData nullableFromList:]', symObjAddr: 0x1300, symBinAddr: 0x6B60, symSize: 0x30 }
+  - { offsetInCU: 0x2FFC, offset: 0x5F3F3, size: 0x8, addend: 0x0, symName: '-[FWFWKMediaCaptureTypeData toList]', symObjAddr: 0x1330, symBinAddr: 0x6B90, symSize: 0xA0 }
+  - { offsetInCU: 0x3034, offset: 0x5F42B, size: 0x8, addend: 0x0, symName: '-[FWFWKMediaCaptureTypeData value]', symObjAddr: 0x13D0, symBinAddr: 0x6C30, symSize: 0x8 }
+  - { offsetInCU: 0x306C, offset: 0x5F463, size: 0x8, addend: 0x0, symName: '-[FWFWKMediaCaptureTypeData setValue:]', symObjAddr: 0x13D8, symBinAddr: 0x6C38, symSize: 0x8 }
+  - { offsetInCU: 0x30AA, offset: 0x5F4A1, size: 0x8, addend: 0x0, symName: '+[FWFNSUrlRequestData makeWithUrl:httpMethod:httpBody:allHttpHeaderFields:]', symObjAddr: 0x13E0, symBinAddr: 0x6C40, symSize: 0xCC }
+  - { offsetInCU: 0x3133, offset: 0x5F52A, size: 0x8, addend: 0x0, symName: '+[FWFNSUrlRequestData fromList:]', symObjAddr: 0x14AC, symBinAddr: 0x6D0C, symSize: 0x100 }
+  - { offsetInCU: 0x31F9, offset: 0x5F5F0, size: 0x8, addend: 0x0, symName: '+[FWFNSUrlRequestData nullableFromList:]', symObjAddr: 0x15AC, symBinAddr: 0x6E0C, symSize: 0x30 }
+  - { offsetInCU: 0x323E, offset: 0x5F635, size: 0x8, addend: 0x0, symName: '-[FWFNSUrlRequestData toList]', symObjAddr: 0x15DC, symBinAddr: 0x6E3C, symSize: 0x1C0 }
+  - { offsetInCU: 0x3276, offset: 0x5F66D, size: 0x8, addend: 0x0, symName: '-[FWFNSUrlRequestData url]', symObjAddr: 0x179C, symBinAddr: 0x6FFC, symSize: 0x8 }
+  - { offsetInCU: 0x32AE, offset: 0x5F6A5, size: 0x8, addend: 0x0, symName: '-[FWFNSUrlRequestData setUrl:]', symObjAddr: 0x17A4, symBinAddr: 0x7004, symSize: 0x8 }
+  - { offsetInCU: 0x32EE, offset: 0x5F6E5, size: 0x8, addend: 0x0, symName: '-[FWFNSUrlRequestData httpMethod]', symObjAddr: 0x17AC, symBinAddr: 0x700C, symSize: 0x8 }
+  - { offsetInCU: 0x3326, offset: 0x5F71D, size: 0x8, addend: 0x0, symName: '-[FWFNSUrlRequestData setHttpMethod:]', symObjAddr: 0x17B4, symBinAddr: 0x7014, symSize: 0x8 }
+  - { offsetInCU: 0x3366, offset: 0x5F75D, size: 0x8, addend: 0x0, symName: '-[FWFNSUrlRequestData httpBody]', symObjAddr: 0x17BC, symBinAddr: 0x701C, symSize: 0x8 }
+  - { offsetInCU: 0x339E, offset: 0x5F795, size: 0x8, addend: 0x0, symName: '-[FWFNSUrlRequestData setHttpBody:]', symObjAddr: 0x17C4, symBinAddr: 0x7024, symSize: 0xC }
+  - { offsetInCU: 0x33E0, offset: 0x5F7D7, size: 0x8, addend: 0x0, symName: '-[FWFNSUrlRequestData allHttpHeaderFields]', symObjAddr: 0x17D0, symBinAddr: 0x7030, symSize: 0x8 }
+  - { offsetInCU: 0x3418, offset: 0x5F80F, size: 0x8, addend: 0x0, symName: '-[FWFNSUrlRequestData setAllHttpHeaderFields:]', symObjAddr: 0x17D8, symBinAddr: 0x7038, symSize: 0x8 }
+  - { offsetInCU: 0x3458, offset: 0x5F84F, size: 0x8, addend: 0x0, symName: '-[FWFNSUrlRequestData .cxx_destruct]', symObjAddr: 0x17E0, symBinAddr: 0x7040, symSize: 0x48 }
+  - { offsetInCU: 0x348C, offset: 0x5F883, size: 0x8, addend: 0x0, symName: '+[FWFNSHttpUrlResponseData makeWithStatusCode:]', symObjAddr: 0x1828, symBinAddr: 0x7088, symSize: 0x3C }
+  - { offsetInCU: 0x34E2, offset: 0x5F8D9, size: 0x8, addend: 0x0, symName: '+[FWFNSHttpUrlResponseData fromList:]', symObjAddr: 0x1864, symBinAddr: 0x70C4, symSize: 0x84 }
+  - { offsetInCU: 0x3554, offset: 0x5F94B, size: 0x8, addend: 0x0, symName: '+[FWFNSHttpUrlResponseData nullableFromList:]', symObjAddr: 0x18E8, symBinAddr: 0x7148, symSize: 0x30 }
+  - { offsetInCU: 0x3599, offset: 0x5F990, size: 0x8, addend: 0x0, symName: '-[FWFNSHttpUrlResponseData toList]', symObjAddr: 0x1918, symBinAddr: 0x7178, symSize: 0xA0 }
+  - { offsetInCU: 0x35D1, offset: 0x5F9C8, size: 0x8, addend: 0x0, symName: '-[FWFNSHttpUrlResponseData statusCode]', symObjAddr: 0x19B8, symBinAddr: 0x7218, symSize: 0x8 }
+  - { offsetInCU: 0x3609, offset: 0x5FA00, size: 0x8, addend: 0x0, symName: '-[FWFNSHttpUrlResponseData setStatusCode:]', symObjAddr: 0x19C0, symBinAddr: 0x7220, symSize: 0x8 }
+  - { offsetInCU: 0x3647, offset: 0x5FA3E, size: 0x8, addend: 0x0, symName: '+[FWFWKUserScriptData makeWithSource:injectionTime:isMainFrameOnly:]', symObjAddr: 0x19C8, symBinAddr: 0x7228, symSize: 0x8C }
+  - { offsetInCU: 0x36BF, offset: 0x5FAB6, size: 0x8, addend: 0x0, symName: '+[FWFWKUserScriptData fromList:]', symObjAddr: 0x1A54, symBinAddr: 0x72B4, symSize: 0x104 }
+  - { offsetInCU: 0x3769, offset: 0x5FB60, size: 0x8, addend: 0x0, symName: '+[FWFWKUserScriptData nullableFromList:]', symObjAddr: 0x1B58, symBinAddr: 0x73B8, symSize: 0x30 }
+  - { offsetInCU: 0x37AE, offset: 0x5FBA5, size: 0x8, addend: 0x0, symName: '-[FWFWKUserScriptData toList]', symObjAddr: 0x1B88, symBinAddr: 0x73E8, symSize: 0x184 }
+  - { offsetInCU: 0x37E6, offset: 0x5FBDD, size: 0x8, addend: 0x0, symName: '-[FWFWKUserScriptData source]', symObjAddr: 0x1D0C, symBinAddr: 0x756C, symSize: 0x8 }
+  - { offsetInCU: 0x381E, offset: 0x5FC15, size: 0x8, addend: 0x0, symName: '-[FWFWKUserScriptData setSource:]', symObjAddr: 0x1D14, symBinAddr: 0x7574, symSize: 0x8 }
+  - { offsetInCU: 0x385E, offset: 0x5FC55, size: 0x8, addend: 0x0, symName: '-[FWFWKUserScriptData injectionTime]', symObjAddr: 0x1D1C, symBinAddr: 0x757C, symSize: 0x8 }
+  - { offsetInCU: 0x3896, offset: 0x5FC8D, size: 0x8, addend: 0x0, symName: '-[FWFWKUserScriptData setInjectionTime:]', symObjAddr: 0x1D24, symBinAddr: 0x7584, symSize: 0xC }
+  - { offsetInCU: 0x38D8, offset: 0x5FCCF, size: 0x8, addend: 0x0, symName: '-[FWFWKUserScriptData isMainFrameOnly]', symObjAddr: 0x1D30, symBinAddr: 0x7590, symSize: 0x8 }
+  - { offsetInCU: 0x3910, offset: 0x5FD07, size: 0x8, addend: 0x0, symName: '-[FWFWKUserScriptData setIsMainFrameOnly:]', symObjAddr: 0x1D38, symBinAddr: 0x7598, symSize: 0x8 }
+  - { offsetInCU: 0x394C, offset: 0x5FD43, size: 0x8, addend: 0x0, symName: '-[FWFWKUserScriptData .cxx_destruct]', symObjAddr: 0x1D40, symBinAddr: 0x75A0, symSize: 0x30 }
+  - { offsetInCU: 0x3980, offset: 0x5FD77, size: 0x8, addend: 0x0, symName: '+[FWFWKNavigationActionData makeWithRequest:targetFrame:navigationType:]', symObjAddr: 0x1D70, symBinAddr: 0x75D0, symSize: 0x8C }
+  - { offsetInCU: 0x39F8, offset: 0x5FDEF, size: 0x8, addend: 0x0, symName: '+[FWFWKNavigationActionData fromList:]', symObjAddr: 0x1DFC, symBinAddr: 0x765C, symSize: 0x12C }
+  - { offsetInCU: 0x3AA2, offset: 0x5FE99, size: 0x8, addend: 0x0, symName: '+[FWFWKNavigationActionData nullableFromList:]', symObjAddr: 0x1F28, symBinAddr: 0x7788, symSize: 0x30 }
+  - { offsetInCU: 0x3AE7, offset: 0x5FEDE, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationActionData toList]', symObjAddr: 0x1F58, symBinAddr: 0x77B8, symSize: 0x1B4 }
+  - { offsetInCU: 0x3B1F, offset: 0x5FF16, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationActionData request]', symObjAddr: 0x210C, symBinAddr: 0x796C, symSize: 0x8 }
+  - { offsetInCU: 0x3B57, offset: 0x5FF4E, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationActionData setRequest:]', symObjAddr: 0x2114, symBinAddr: 0x7974, symSize: 0xC }
+  - { offsetInCU: 0x3B99, offset: 0x5FF90, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationActionData targetFrame]', symObjAddr: 0x2120, symBinAddr: 0x7980, symSize: 0x8 }
+  - { offsetInCU: 0x3BD1, offset: 0x5FFC8, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationActionData setTargetFrame:]', symObjAddr: 0x2128, symBinAddr: 0x7988, symSize: 0xC }
+  - { offsetInCU: 0x3C13, offset: 0x6000A, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationActionData navigationType]', symObjAddr: 0x2134, symBinAddr: 0x7994, symSize: 0x8 }
+  - { offsetInCU: 0x3C4B, offset: 0x60042, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationActionData setNavigationType:]', symObjAddr: 0x213C, symBinAddr: 0x799C, symSize: 0x8 }
+  - { offsetInCU: 0x3C89, offset: 0x60080, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationActionData .cxx_destruct]', symObjAddr: 0x2144, symBinAddr: 0x79A4, symSize: 0x30 }
+  - { offsetInCU: 0x3CBD, offset: 0x600B4, size: 0x8, addend: 0x0, symName: '+[FWFWKNavigationResponseData makeWithResponse:forMainFrame:]', symObjAddr: 0x2174, symBinAddr: 0x79D4, symSize: 0x68 }
+  - { offsetInCU: 0x3D24, offset: 0x6011B, size: 0x8, addend: 0x0, symName: '+[FWFWKNavigationResponseData fromList:]', symObjAddr: 0x21DC, symBinAddr: 0x7A3C, symSize: 0xD8 }
+  - { offsetInCU: 0x3DB2, offset: 0x601A9, size: 0x8, addend: 0x0, symName: '+[FWFWKNavigationResponseData nullableFromList:]', symObjAddr: 0x22B4, symBinAddr: 0x7B14, symSize: 0x30 }
+  - { offsetInCU: 0x3DF7, offset: 0x601EE, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationResponseData toList]', symObjAddr: 0x22E4, symBinAddr: 0x7B44, symSize: 0x130 }
+  - { offsetInCU: 0x3E2F, offset: 0x60226, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationResponseData response]', symObjAddr: 0x2414, symBinAddr: 0x7C74, symSize: 0x8 }
+  - { offsetInCU: 0x3E67, offset: 0x6025E, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationResponseData setResponse:]', symObjAddr: 0x241C, symBinAddr: 0x7C7C, symSize: 0xC }
+  - { offsetInCU: 0x3EA9, offset: 0x602A0, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationResponseData forMainFrame]', symObjAddr: 0x2428, symBinAddr: 0x7C88, symSize: 0x8 }
+  - { offsetInCU: 0x3EE1, offset: 0x602D8, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationResponseData setForMainFrame:]', symObjAddr: 0x2430, symBinAddr: 0x7C90, symSize: 0x8 }
+  - { offsetInCU: 0x3F1D, offset: 0x60314, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationResponseData .cxx_destruct]', symObjAddr: 0x2438, symBinAddr: 0x7C98, symSize: 0xC }
+  - { offsetInCU: 0x3F51, offset: 0x60348, size: 0x8, addend: 0x0, symName: '+[FWFWKFrameInfoData makeWithIsMainFrame:request:]', symObjAddr: 0x2444, symBinAddr: 0x7CA4, symSize: 0x68 }
+  - { offsetInCU: 0x3FB8, offset: 0x603AF, size: 0x8, addend: 0x0, symName: '+[FWFWKFrameInfoData fromList:]', symObjAddr: 0x24AC, symBinAddr: 0x7D0C, symSize: 0xD4 }
+  - { offsetInCU: 0x4046, offset: 0x6043D, size: 0x8, addend: 0x0, symName: '+[FWFWKFrameInfoData nullableFromList:]', symObjAddr: 0x2580, symBinAddr: 0x7DE0, symSize: 0x30 }
+  - { offsetInCU: 0x408B, offset: 0x60482, size: 0x8, addend: 0x0, symName: '-[FWFWKFrameInfoData toList]', symObjAddr: 0x25B0, symBinAddr: 0x7E10, symSize: 0x130 }
+  - { offsetInCU: 0x40C3, offset: 0x604BA, size: 0x8, addend: 0x0, symName: '-[FWFWKFrameInfoData isMainFrame]', symObjAddr: 0x26E0, symBinAddr: 0x7F40, symSize: 0x8 }
+  - { offsetInCU: 0x40FB, offset: 0x604F2, size: 0x8, addend: 0x0, symName: '-[FWFWKFrameInfoData setIsMainFrame:]', symObjAddr: 0x26E8, symBinAddr: 0x7F48, symSize: 0x8 }
+  - { offsetInCU: 0x4137, offset: 0x6052E, size: 0x8, addend: 0x0, symName: '-[FWFWKFrameInfoData request]', symObjAddr: 0x26F0, symBinAddr: 0x7F50, symSize: 0x8 }
+  - { offsetInCU: 0x416F, offset: 0x60566, size: 0x8, addend: 0x0, symName: '-[FWFWKFrameInfoData setRequest:]', symObjAddr: 0x26F8, symBinAddr: 0x7F58, symSize: 0xC }
+  - { offsetInCU: 0x41B1, offset: 0x605A8, size: 0x8, addend: 0x0, symName: '-[FWFWKFrameInfoData .cxx_destruct]', symObjAddr: 0x2704, symBinAddr: 0x7F64, symSize: 0xC }
+  - { offsetInCU: 0x41E5, offset: 0x605DC, size: 0x8, addend: 0x0, symName: '+[FWFNSErrorData makeWithCode:domain:userInfo:]', symObjAddr: 0x2710, symBinAddr: 0x7F70, symSize: 0x8C }
+  - { offsetInCU: 0x425D, offset: 0x60654, size: 0x8, addend: 0x0, symName: '+[FWFNSErrorData fromList:]', symObjAddr: 0x279C, symBinAddr: 0x7FFC, symSize: 0xD8 }
+  - { offsetInCU: 0x4307, offset: 0x606FE, size: 0x8, addend: 0x0, symName: '+[FWFNSErrorData nullableFromList:]', symObjAddr: 0x2874, symBinAddr: 0x80D4, symSize: 0x30 }
+  - { offsetInCU: 0x434C, offset: 0x60743, size: 0x8, addend: 0x0, symName: '-[FWFNSErrorData toList]', symObjAddr: 0x28A4, symBinAddr: 0x8104, symSize: 0x14C }
+  - { offsetInCU: 0x4384, offset: 0x6077B, size: 0x8, addend: 0x0, symName: '-[FWFNSErrorData code]', symObjAddr: 0x29F0, symBinAddr: 0x8250, symSize: 0x8 }
+  - { offsetInCU: 0x43BC, offset: 0x607B3, size: 0x8, addend: 0x0, symName: '-[FWFNSErrorData setCode:]', symObjAddr: 0x29F8, symBinAddr: 0x8258, symSize: 0x8 }
+  - { offsetInCU: 0x43FA, offset: 0x607F1, size: 0x8, addend: 0x0, symName: '-[FWFNSErrorData domain]', symObjAddr: 0x2A00, symBinAddr: 0x8260, symSize: 0x8 }
+  - { offsetInCU: 0x4432, offset: 0x60829, size: 0x8, addend: 0x0, symName: '-[FWFNSErrorData setDomain:]', symObjAddr: 0x2A08, symBinAddr: 0x8268, symSize: 0x8 }
+  - { offsetInCU: 0x4472, offset: 0x60869, size: 0x8, addend: 0x0, symName: '-[FWFNSErrorData userInfo]', symObjAddr: 0x2A10, symBinAddr: 0x8270, symSize: 0x8 }
+  - { offsetInCU: 0x44AA, offset: 0x608A1, size: 0x8, addend: 0x0, symName: '-[FWFNSErrorData setUserInfo:]', symObjAddr: 0x2A18, symBinAddr: 0x8278, symSize: 0x8 }
+  - { offsetInCU: 0x44EA, offset: 0x608E1, size: 0x8, addend: 0x0, symName: '-[FWFNSErrorData .cxx_destruct]', symObjAddr: 0x2A20, symBinAddr: 0x8280, symSize: 0x30 }
+  - { offsetInCU: 0x451E, offset: 0x60915, size: 0x8, addend: 0x0, symName: '+[FWFWKScriptMessageData makeWithName:body:]', symObjAddr: 0x2A50, symBinAddr: 0x82B0, symSize: 0x7C }
+  - { offsetInCU: 0x4585, offset: 0x6097C, size: 0x8, addend: 0x0, symName: '+[FWFWKScriptMessageData fromList:]', symObjAddr: 0x2ACC, symBinAddr: 0x832C, symSize: 0xA8 }
+  - { offsetInCU: 0x4613, offset: 0x60A0A, size: 0x8, addend: 0x0, symName: '+[FWFWKScriptMessageData nullableFromList:]', symObjAddr: 0x2B74, symBinAddr: 0x83D4, symSize: 0x30 }
+  - { offsetInCU: 0x4658, offset: 0x60A4F, size: 0x8, addend: 0x0, symName: '-[FWFWKScriptMessageData toList]', symObjAddr: 0x2BA4, symBinAddr: 0x8404, symSize: 0x118 }
+  - { offsetInCU: 0x4690, offset: 0x60A87, size: 0x8, addend: 0x0, symName: '-[FWFWKScriptMessageData name]', symObjAddr: 0x2CBC, symBinAddr: 0x851C, symSize: 0x8 }
+  - { offsetInCU: 0x46C8, offset: 0x60ABF, size: 0x8, addend: 0x0, symName: '-[FWFWKScriptMessageData setName:]', symObjAddr: 0x2CC4, symBinAddr: 0x8524, symSize: 0x8 }
+  - { offsetInCU: 0x4708, offset: 0x60AFF, size: 0x8, addend: 0x0, symName: '-[FWFWKScriptMessageData body]', symObjAddr: 0x2CCC, symBinAddr: 0x852C, symSize: 0x8 }
+  - { offsetInCU: 0x4740, offset: 0x60B37, size: 0x8, addend: 0x0, symName: '-[FWFWKScriptMessageData setBody:]', symObjAddr: 0x2CD4, symBinAddr: 0x8534, symSize: 0xC }
+  - { offsetInCU: 0x4782, offset: 0x60B79, size: 0x8, addend: 0x0, symName: '-[FWFWKScriptMessageData .cxx_destruct]', symObjAddr: 0x2CE0, symBinAddr: 0x8540, symSize: 0x30 }
+  - { offsetInCU: 0x47B6, offset: 0x60BAD, size: 0x8, addend: 0x0, symName: '+[FWFWKSecurityOriginData makeWithHost:port:protocol:]', symObjAddr: 0x2D10, symBinAddr: 0x8570, symSize: 0x8C }
+  - { offsetInCU: 0x482E, offset: 0x60C25, size: 0x8, addend: 0x0, symName: '+[FWFWKSecurityOriginData fromList:]', symObjAddr: 0x2D9C, symBinAddr: 0x85FC, symSize: 0xD8 }
+  - { offsetInCU: 0x48D8, offset: 0x60CCF, size: 0x8, addend: 0x0, symName: '+[FWFWKSecurityOriginData nullableFromList:]', symObjAddr: 0x2E74, symBinAddr: 0x86D4, symSize: 0x30 }
+  - { offsetInCU: 0x491D, offset: 0x60D14, size: 0x8, addend: 0x0, symName: '-[FWFWKSecurityOriginData toList]', symObjAddr: 0x2EA4, symBinAddr: 0x8704, symSize: 0x14C }
+  - { offsetInCU: 0x4955, offset: 0x60D4C, size: 0x8, addend: 0x0, symName: '-[FWFWKSecurityOriginData host]', symObjAddr: 0x2FF0, symBinAddr: 0x8850, symSize: 0x8 }
+  - { offsetInCU: 0x498D, offset: 0x60D84, size: 0x8, addend: 0x0, symName: '-[FWFWKSecurityOriginData setHost:]', symObjAddr: 0x2FF8, symBinAddr: 0x8858, symSize: 0x8 }
+  - { offsetInCU: 0x49CD, offset: 0x60DC4, size: 0x8, addend: 0x0, symName: '-[FWFWKSecurityOriginData port]', symObjAddr: 0x3000, symBinAddr: 0x8860, symSize: 0x8 }
+  - { offsetInCU: 0x4A05, offset: 0x60DFC, size: 0x8, addend: 0x0, symName: '-[FWFWKSecurityOriginData setPort:]', symObjAddr: 0x3008, symBinAddr: 0x8868, symSize: 0x8 }
+  - { offsetInCU: 0x4A43, offset: 0x60E3A, size: 0x8, addend: 0x0, symName: '-[FWFWKSecurityOriginData protocol]', symObjAddr: 0x3010, symBinAddr: 0x8870, symSize: 0x8 }
+  - { offsetInCU: 0x4A7B, offset: 0x60E72, size: 0x8, addend: 0x0, symName: '-[FWFWKSecurityOriginData setProtocol:]', symObjAddr: 0x3018, symBinAddr: 0x8878, symSize: 0x8 }
+  - { offsetInCU: 0x4ABB, offset: 0x60EB2, size: 0x8, addend: 0x0, symName: '-[FWFWKSecurityOriginData .cxx_destruct]', symObjAddr: 0x3020, symBinAddr: 0x8880, symSize: 0x30 }
+  - { offsetInCU: 0x4AEF, offset: 0x60EE6, size: 0x8, addend: 0x0, symName: '+[FWFNSHttpCookieData makeWithPropertyKeys:propertyValues:]', symObjAddr: 0x3050, symBinAddr: 0x88B0, symSize: 0x7C }
+  - { offsetInCU: 0x4B56, offset: 0x60F4D, size: 0x8, addend: 0x0, symName: '+[FWFNSHttpCookieData fromList:]', symObjAddr: 0x30CC, symBinAddr: 0x892C, symSize: 0xA8 }
+  - { offsetInCU: 0x4BE4, offset: 0x60FDB, size: 0x8, addend: 0x0, symName: '+[FWFNSHttpCookieData nullableFromList:]', symObjAddr: 0x3174, symBinAddr: 0x89D4, symSize: 0x30 }
+  - { offsetInCU: 0x4C29, offset: 0x61020, size: 0x8, addend: 0x0, symName: '-[FWFNSHttpCookieData toList]', symObjAddr: 0x31A4, symBinAddr: 0x8A04, symSize: 0x118 }
+  - { offsetInCU: 0x4C61, offset: 0x61058, size: 0x8, addend: 0x0, symName: '-[FWFNSHttpCookieData propertyKeys]', symObjAddr: 0x32BC, symBinAddr: 0x8B1C, symSize: 0x8 }
+  - { offsetInCU: 0x4C99, offset: 0x61090, size: 0x8, addend: 0x0, symName: '-[FWFNSHttpCookieData setPropertyKeys:]', symObjAddr: 0x32C4, symBinAddr: 0x8B24, symSize: 0x8 }
+  - { offsetInCU: 0x4CD9, offset: 0x610D0, size: 0x8, addend: 0x0, symName: '-[FWFNSHttpCookieData propertyValues]', symObjAddr: 0x32CC, symBinAddr: 0x8B2C, symSize: 0x8 }
+  - { offsetInCU: 0x4D11, offset: 0x61108, size: 0x8, addend: 0x0, symName: '-[FWFNSHttpCookieData setPropertyValues:]', symObjAddr: 0x32D4, symBinAddr: 0x8B34, symSize: 0x8 }
+  - { offsetInCU: 0x4D51, offset: 0x61148, size: 0x8, addend: 0x0, symName: '-[FWFNSHttpCookieData .cxx_destruct]', symObjAddr: 0x32DC, symBinAddr: 0x8B3C, symSize: 0x30 }
+  - { offsetInCU: 0x4D85, offset: 0x6117C, size: 0x8, addend: 0x0, symName: '+[FWFObjectOrIdentifier makeWithValue:isIdentifier:]', symObjAddr: 0x330C, symBinAddr: 0x8B6C, symSize: 0x68 }
+  - { offsetInCU: 0x4DEC, offset: 0x611E3, size: 0x8, addend: 0x0, symName: '+[FWFObjectOrIdentifier fromList:]', symObjAddr: 0x3374, symBinAddr: 0x8BD4, symSize: 0xB0 }
+  - { offsetInCU: 0x4E7A, offset: 0x61271, size: 0x8, addend: 0x0, symName: '+[FWFObjectOrIdentifier nullableFromList:]', symObjAddr: 0x3424, symBinAddr: 0x8C84, symSize: 0x30 }
+  - { offsetInCU: 0x4EBF, offset: 0x612B6, size: 0x8, addend: 0x0, symName: '-[FWFObjectOrIdentifier toList]', symObjAddr: 0x3454, symBinAddr: 0x8CB4, symSize: 0xF8 }
+  - { offsetInCU: 0x4EF7, offset: 0x612EE, size: 0x8, addend: 0x0, symName: '-[FWFObjectOrIdentifier value]', symObjAddr: 0x354C, symBinAddr: 0x8DAC, symSize: 0x8 }
+  - { offsetInCU: 0x4F2F, offset: 0x61326, size: 0x8, addend: 0x0, symName: '-[FWFObjectOrIdentifier setValue:]', symObjAddr: 0x3554, symBinAddr: 0x8DB4, symSize: 0xC }
+  - { offsetInCU: 0x4F71, offset: 0x61368, size: 0x8, addend: 0x0, symName: '-[FWFObjectOrIdentifier isIdentifier]', symObjAddr: 0x3560, symBinAddr: 0x8DC0, symSize: 0x8 }
+  - { offsetInCU: 0x4FA9, offset: 0x613A0, size: 0x8, addend: 0x0, symName: '-[FWFObjectOrIdentifier setIsIdentifier:]', symObjAddr: 0x3568, symBinAddr: 0x8DC8, symSize: 0x8 }
+  - { offsetInCU: 0x4FE5, offset: 0x613DC, size: 0x8, addend: 0x0, symName: '-[FWFObjectOrIdentifier .cxx_destruct]', symObjAddr: 0x3570, symBinAddr: 0x8DD0, symSize: 0xC }
+  - { offsetInCU: 0x5019, offset: 0x61410, size: 0x8, addend: 0x0, symName: '+[FWFAuthenticationChallengeResponse makeWithDisposition:credentialIdentifier:]', symObjAddr: 0x357C, symBinAddr: 0x8DDC, symSize: 0x68 }
+  - { offsetInCU: 0x5080, offset: 0x61477, size: 0x8, addend: 0x0, symName: '+[FWFAuthenticationChallengeResponse fromList:]', symObjAddr: 0x35E4, symBinAddr: 0x8E44, symSize: 0xAC }
+  - { offsetInCU: 0x510E, offset: 0x61505, size: 0x8, addend: 0x0, symName: '+[FWFAuthenticationChallengeResponse nullableFromList:]', symObjAddr: 0x3690, symBinAddr: 0x8EF0, symSize: 0x30 }
+  - { offsetInCU: 0x5153, offset: 0x6154A, size: 0x8, addend: 0x0, symName: '-[FWFAuthenticationChallengeResponse toList]', symObjAddr: 0x36C0, symBinAddr: 0x8F20, symSize: 0xF8 }
+  - { offsetInCU: 0x518B, offset: 0x61582, size: 0x8, addend: 0x0, symName: '-[FWFAuthenticationChallengeResponse disposition]', symObjAddr: 0x37B8, symBinAddr: 0x9018, symSize: 0x8 }
+  - { offsetInCU: 0x51C3, offset: 0x615BA, size: 0x8, addend: 0x0, symName: '-[FWFAuthenticationChallengeResponse setDisposition:]', symObjAddr: 0x37C0, symBinAddr: 0x9020, symSize: 0x8 }
+  - { offsetInCU: 0x5201, offset: 0x615F8, size: 0x8, addend: 0x0, symName: '-[FWFAuthenticationChallengeResponse credentialIdentifier]', symObjAddr: 0x37C8, symBinAddr: 0x9028, symSize: 0x8 }
+  - { offsetInCU: 0x5239, offset: 0x61630, size: 0x8, addend: 0x0, symName: '-[FWFAuthenticationChallengeResponse setCredentialIdentifier:]', symObjAddr: 0x37D0, symBinAddr: 0x9030, symSize: 0xC }
+  - { offsetInCU: 0x527B, offset: 0x61672, size: 0x8, addend: 0x0, symName: '-[FWFAuthenticationChallengeResponse .cxx_destruct]', symObjAddr: 0x37DC, symBinAddr: 0x903C, symSize: 0xC }
+  - { offsetInCU: 0x52AF, offset: 0x616A6, size: 0x8, addend: 0x0, symName: '-[FWFWKWebsiteDataStoreHostApiCodecReader readValueOfType:]', symObjAddr: 0x37E8, symBinAddr: 0x9048, symSize: 0x90 }
+  - { offsetInCU: 0x52F8, offset: 0x616EF, size: 0x8, addend: 0x0, symName: '-[FWFWKWebsiteDataStoreHostApiCodecWriter writeValue:]', symObjAddr: 0x3878, symBinAddr: 0x90D8, symSize: 0xB4 }
+  - { offsetInCU: 0x533D, offset: 0x61734, size: 0x8, addend: 0x0, symName: '-[FWFWKWebsiteDataStoreHostApiCodecReaderWriter writerWithData:]', symObjAddr: 0x392C, symBinAddr: 0x918C, symSize: 0x4C }
+  - { offsetInCU: 0x5382, offset: 0x61779, size: 0x8, addend: 0x0, symName: '-[FWFWKWebsiteDataStoreHostApiCodecReaderWriter readerWithData:]', symObjAddr: 0x3978, symBinAddr: 0x91D8, symSize: 0x4C }
+  - { offsetInCU: 0x540E, offset: 0x61805, size: 0x8, addend: 0x0, symName: ___FWFWKWebsiteDataStoreHostApiGetCodec_block_invoke, symObjAddr: 0x3A04, symBinAddr: 0x9264, symSize: 0x5C }
+  - { offsetInCU: 0x5457, offset: 0x6184E, size: 0x8, addend: 0x0, symName: _SetUpFWFWKWebsiteDataStoreHostApi, symObjAddr: 0x3A60, symBinAddr: 0x92C0, symSize: 0x234 }
+  - { offsetInCU: 0x551B, offset: 0x61912, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKWebsiteDataStoreHostApi_block_invoke, symObjAddr: 0x3C94, symBinAddr: 0x94F4, symSize: 0x10C }
+  - { offsetInCU: 0x5639, offset: 0x61A30, size: 0x8, addend: 0x0, symName: _wrapResult, symObjAddr: 0x3DA0, symBinAddr: 0x9600, symSize: 0x1EC }
+  - { offsetInCU: 0x5674, offset: 0x61A6B, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKWebsiteDataStoreHostApi_block_invoke.294, symObjAddr: 0x3F9C, symBinAddr: 0x97EC, symSize: 0xE0 }
+  - { offsetInCU: 0x5765, offset: 0x61B5C, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKWebsiteDataStoreHostApi_block_invoke_2, symObjAddr: 0x407C, symBinAddr: 0x98CC, symSize: 0x138 }
+  - { offsetInCU: 0x5861, offset: 0x61C58, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKWebsiteDataStoreHostApi_block_invoke_3, symObjAddr: 0x41B4, symBinAddr: 0x9A04, symSize: 0x48 }
+  - { offsetInCU: 0x58FB, offset: 0x61CF2, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32b, symObjAddr: 0x41FC, symBinAddr: 0x9A4C, symSize: 0x10 }
+  - { offsetInCU: 0x5924, offset: 0x61D1B, size: 0x8, addend: 0x0, symName: _SetUpFWFUIViewHostApi, symObjAddr: 0x4250, symBinAddr: 0x9AA0, symSize: 0x1A0 }
+  - { offsetInCU: 0x59BA, offset: 0x61DB1, size: 0x8, addend: 0x0, symName: ___SetUpFWFUIViewHostApi_block_invoke, symObjAddr: 0x43F0, symBinAddr: 0x9C40, symSize: 0x104 }
+  - { offsetInCU: 0x5AD8, offset: 0x61ECF, size: 0x8, addend: 0x0, symName: ___SetUpFWFUIViewHostApi_block_invoke_2, symObjAddr: 0x44F4, symBinAddr: 0x9D44, symSize: 0x10C }
+  - { offsetInCU: 0x5BF2, offset: 0x61FE9, size: 0x8, addend: 0x0, symName: _SetUpFWFUIScrollViewHostApi, symObjAddr: 0x4644, symBinAddr: 0x9E94, symSize: 0x364 }
+  - { offsetInCU: 0x5D12, offset: 0x62109, size: 0x8, addend: 0x0, symName: ___SetUpFWFUIScrollViewHostApi_block_invoke, symObjAddr: 0x49A8, symBinAddr: 0xA1F8, symSize: 0x10C }
+  - { offsetInCU: 0x5E30, offset: 0x62227, size: 0x8, addend: 0x0, symName: ___SetUpFWFUIScrollViewHostApi_block_invoke_2, symObjAddr: 0x4AB4, symBinAddr: 0xA304, symSize: 0xF4 }
+  - { offsetInCU: 0x5F33, offset: 0x6232A, size: 0x8, addend: 0x0, symName: ___SetUpFWFUIScrollViewHostApi_block_invoke_3, symObjAddr: 0x4BA8, symBinAddr: 0xA3F8, symSize: 0x140 }
+  - { offsetInCU: 0x607E, offset: 0x62475, size: 0x8, addend: 0x0, symName: ___SetUpFWFUIScrollViewHostApi_block_invoke_4, symObjAddr: 0x4CE8, symBinAddr: 0xA538, symSize: 0x140 }
+  - { offsetInCU: 0x61C9, offset: 0x625C0, size: 0x8, addend: 0x0, symName: ___SetUpFWFUIScrollViewHostApi_block_invoke_5, symObjAddr: 0x4E28, symBinAddr: 0xA678, symSize: 0x104 }
+  - { offsetInCU: 0x62E7, offset: 0x626DE, size: 0x8, addend: 0x0, symName: '-[FWFWKWebViewConfigurationHostApiCodecReader readValueOfType:]', symObjAddr: 0x4F2C, symBinAddr: 0xA77C, symSize: 0x90 }
+  - { offsetInCU: 0x6330, offset: 0x62727, size: 0x8, addend: 0x0, symName: '-[FWFWKWebViewConfigurationHostApiCodecWriter writeValue:]', symObjAddr: 0x4FBC, symBinAddr: 0xA80C, symSize: 0xB4 }
+  - { offsetInCU: 0x6375, offset: 0x6276C, size: 0x8, addend: 0x0, symName: '-[FWFWKWebViewConfigurationHostApiCodecReaderWriter writerWithData:]', symObjAddr: 0x5070, symBinAddr: 0xA8C0, symSize: 0x4C }
+  - { offsetInCU: 0x63BA, offset: 0x627B1, size: 0x8, addend: 0x0, symName: '-[FWFWKWebViewConfigurationHostApiCodecReaderWriter readerWithData:]', symObjAddr: 0x50BC, symBinAddr: 0xA90C, symSize: 0x4C }
+  - { offsetInCU: 0x63FF, offset: 0x627F6, size: 0x8, addend: 0x0, symName: ___FWFWKWebViewConfigurationHostApiGetCodec_block_invoke, symObjAddr: 0x5148, symBinAddr: 0xA998, symSize: 0x5C }
+  - { offsetInCU: 0x6448, offset: 0x6283F, size: 0x8, addend: 0x0, symName: _SetUpFWFWKWebViewConfigurationHostApi, symObjAddr: 0x51A4, symBinAddr: 0xA9F4, symSize: 0x364 }
+  - { offsetInCU: 0x6568, offset: 0x6295F, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKWebViewConfigurationHostApi_block_invoke, symObjAddr: 0x5508, symBinAddr: 0xAD58, symSize: 0xE0 }
+  - { offsetInCU: 0x6659, offset: 0x62A50, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKWebViewConfigurationHostApi_block_invoke_2, symObjAddr: 0x55E8, symBinAddr: 0xAE38, symSize: 0x10C }
+  - { offsetInCU: 0x6777, offset: 0x62B6E, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKWebViewConfigurationHostApi_block_invoke_3, symObjAddr: 0x56F4, symBinAddr: 0xAF44, symSize: 0x10C }
+  - { offsetInCU: 0x6891, offset: 0x62C88, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKWebViewConfigurationHostApi_block_invoke_4, symObjAddr: 0x5800, symBinAddr: 0xB050, symSize: 0x10C }
+  - { offsetInCU: 0x69AB, offset: 0x62DA2, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKWebViewConfigurationHostApi_block_invoke_5, symObjAddr: 0x590C, symBinAddr: 0xB15C, symSize: 0x104 }
+  - { offsetInCU: 0x6AC9, offset: 0x62EC0, size: 0x8, addend: 0x0, symName: '-[FWFWKWebViewConfigurationFlutterApi initWithBinaryMessenger:]', symObjAddr: 0x5A54, symBinAddr: 0xB2A4, symSize: 0x78 }
+  - { offsetInCU: 0x6B12, offset: 0x62F09, size: 0x8, addend: 0x0, symName: '-[FWFWKWebViewConfigurationFlutterApi createWithIdentifier:completion:]', symObjAddr: 0x5ACC, symBinAddr: 0xB31C, symSize: 0x184 }
+  - { offsetInCU: 0x6B87, offset: 0x62F7E, size: 0x8, addend: 0x0, symName: '___71-[FWFWKWebViewConfigurationFlutterApi createWithIdentifier:completion:]_block_invoke', symObjAddr: 0x5C50, symBinAddr: 0xB4A0, symSize: 0x154 }
+  - { offsetInCU: 0x6C26, offset: 0x6301D, size: 0x8, addend: 0x0, symName: '-[FWFWKWebViewConfigurationFlutterApi binaryMessenger]', symObjAddr: 0x5DA4, symBinAddr: 0xB5F4, symSize: 0x8 }
+  - { offsetInCU: 0x6C5E, offset: 0x63055, size: 0x8, addend: 0x0, symName: '-[FWFWKWebViewConfigurationFlutterApi setBinaryMessenger:]', symObjAddr: 0x5DAC, symBinAddr: 0xB5FC, symSize: 0xC }
+  - { offsetInCU: 0x6CA0, offset: 0x63097, size: 0x8, addend: 0x0, symName: '-[FWFWKWebViewConfigurationFlutterApi .cxx_destruct]', symObjAddr: 0x5DB8, symBinAddr: 0xB608, symSize: 0xC }
+  - { offsetInCU: 0x6CD4, offset: 0x630CB, size: 0x8, addend: 0x0, symName: '-[FWFWKUserContentControllerHostApiCodecReader readValueOfType:]', symObjAddr: 0x5DC4, symBinAddr: 0xB614, symSize: 0xA4 }
+  - { offsetInCU: 0x6D1D, offset: 0x63114, size: 0x8, addend: 0x0, symName: '-[FWFWKUserContentControllerHostApiCodecWriter writeValue:]', symObjAddr: 0x5E68, symBinAddr: 0xB6B8, symSize: 0xDC }
+  - { offsetInCU: 0x6D62, offset: 0x63159, size: 0x8, addend: 0x0, symName: '-[FWFWKUserContentControllerHostApiCodecReaderWriter writerWithData:]', symObjAddr: 0x5F44, symBinAddr: 0xB794, symSize: 0x4C }
+  - { offsetInCU: 0x6DA7, offset: 0x6319E, size: 0x8, addend: 0x0, symName: '-[FWFWKUserContentControllerHostApiCodecReaderWriter readerWithData:]', symObjAddr: 0x5F90, symBinAddr: 0xB7E0, symSize: 0x4C }
+  - { offsetInCU: 0x6DEC, offset: 0x631E3, size: 0x8, addend: 0x0, symName: ___FWFWKUserContentControllerHostApiGetCodec_block_invoke, symObjAddr: 0x601C, symBinAddr: 0xB86C, symSize: 0x5C }
+  - { offsetInCU: 0x6E35, offset: 0x6322C, size: 0x8, addend: 0x0, symName: _SetUpFWFWKUserContentControllerHostApi, symObjAddr: 0x6078, symBinAddr: 0xB8C8, symSize: 0x3F8 }
+  - { offsetInCU: 0x6F83, offset: 0x6337A, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKUserContentControllerHostApi_block_invoke, symObjAddr: 0x6470, symBinAddr: 0xBCC0, symSize: 0x10C }
+  - { offsetInCU: 0x70A1, offset: 0x63498, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKUserContentControllerHostApi_block_invoke_2, symObjAddr: 0x657C, symBinAddr: 0xBDCC, symSize: 0x130 }
+  - { offsetInCU: 0x71EC, offset: 0x635E3, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKUserContentControllerHostApi_block_invoke_3, symObjAddr: 0x66AC, symBinAddr: 0xBEFC, symSize: 0x104 }
+  - { offsetInCU: 0x730A, offset: 0x63701, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKUserContentControllerHostApi_block_invoke_4, symObjAddr: 0x67B0, symBinAddr: 0xC000, symSize: 0xE0 }
+  - { offsetInCU: 0x73FB, offset: 0x637F2, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKUserContentControllerHostApi_block_invoke_5, symObjAddr: 0x6890, symBinAddr: 0xC0E0, symSize: 0x104 }
+  - { offsetInCU: 0x7519, offset: 0x63910, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKUserContentControllerHostApi_block_invoke_6, symObjAddr: 0x6994, symBinAddr: 0xC1E4, symSize: 0xE0 }
+  - { offsetInCU: 0x760A, offset: 0x63A01, size: 0x8, addend: 0x0, symName: _SetUpFWFWKPreferencesHostApi, symObjAddr: 0x6AB8, symBinAddr: 0xC308, symSize: 0x1A0 }
+  - { offsetInCU: 0x76A0, offset: 0x63A97, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKPreferencesHostApi_block_invoke, symObjAddr: 0x6C58, symBinAddr: 0xC4A8, symSize: 0x10C }
+  - { offsetInCU: 0x77BE, offset: 0x63BB5, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKPreferencesHostApi_block_invoke_2, symObjAddr: 0x6D64, symBinAddr: 0xC5B4, symSize: 0x10C }
+  - { offsetInCU: 0x78D8, offset: 0x63CCF, size: 0x8, addend: 0x0, symName: _SetUpFWFWKScriptMessageHandlerHostApi, symObjAddr: 0x6EB4, symBinAddr: 0xC704, symSize: 0x104 }
+  - { offsetInCU: 0x7940, offset: 0x63D37, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKScriptMessageHandlerHostApi_block_invoke, symObjAddr: 0x6FB8, symBinAddr: 0xC808, symSize: 0xE0 }
+  - { offsetInCU: 0x7A31, offset: 0x63E28, size: 0x8, addend: 0x0, symName: '-[FWFWKScriptMessageHandlerFlutterApiCodecReader readValueOfType:]', symObjAddr: 0x7098, symBinAddr: 0xC8E8, symSize: 0x90 }
+  - { offsetInCU: 0x7A7A, offset: 0x63E71, size: 0x8, addend: 0x0, symName: '-[FWFWKScriptMessageHandlerFlutterApiCodecWriter writeValue:]', symObjAddr: 0x7128, symBinAddr: 0xC978, symSize: 0xB4 }
+  - { offsetInCU: 0x7ABF, offset: 0x63EB6, size: 0x8, addend: 0x0, symName: '-[FWFWKScriptMessageHandlerFlutterApiCodecReaderWriter writerWithData:]', symObjAddr: 0x71DC, symBinAddr: 0xCA2C, symSize: 0x4C }
+  - { offsetInCU: 0x7B04, offset: 0x63EFB, size: 0x8, addend: 0x0, symName: '-[FWFWKScriptMessageHandlerFlutterApiCodecReaderWriter readerWithData:]', symObjAddr: 0x7228, symBinAddr: 0xCA78, symSize: 0x4C }
+  - { offsetInCU: 0x7B49, offset: 0x63F40, size: 0x8, addend: 0x0, symName: ___FWFWKScriptMessageHandlerFlutterApiGetCodec_block_invoke, symObjAddr: 0x72B4, symBinAddr: 0xCB04, symSize: 0x5C }
+  - { offsetInCU: 0x7B92, offset: 0x63F89, size: 0x8, addend: 0x0, symName: '-[FWFWKScriptMessageHandlerFlutterApi initWithBinaryMessenger:]', symObjAddr: 0x7310, symBinAddr: 0xCB60, symSize: 0x78 }
+  - { offsetInCU: 0x7BDB, offset: 0x63FD2, size: 0x8, addend: 0x0, symName: '-[FWFWKScriptMessageHandlerFlutterApi didReceiveScriptMessageForHandlerWithIdentifier:userContentControllerIdentifier:message:completion:]', symObjAddr: 0x7388, symBinAddr: 0xCBD8, symSize: 0x1FC }
+  - { offsetInCU: 0x7C72, offset: 0x64069, size: 0x8, addend: 0x0, symName: '___138-[FWFWKScriptMessageHandlerFlutterApi didReceiveScriptMessageForHandlerWithIdentifier:userContentControllerIdentifier:message:completion:]_block_invoke', symObjAddr: 0x7584, symBinAddr: 0xCDD4, symSize: 0x154 }
+  - { offsetInCU: 0x7D11, offset: 0x64108, size: 0x8, addend: 0x0, symName: '-[FWFWKScriptMessageHandlerFlutterApi binaryMessenger]', symObjAddr: 0x76D8, symBinAddr: 0xCF28, symSize: 0x8 }
+  - { offsetInCU: 0x7D49, offset: 0x64140, size: 0x8, addend: 0x0, symName: '-[FWFWKScriptMessageHandlerFlutterApi setBinaryMessenger:]', symObjAddr: 0x76E0, symBinAddr: 0xCF30, symSize: 0xC }
+  - { offsetInCU: 0x7D8B, offset: 0x64182, size: 0x8, addend: 0x0, symName: '-[FWFWKScriptMessageHandlerFlutterApi .cxx_destruct]', symObjAddr: 0x76EC, symBinAddr: 0xCF3C, symSize: 0xC }
+  - { offsetInCU: 0x7DBF, offset: 0x641B6, size: 0x8, addend: 0x0, symName: _SetUpFWFWKNavigationDelegateHostApi, symObjAddr: 0x773C, symBinAddr: 0xCF8C, symSize: 0x104 }
+  - { offsetInCU: 0x7E27, offset: 0x6421E, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKNavigationDelegateHostApi_block_invoke, symObjAddr: 0x7840, symBinAddr: 0xD090, symSize: 0xE0 }
+  - { offsetInCU: 0x7F18, offset: 0x6430F, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationDelegateFlutterApiCodecReader readValueOfType:]', symObjAddr: 0x7920, symBinAddr: 0xD170, symSize: 0x100 }
+  - { offsetInCU: 0x7F61, offset: 0x64358, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationDelegateFlutterApiCodecWriter writeValue:]', symObjAddr: 0x7A20, symBinAddr: 0xD270, symSize: 0x1CC }
+  - { offsetInCU: 0x7FA6, offset: 0x6439D, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationDelegateFlutterApiCodecReaderWriter writerWithData:]', symObjAddr: 0x7BEC, symBinAddr: 0xD43C, symSize: 0x4C }
+  - { offsetInCU: 0x7FEB, offset: 0x643E2, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationDelegateFlutterApiCodecReaderWriter readerWithData:]', symObjAddr: 0x7C38, symBinAddr: 0xD488, symSize: 0x4C }
+  - { offsetInCU: 0x8030, offset: 0x64427, size: 0x8, addend: 0x0, symName: ___FWFWKNavigationDelegateFlutterApiGetCodec_block_invoke, symObjAddr: 0x7CC4, symBinAddr: 0xD514, symSize: 0x5C }
+  - { offsetInCU: 0x8079, offset: 0x64470, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationDelegateFlutterApi initWithBinaryMessenger:]', symObjAddr: 0x7D20, symBinAddr: 0xD570, symSize: 0x78 }
+  - { offsetInCU: 0x80C2, offset: 0x644B9, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationDelegateFlutterApi didFinishNavigationForDelegateWithIdentifier:webViewIdentifier:URL:completion:]', symObjAddr: 0x7D98, symBinAddr: 0xD5E8, symSize: 0x1FC }
+  - { offsetInCU: 0x8159, offset: 0x64550, size: 0x8, addend: 0x0, symName: '___115-[FWFWKNavigationDelegateFlutterApi didFinishNavigationForDelegateWithIdentifier:webViewIdentifier:URL:completion:]_block_invoke', symObjAddr: 0x7F94, symBinAddr: 0xD7E4, symSize: 0x154 }
+  - { offsetInCU: 0x81F8, offset: 0x645EF, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationDelegateFlutterApi didStartProvisionalNavigationForDelegateWithIdentifier:webViewIdentifier:URL:completion:]', symObjAddr: 0x80E8, symBinAddr: 0xD938, symSize: 0x1FC }
+  - { offsetInCU: 0x828F, offset: 0x64686, size: 0x8, addend: 0x0, symName: '___125-[FWFWKNavigationDelegateFlutterApi didStartProvisionalNavigationForDelegateWithIdentifier:webViewIdentifier:URL:completion:]_block_invoke', symObjAddr: 0x82E4, symBinAddr: 0xDB34, symSize: 0x154 }
+  - { offsetInCU: 0x832E, offset: 0x64725, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationDelegateFlutterApi decidePolicyForNavigationActionForDelegateWithIdentifier:webViewIdentifier:navigationAction:completion:]', symObjAddr: 0x8438, symBinAddr: 0xDC88, symSize: 0x1FC }
+  - { offsetInCU: 0x83C5, offset: 0x647BC, size: 0x8, addend: 0x0, symName: '___140-[FWFWKNavigationDelegateFlutterApi decidePolicyForNavigationActionForDelegateWithIdentifier:webViewIdentifier:navigationAction:completion:]_block_invoke', symObjAddr: 0x8634, symBinAddr: 0xDE84, symSize: 0x1C0 }
+  - { offsetInCU: 0x8461, offset: 0x64858, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationDelegateFlutterApi decidePolicyForNavigationResponseForDelegateWithIdentifier:webViewIdentifier:navigationResponse:completion:]', symObjAddr: 0x87F4, symBinAddr: 0xE044, symSize: 0x1FC }
+  - { offsetInCU: 0x84F8, offset: 0x648EF, size: 0x8, addend: 0x0, symName: '___144-[FWFWKNavigationDelegateFlutterApi decidePolicyForNavigationResponseForDelegateWithIdentifier:webViewIdentifier:navigationResponse:completion:]_block_invoke', symObjAddr: 0x89F0, symBinAddr: 0xE240, symSize: 0x210 }
+  - { offsetInCU: 0x85D4, offset: 0x649CB, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationDelegateFlutterApi didFailNavigationForDelegateWithIdentifier:webViewIdentifier:error:completion:]', symObjAddr: 0x8C00, symBinAddr: 0xE450, symSize: 0x1FC }
+  - { offsetInCU: 0x866B, offset: 0x64A62, size: 0x8, addend: 0x0, symName: '___115-[FWFWKNavigationDelegateFlutterApi didFailNavigationForDelegateWithIdentifier:webViewIdentifier:error:completion:]_block_invoke', symObjAddr: 0x8DFC, symBinAddr: 0xE64C, symSize: 0x154 }
+  - { offsetInCU: 0x870A, offset: 0x64B01, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationDelegateFlutterApi didFailProvisionalNavigationForDelegateWithIdentifier:webViewIdentifier:error:completion:]', symObjAddr: 0x8F50, symBinAddr: 0xE7A0, symSize: 0x1FC }
+  - { offsetInCU: 0x87A1, offset: 0x64B98, size: 0x8, addend: 0x0, symName: '___126-[FWFWKNavigationDelegateFlutterApi didFailProvisionalNavigationForDelegateWithIdentifier:webViewIdentifier:error:completion:]_block_invoke', symObjAddr: 0x914C, symBinAddr: 0xE99C, symSize: 0x154 }
+  - { offsetInCU: 0x8840, offset: 0x64C37, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationDelegateFlutterApi webViewWebContentProcessDidTerminateForDelegateWithIdentifier:webViewIdentifier:completion:]', symObjAddr: 0x92A0, symBinAddr: 0xEAF0, symSize: 0x1B4 }
+  - { offsetInCU: 0x88C6, offset: 0x64CBD, size: 0x8, addend: 0x0, symName: '___128-[FWFWKNavigationDelegateFlutterApi webViewWebContentProcessDidTerminateForDelegateWithIdentifier:webViewIdentifier:completion:]_block_invoke', symObjAddr: 0x9454, symBinAddr: 0xECA4, symSize: 0x154 }
+  - { offsetInCU: 0x8965, offset: 0x64D5C, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationDelegateFlutterApi didReceiveAuthenticationChallengeForDelegateWithIdentifier:webViewIdentifier:challengeIdentifier:completion:]', symObjAddr: 0x95A8, symBinAddr: 0xEDF8, symSize: 0x1DC }
+  - { offsetInCU: 0x89FC, offset: 0x64DF3, size: 0x8, addend: 0x0, symName: '___145-[FWFWKNavigationDelegateFlutterApi didReceiveAuthenticationChallengeForDelegateWithIdentifier:webViewIdentifier:challengeIdentifier:completion:]_block_invoke', symObjAddr: 0x9784, symBinAddr: 0xEFD4, symSize: 0x1C0 }
+  - { offsetInCU: 0x8A98, offset: 0x64E8F, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationDelegateFlutterApi binaryMessenger]', symObjAddr: 0x9944, symBinAddr: 0xF194, symSize: 0x8 }
+  - { offsetInCU: 0x8AD0, offset: 0x64EC7, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationDelegateFlutterApi setBinaryMessenger:]', symObjAddr: 0x994C, symBinAddr: 0xF19C, symSize: 0xC }
+  - { offsetInCU: 0x8B12, offset: 0x64F09, size: 0x8, addend: 0x0, symName: '-[FWFWKNavigationDelegateFlutterApi .cxx_destruct]', symObjAddr: 0x9958, symBinAddr: 0xF1A8, symSize: 0xC }
+  - { offsetInCU: 0x8B46, offset: 0x64F3D, size: 0x8, addend: 0x0, symName: '-[FWFNSObjectHostApiCodecReader readValueOfType:]', symObjAddr: 0x9964, symBinAddr: 0xF1B4, symSize: 0x90 }
+  - { offsetInCU: 0x8B8F, offset: 0x64F86, size: 0x8, addend: 0x0, symName: '-[FWFNSObjectHostApiCodecWriter writeValue:]', symObjAddr: 0x99F4, symBinAddr: 0xF244, symSize: 0xB4 }
+  - { offsetInCU: 0x8BD4, offset: 0x64FCB, size: 0x8, addend: 0x0, symName: '-[FWFNSObjectHostApiCodecReaderWriter writerWithData:]', symObjAddr: 0x9AA8, symBinAddr: 0xF2F8, symSize: 0x4C }
+  - { offsetInCU: 0x8C19, offset: 0x65010, size: 0x8, addend: 0x0, symName: '-[FWFNSObjectHostApiCodecReaderWriter readerWithData:]', symObjAddr: 0x9AF4, symBinAddr: 0xF344, symSize: 0x4C }
+  - { offsetInCU: 0x8C5E, offset: 0x65055, size: 0x8, addend: 0x0, symName: ___FWFNSObjectHostApiGetCodec_block_invoke, symObjAddr: 0x9B80, symBinAddr: 0xF3D0, symSize: 0x5C }
+  - { offsetInCU: 0x8CA7, offset: 0x6509E, size: 0x8, addend: 0x0, symName: _SetUpFWFNSObjectHostApi, symObjAddr: 0x9BDC, symBinAddr: 0xF42C, symSize: 0x234 }
+  - { offsetInCU: 0x8D6B, offset: 0x65162, size: 0x8, addend: 0x0, symName: ___SetUpFWFNSObjectHostApi_block_invoke, symObjAddr: 0x9E10, symBinAddr: 0xF660, symSize: 0xE0 }
+  - { offsetInCU: 0x8E5C, offset: 0x65253, size: 0x8, addend: 0x0, symName: ___SetUpFWFNSObjectHostApi_block_invoke_2, symObjAddr: 0x9EF0, symBinAddr: 0xF740, symSize: 0x15C }
+  - { offsetInCU: 0x8FD4, offset: 0x653CB, size: 0x8, addend: 0x0, symName: ___SetUpFWFNSObjectHostApi_block_invoke_3, symObjAddr: 0xA04C, symBinAddr: 0xF89C, symSize: 0x130 }
+  - { offsetInCU: 0x911F, offset: 0x65516, size: 0x8, addend: 0x0, symName: '-[FWFNSObjectFlutterApiCodecReader readValueOfType:]', symObjAddr: 0xA17C, symBinAddr: 0xF9CC, symSize: 0xA4 }
+  - { offsetInCU: 0x9168, offset: 0x6555F, size: 0x8, addend: 0x0, symName: '-[FWFNSObjectFlutterApiCodecWriter writeValue:]', symObjAddr: 0xA220, symBinAddr: 0xFA70, symSize: 0xDC }
+  - { offsetInCU: 0x91AD, offset: 0x655A4, size: 0x8, addend: 0x0, symName: '-[FWFNSObjectFlutterApiCodecReaderWriter writerWithData:]', symObjAddr: 0xA2FC, symBinAddr: 0xFB4C, symSize: 0x4C }
+  - { offsetInCU: 0x91F2, offset: 0x655E9, size: 0x8, addend: 0x0, symName: '-[FWFNSObjectFlutterApiCodecReaderWriter readerWithData:]', symObjAddr: 0xA348, symBinAddr: 0xFB98, symSize: 0x4C }
+  - { offsetInCU: 0x9237, offset: 0x6562E, size: 0x8, addend: 0x0, symName: ___FWFNSObjectFlutterApiGetCodec_block_invoke, symObjAddr: 0xA3D4, symBinAddr: 0xFC24, symSize: 0x5C }
+  - { offsetInCU: 0x9280, offset: 0x65677, size: 0x8, addend: 0x0, symName: '-[FWFNSObjectFlutterApi initWithBinaryMessenger:]', symObjAddr: 0xA430, symBinAddr: 0xFC80, symSize: 0x78 }
+  - { offsetInCU: 0x92C9, offset: 0x656C0, size: 0x8, addend: 0x0, symName: '-[FWFNSObjectFlutterApi observeValueForObjectWithIdentifier:keyPath:objectIdentifier:changeKeys:changeValues:completion:]', symObjAddr: 0xA4A8, symBinAddr: 0xFCF8, symSize: 0x29C }
+  - { offsetInCU: 0x9382, offset: 0x65779, size: 0x8, addend: 0x0, symName: '___121-[FWFNSObjectFlutterApi observeValueForObjectWithIdentifier:keyPath:objectIdentifier:changeKeys:changeValues:completion:]_block_invoke', symObjAddr: 0xA744, symBinAddr: 0xFF94, symSize: 0x154 }
+  - { offsetInCU: 0x9421, offset: 0x65818, size: 0x8, addend: 0x0, symName: '-[FWFNSObjectFlutterApi disposeObjectWithIdentifier:completion:]', symObjAddr: 0xA898, symBinAddr: 0x100E8, symSize: 0x184 }
+  - { offsetInCU: 0x9496, offset: 0x6588D, size: 0x8, addend: 0x0, symName: '___64-[FWFNSObjectFlutterApi disposeObjectWithIdentifier:completion:]_block_invoke', symObjAddr: 0xAA1C, symBinAddr: 0x1026C, symSize: 0x154 }
+  - { offsetInCU: 0x9535, offset: 0x6592C, size: 0x8, addend: 0x0, symName: '-[FWFNSObjectFlutterApi binaryMessenger]', symObjAddr: 0xAB70, symBinAddr: 0x103C0, symSize: 0x8 }
+  - { offsetInCU: 0x956D, offset: 0x65964, size: 0x8, addend: 0x0, symName: '-[FWFNSObjectFlutterApi setBinaryMessenger:]', symObjAddr: 0xAB78, symBinAddr: 0x103C8, symSize: 0xC }
+  - { offsetInCU: 0x95AF, offset: 0x659A6, size: 0x8, addend: 0x0, symName: '-[FWFNSObjectFlutterApi .cxx_destruct]', symObjAddr: 0xAB84, symBinAddr: 0x103D4, symSize: 0xC }
+  - { offsetInCU: 0x95E3, offset: 0x659DA, size: 0x8, addend: 0x0, symName: '-[FWFWKWebViewHostApiCodecReader readValueOfType:]', symObjAddr: 0xAB90, symBinAddr: 0x103E0, symSize: 0x19C }
+  - { offsetInCU: 0x962C, offset: 0x65A23, size: 0x8, addend: 0x0, symName: '-[FWFWKWebViewHostApiCodecWriter writeValue:]', symObjAddr: 0xAD2C, symBinAddr: 0x1057C, symSize: 0x3D4 }
+  - { offsetInCU: 0x9671, offset: 0x65A68, size: 0x8, addend: 0x0, symName: '-[FWFWKWebViewHostApiCodecReaderWriter writerWithData:]', symObjAddr: 0xB100, symBinAddr: 0x10950, symSize: 0x4C }
+  - { offsetInCU: 0x96B6, offset: 0x65AAD, size: 0x8, addend: 0x0, symName: '-[FWFWKWebViewHostApiCodecReaderWriter readerWithData:]', symObjAddr: 0xB14C, symBinAddr: 0x1099C, symSize: 0x4C }
+  - { offsetInCU: 0x96FB, offset: 0x65AF2, size: 0x8, addend: 0x0, symName: ___FWFWKWebViewHostApiGetCodec_block_invoke, symObjAddr: 0xB1D8, symBinAddr: 0x10A28, symSize: 0x5C }
+  - { offsetInCU: 0x9744, offset: 0x65B3B, size: 0x8, addend: 0x0, symName: _SetUpFWFWKWebViewHostApi, symObjAddr: 0xB234, symBinAddr: 0x10A84, symSize: 0xC1C }
+  - { offsetInCU: 0x9B16, offset: 0x65F0D, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKWebViewHostApi_block_invoke, symObjAddr: 0xBE50, symBinAddr: 0x116A0, symSize: 0x10C }
+  - { offsetInCU: 0x9C34, offset: 0x6602B, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKWebViewHostApi_block_invoke_2, symObjAddr: 0xBF5C, symBinAddr: 0x117AC, symSize: 0x104 }
+  - { offsetInCU: 0x9D52, offset: 0x66149, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKWebViewHostApi_block_invoke_3, symObjAddr: 0xC060, symBinAddr: 0x118B0, symSize: 0x104 }
+  - { offsetInCU: 0x9E70, offset: 0x66267, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKWebViewHostApi_block_invoke_4, symObjAddr: 0xC164, symBinAddr: 0x119B4, symSize: 0xF4 }
+  - { offsetInCU: 0x9F73, offset: 0x6636A, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKWebViewHostApi_block_invoke_5, symObjAddr: 0xC258, symBinAddr: 0x11AA8, symSize: 0xF4 }
+  - { offsetInCU: 0xA076, offset: 0x6646D, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKWebViewHostApi_block_invoke_6, symObjAddr: 0xC34C, symBinAddr: 0x11B9C, symSize: 0x104 }
+  - { offsetInCU: 0xA194, offset: 0x6658B, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKWebViewHostApi_block_invoke_7, symObjAddr: 0xC450, symBinAddr: 0x11CA0, symSize: 0x128 }
+  - { offsetInCU: 0xA2DF, offset: 0x666D6, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKWebViewHostApi_block_invoke_8, symObjAddr: 0xC578, symBinAddr: 0x11DC8, symSize: 0x128 }
+  - { offsetInCU: 0xA42A, offset: 0x66821, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKWebViewHostApi_block_invoke_9, symObjAddr: 0xC6A0, symBinAddr: 0x11EF0, symSize: 0x104 }
+  - { offsetInCU: 0xA548, offset: 0x6693F, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKWebViewHostApi_block_invoke_10, symObjAddr: 0xC7A4, symBinAddr: 0x11FF4, symSize: 0xF4 }
+  - { offsetInCU: 0xA64B, offset: 0x66A42, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKWebViewHostApi_block_invoke_11, symObjAddr: 0xC898, symBinAddr: 0x120E8, symSize: 0xF4 }
+  - { offsetInCU: 0xA74E, offset: 0x66B45, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKWebViewHostApi_block_invoke_12, symObjAddr: 0xC98C, symBinAddr: 0x121DC, symSize: 0xE0 }
+  - { offsetInCU: 0xA83F, offset: 0x66C36, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKWebViewHostApi_block_invoke_13, symObjAddr: 0xCA6C, symBinAddr: 0x122BC, symSize: 0xE0 }
+  - { offsetInCU: 0xA930, offset: 0x66D27, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKWebViewHostApi_block_invoke_14, symObjAddr: 0xCB4C, symBinAddr: 0x1239C, symSize: 0xE0 }
+  - { offsetInCU: 0xAA21, offset: 0x66E18, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKWebViewHostApi_block_invoke_15, symObjAddr: 0xCC2C, symBinAddr: 0x1247C, symSize: 0xF4 }
+  - { offsetInCU: 0xAB24, offset: 0x66F1B, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKWebViewHostApi_block_invoke_16, symObjAddr: 0xCD20, symBinAddr: 0x12570, symSize: 0x10C }
+  - { offsetInCU: 0xAC3E, offset: 0x67035, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKWebViewHostApi_block_invoke_17, symObjAddr: 0xCE2C, symBinAddr: 0x1267C, symSize: 0x104 }
+  - { offsetInCU: 0xAD5C, offset: 0x67153, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKWebViewHostApi_block_invoke_18, symObjAddr: 0xCF30, symBinAddr: 0x12780, symSize: 0x100 }
+  - { offsetInCU: 0xAE2B, offset: 0x67222, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKWebViewHostApi_block_invoke_19, symObjAddr: 0xD030, symBinAddr: 0x12880, symSize: 0x48 }
+  - { offsetInCU: 0xAEC5, offset: 0x672BC, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKWebViewHostApi_block_invoke.519, symObjAddr: 0xD078, symBinAddr: 0x128C8, symSize: 0x10C }
+  - { offsetInCU: 0xAFDF, offset: 0x673D6, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKWebViewHostApi_block_invoke_2.522, symObjAddr: 0xD184, symBinAddr: 0x129D4, symSize: 0xF4 }
+  - { offsetInCU: 0xB0E2, offset: 0x674D9, size: 0x8, addend: 0x0, symName: _SetUpFWFWKUIDelegateHostApi, symObjAddr: 0xD2BC, symBinAddr: 0x12B0C, symSize: 0x104 }
+  - { offsetInCU: 0xB14A, offset: 0x67541, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKUIDelegateHostApi_block_invoke, symObjAddr: 0xD3C0, symBinAddr: 0x12C10, symSize: 0xE0 }
+  - { offsetInCU: 0xB23B, offset: 0x67632, size: 0x8, addend: 0x0, symName: '-[FWFWKUIDelegateFlutterApiCodecReader readValueOfType:]', symObjAddr: 0xD4A0, symBinAddr: 0x12CF0, symSize: 0xE8 }
+  - { offsetInCU: 0xB284, offset: 0x6767B, size: 0x8, addend: 0x0, symName: '-[FWFWKUIDelegateFlutterApiCodecWriter writeValue:]', symObjAddr: 0xD588, symBinAddr: 0x12DD8, symSize: 0x17C }
+  - { offsetInCU: 0xB2C9, offset: 0x676C0, size: 0x8, addend: 0x0, symName: '-[FWFWKUIDelegateFlutterApiCodecReaderWriter writerWithData:]', symObjAddr: 0xD704, symBinAddr: 0x12F54, symSize: 0x4C }
+  - { offsetInCU: 0xB30E, offset: 0x67705, size: 0x8, addend: 0x0, symName: '-[FWFWKUIDelegateFlutterApiCodecReaderWriter readerWithData:]', symObjAddr: 0xD750, symBinAddr: 0x12FA0, symSize: 0x4C }
+  - { offsetInCU: 0xB353, offset: 0x6774A, size: 0x8, addend: 0x0, symName: ___FWFWKUIDelegateFlutterApiGetCodec_block_invoke, symObjAddr: 0xD7DC, symBinAddr: 0x1302C, symSize: 0x5C }
+  - { offsetInCU: 0xB39C, offset: 0x67793, size: 0x8, addend: 0x0, symName: '-[FWFWKUIDelegateFlutterApi initWithBinaryMessenger:]', symObjAddr: 0xD838, symBinAddr: 0x13088, symSize: 0x78 }
+  - { offsetInCU: 0xB3E5, offset: 0x677DC, size: 0x8, addend: 0x0, symName: '-[FWFWKUIDelegateFlutterApi onCreateWebViewForDelegateWithIdentifier:webViewIdentifier:configurationIdentifier:navigationAction:completion:]', symObjAddr: 0xD8B0, symBinAddr: 0x13100, symSize: 0x224 }
+  - { offsetInCU: 0xB48D, offset: 0x67884, size: 0x8, addend: 0x0, symName: '___140-[FWFWKUIDelegateFlutterApi onCreateWebViewForDelegateWithIdentifier:webViewIdentifier:configurationIdentifier:navigationAction:completion:]_block_invoke', symObjAddr: 0xDAD4, symBinAddr: 0x13324, symSize: 0x154 }
+  - { offsetInCU: 0xB52C, offset: 0x67923, size: 0x8, addend: 0x0, symName: '-[FWFWKUIDelegateFlutterApi requestMediaCapturePermissionForDelegateWithIdentifier:webViewIdentifier:origin:frame:type:completion:]', symObjAddr: 0xDC28, symBinAddr: 0x13478, symSize: 0x2A0 }
+  - { offsetInCU: 0xB5E5, offset: 0x679DC, size: 0x8, addend: 0x0, symName: '___131-[FWFWKUIDelegateFlutterApi requestMediaCapturePermissionForDelegateWithIdentifier:webViewIdentifier:origin:frame:type:completion:]_block_invoke', symObjAddr: 0xDEC8, symBinAddr: 0x13718, symSize: 0x1C0 }
+  - { offsetInCU: 0xB681, offset: 0x67A78, size: 0x8, addend: 0x0, symName: '-[FWFWKUIDelegateFlutterApi runJavaScriptAlertPanelForDelegateWithIdentifier:message:frame:completion:]', symObjAddr: 0xE088, symBinAddr: 0x138D8, symSize: 0x224 }
+  - { offsetInCU: 0xB718, offset: 0x67B0F, size: 0x8, addend: 0x0, symName: '___103-[FWFWKUIDelegateFlutterApi runJavaScriptAlertPanelForDelegateWithIdentifier:message:frame:completion:]_block_invoke', symObjAddr: 0xE2AC, symBinAddr: 0x13AFC, symSize: 0x154 }
+  - { offsetInCU: 0xB7B7, offset: 0x67BAE, size: 0x8, addend: 0x0, symName: '-[FWFWKUIDelegateFlutterApi runJavaScriptConfirmPanelForDelegateWithIdentifier:message:frame:completion:]', symObjAddr: 0xE400, symBinAddr: 0x13C50, symSize: 0x224 }
+  - { offsetInCU: 0xB84E, offset: 0x67C45, size: 0x8, addend: 0x0, symName: '___105-[FWFWKUIDelegateFlutterApi runJavaScriptConfirmPanelForDelegateWithIdentifier:message:frame:completion:]_block_invoke', symObjAddr: 0xE624, symBinAddr: 0x13E74, symSize: 0x1C0 }
+  - { offsetInCU: 0xB8EA, offset: 0x67CE1, size: 0x8, addend: 0x0, symName: '-[FWFWKUIDelegateFlutterApi runJavaScriptTextInputPanelForDelegateWithIdentifier:prompt:defaultText:frame:completion:]', symObjAddr: 0xE7E4, symBinAddr: 0x14034, symSize: 0x278 }
+  - { offsetInCU: 0xB992, offset: 0x67D89, size: 0x8, addend: 0x0, symName: '___118-[FWFWKUIDelegateFlutterApi runJavaScriptTextInputPanelForDelegateWithIdentifier:prompt:defaultText:frame:completion:]_block_invoke', symObjAddr: 0xEA5C, symBinAddr: 0x142AC, symSize: 0x1C0 }
+  - { offsetInCU: 0xBA2E, offset: 0x67E25, size: 0x8, addend: 0x0, symName: '-[FWFWKUIDelegateFlutterApi binaryMessenger]', symObjAddr: 0xEC1C, symBinAddr: 0x1446C, symSize: 0x8 }
+  - { offsetInCU: 0xBA66, offset: 0x67E5D, size: 0x8, addend: 0x0, symName: '-[FWFWKUIDelegateFlutterApi setBinaryMessenger:]', symObjAddr: 0xEC24, symBinAddr: 0x14474, symSize: 0xC }
+  - { offsetInCU: 0xBAA8, offset: 0x67E9F, size: 0x8, addend: 0x0, symName: '-[FWFWKUIDelegateFlutterApi .cxx_destruct]', symObjAddr: 0xEC30, symBinAddr: 0x14480, symSize: 0xC }
+  - { offsetInCU: 0xBADC, offset: 0x67ED3, size: 0x8, addend: 0x0, symName: '-[FWFWKHttpCookieStoreHostApiCodecReader readValueOfType:]', symObjAddr: 0xEC3C, symBinAddr: 0x1448C, symSize: 0xA4 }
+  - { offsetInCU: 0xBB25, offset: 0x67F1C, size: 0x8, addend: 0x0, symName: '-[FWFWKHttpCookieStoreHostApiCodecWriter writeValue:]', symObjAddr: 0xECE0, symBinAddr: 0x14530, symSize: 0xDC }
+  - { offsetInCU: 0xBB6A, offset: 0x67F61, size: 0x8, addend: 0x0, symName: '-[FWFWKHttpCookieStoreHostApiCodecReaderWriter writerWithData:]', symObjAddr: 0xEDBC, symBinAddr: 0x1460C, symSize: 0x4C }
+  - { offsetInCU: 0xBBAF, offset: 0x67FA6, size: 0x8, addend: 0x0, symName: '-[FWFWKHttpCookieStoreHostApiCodecReaderWriter readerWithData:]', symObjAddr: 0xEE08, symBinAddr: 0x14658, symSize: 0x4C }
+  - { offsetInCU: 0xBBF4, offset: 0x67FEB, size: 0x8, addend: 0x0, symName: ___FWFWKHttpCookieStoreHostApiGetCodec_block_invoke, symObjAddr: 0xEE94, symBinAddr: 0x146E4, symSize: 0x5C }
+  - { offsetInCU: 0xBC3D, offset: 0x68034, size: 0x8, addend: 0x0, symName: _SetUpFWFWKHttpCookieStoreHostApi, symObjAddr: 0xEEF0, symBinAddr: 0x14740, symSize: 0x1A0 }
+  - { offsetInCU: 0xBCD3, offset: 0x680CA, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKHttpCookieStoreHostApi_block_invoke, symObjAddr: 0xF090, symBinAddr: 0x148E0, symSize: 0x10C }
+  - { offsetInCU: 0xBDF1, offset: 0x681E8, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKHttpCookieStoreHostApi_block_invoke_2, symObjAddr: 0xF19C, symBinAddr: 0x149EC, symSize: 0x100 }
+  - { offsetInCU: 0xBEC0, offset: 0x682B7, size: 0x8, addend: 0x0, symName: ___SetUpFWFWKHttpCookieStoreHostApi_block_invoke_3, symObjAddr: 0xF29C, symBinAddr: 0x14AEC, symSize: 0x44 }
+  - { offsetInCU: 0xBF47, offset: 0x6833E, size: 0x8, addend: 0x0, symName: _SetUpFWFNSUrlHostApi, symObjAddr: 0xF324, symBinAddr: 0x14B74, symSize: 0x104 }
+  - { offsetInCU: 0xBFAF, offset: 0x683A6, size: 0x8, addend: 0x0, symName: ___SetUpFWFNSUrlHostApi_block_invoke, symObjAddr: 0xF428, symBinAddr: 0x14C78, symSize: 0xF4 }
+  - { offsetInCU: 0xC0B2, offset: 0x684A9, size: 0x8, addend: 0x0, symName: '-[FWFNSUrlFlutterApi initWithBinaryMessenger:]', symObjAddr: 0xF560, symBinAddr: 0x14DB0, symSize: 0x78 }
+  - { offsetInCU: 0xC0FB, offset: 0x684F2, size: 0x8, addend: 0x0, symName: '-[FWFNSUrlFlutterApi createWithIdentifier:completion:]', symObjAddr: 0xF5D8, symBinAddr: 0x14E28, symSize: 0x184 }
+  - { offsetInCU: 0xC170, offset: 0x68567, size: 0x8, addend: 0x0, symName: '___54-[FWFNSUrlFlutterApi createWithIdentifier:completion:]_block_invoke', symObjAddr: 0xF75C, symBinAddr: 0x14FAC, symSize: 0x154 }
+  - { offsetInCU: 0xC20F, offset: 0x68606, size: 0x8, addend: 0x0, symName: '-[FWFNSUrlFlutterApi binaryMessenger]', symObjAddr: 0xF8B0, symBinAddr: 0x15100, symSize: 0x8 }
+  - { offsetInCU: 0xC247, offset: 0x6863E, size: 0x8, addend: 0x0, symName: '-[FWFNSUrlFlutterApi setBinaryMessenger:]', symObjAddr: 0xF8B8, symBinAddr: 0x15108, symSize: 0xC }
+  - { offsetInCU: 0xC289, offset: 0x68680, size: 0x8, addend: 0x0, symName: '-[FWFNSUrlFlutterApi .cxx_destruct]', symObjAddr: 0xF8C4, symBinAddr: 0x15114, symSize: 0xC }
+  - { offsetInCU: 0xC2BD, offset: 0x686B4, size: 0x8, addend: 0x0, symName: _SetUpFWFUIScrollViewDelegateHostApi, symObjAddr: 0xF914, symBinAddr: 0x15164, symSize: 0x104 }
+  - { offsetInCU: 0xC325, offset: 0x6871C, size: 0x8, addend: 0x0, symName: ___SetUpFWFUIScrollViewDelegateHostApi_block_invoke, symObjAddr: 0xFA18, symBinAddr: 0x15268, symSize: 0xE0 }
+  - { offsetInCU: 0xC416, offset: 0x6880D, size: 0x8, addend: 0x0, symName: '-[FWFUIScrollViewDelegateFlutterApi initWithBinaryMessenger:]', symObjAddr: 0xFB3C, symBinAddr: 0x1538C, symSize: 0x78 }
+  - { offsetInCU: 0xC45F, offset: 0x68856, size: 0x8, addend: 0x0, symName: '-[FWFUIScrollViewDelegateFlutterApi scrollViewDidScrollWithIdentifier:UIScrollViewIdentifier:x:y:completion:]', symObjAddr: 0xFBB4, symBinAddr: 0x15404, symSize: 0x20C }
+  - { offsetInCU: 0xC507, offset: 0x688FE, size: 0x8, addend: 0x0, symName: '___109-[FWFUIScrollViewDelegateFlutterApi scrollViewDidScrollWithIdentifier:UIScrollViewIdentifier:x:y:completion:]_block_invoke', symObjAddr: 0xFDC0, symBinAddr: 0x15610, symSize: 0x154 }
+  - { offsetInCU: 0xC5A6, offset: 0x6899D, size: 0x8, addend: 0x0, symName: '-[FWFUIScrollViewDelegateFlutterApi binaryMessenger]', symObjAddr: 0xFF14, symBinAddr: 0x15764, symSize: 0x8 }
+  - { offsetInCU: 0xC5DE, offset: 0x689D5, size: 0x8, addend: 0x0, symName: '-[FWFUIScrollViewDelegateFlutterApi setBinaryMessenger:]', symObjAddr: 0xFF1C, symBinAddr: 0x1576C, symSize: 0xC }
+  - { offsetInCU: 0xC620, offset: 0x68A17, size: 0x8, addend: 0x0, symName: '-[FWFUIScrollViewDelegateFlutterApi .cxx_destruct]', symObjAddr: 0xFF28, symBinAddr: 0x15778, symSize: 0xC }
+  - { offsetInCU: 0xC654, offset: 0x68A4B, size: 0x8, addend: 0x0, symName: _SetUpFWFNSUrlCredentialHostApi, symObjAddr: 0xFF78, symBinAddr: 0x157C8, symSize: 0x104 }
+  - { offsetInCU: 0xC6BC, offset: 0x68AB3, size: 0x8, addend: 0x0, symName: ___SetUpFWFNSUrlCredentialHostApi_block_invoke, symObjAddr: 0x1007C, symBinAddr: 0x158CC, symSize: 0x15C }
+  - { offsetInCU: 0xC834, offset: 0x68C2B, size: 0x8, addend: 0x0, symName: '-[FWFNSUrlProtectionSpaceFlutterApi initWithBinaryMessenger:]', symObjAddr: 0x1021C, symBinAddr: 0x15A6C, symSize: 0x78 }
+  - { offsetInCU: 0xC87D, offset: 0x68C74, size: 0x8, addend: 0x0, symName: '-[FWFNSUrlProtectionSpaceFlutterApi createWithIdentifier:host:realm:authenticationMethod:completion:]', symObjAddr: 0x10294, symBinAddr: 0x15AE4, symSize: 0x278 }
+  - { offsetInCU: 0xC925, offset: 0x68D1C, size: 0x8, addend: 0x0, symName: '___101-[FWFNSUrlProtectionSpaceFlutterApi createWithIdentifier:host:realm:authenticationMethod:completion:]_block_invoke', symObjAddr: 0x1050C, symBinAddr: 0x15D5C, symSize: 0x154 }
+  - { offsetInCU: 0xC9C4, offset: 0x68DBB, size: 0x8, addend: 0x0, symName: '-[FWFNSUrlProtectionSpaceFlutterApi binaryMessenger]', symObjAddr: 0x10660, symBinAddr: 0x15EB0, symSize: 0x8 }
+  - { offsetInCU: 0xC9FC, offset: 0x68DF3, size: 0x8, addend: 0x0, symName: '-[FWFNSUrlProtectionSpaceFlutterApi setBinaryMessenger:]', symObjAddr: 0x10668, symBinAddr: 0x15EB8, symSize: 0xC }
+  - { offsetInCU: 0xCA3E, offset: 0x68E35, size: 0x8, addend: 0x0, symName: '-[FWFNSUrlProtectionSpaceFlutterApi .cxx_destruct]', symObjAddr: 0x10674, symBinAddr: 0x15EC4, symSize: 0xC }
+  - { offsetInCU: 0xCA72, offset: 0x68E69, size: 0x8, addend: 0x0, symName: '-[FWFNSUrlAuthenticationChallengeFlutterApi initWithBinaryMessenger:]', symObjAddr: 0x106C4, symBinAddr: 0x15F14, symSize: 0x78 }
+  - { offsetInCU: 0xCABB, offset: 0x68EB2, size: 0x8, addend: 0x0, symName: '-[FWFNSUrlAuthenticationChallengeFlutterApi createWithIdentifier:protectionSpaceIdentifier:completion:]', symObjAddr: 0x1073C, symBinAddr: 0x15F8C, symSize: 0x1B4 }
+  - { offsetInCU: 0xCB41, offset: 0x68F38, size: 0x8, addend: 0x0, symName: '___103-[FWFNSUrlAuthenticationChallengeFlutterApi createWithIdentifier:protectionSpaceIdentifier:completion:]_block_invoke', symObjAddr: 0x108F0, symBinAddr: 0x16140, symSize: 0x154 }
+  - { offsetInCU: 0xCBE0, offset: 0x68FD7, size: 0x8, addend: 0x0, symName: '-[FWFNSUrlAuthenticationChallengeFlutterApi binaryMessenger]', symObjAddr: 0x10A44, symBinAddr: 0x16294, symSize: 0x8 }
+  - { offsetInCU: 0xCC18, offset: 0x6900F, size: 0x8, addend: 0x0, symName: '-[FWFNSUrlAuthenticationChallengeFlutterApi setBinaryMessenger:]', symObjAddr: 0x10A4C, symBinAddr: 0x1629C, symSize: 0xC }
+  - { offsetInCU: 0xCC5A, offset: 0x69051, size: 0x8, addend: 0x0, symName: '-[FWFNSUrlAuthenticationChallengeFlutterApi .cxx_destruct]', symObjAddr: 0x10A58, symBinAddr: 0x162A8, symSize: 0xC }
+  - { offsetInCU: 0x27, offset: 0x6BA1C, size: 0x8, addend: 0x0, symName: '-[FWFHTTPCookieStoreHostApiImpl initWithInstanceManager:]', symObjAddr: 0x0, symBinAddr: 0x162B4, symSize: 0x50 }
+  - { offsetInCU: 0x126, offset: 0x6BB1B, size: 0x8, addend: 0x0, symName: '-[FWFHTTPCookieStoreHostApiImpl initWithInstanceManager:]', symObjAddr: 0x0, symBinAddr: 0x162B4, symSize: 0x50 }
+  - { offsetInCU: 0x16D, offset: 0x6BB62, size: 0x8, addend: 0x0, symName: '-[FWFHTTPCookieStoreHostApiImpl HTTPCookieStoreForIdentifier:]', symObjAddr: 0x50, symBinAddr: 0x16304, symSize: 0x4C }
+  - { offsetInCU: 0x1B4, offset: 0x6BBA9, size: 0x8, addend: 0x0, symName: '-[FWFHTTPCookieStoreHostApiImpl createFromWebsiteDataStoreWithIdentifier:dataStoreIdentifier:error:]', symObjAddr: 0x9C, symBinAddr: 0x16350, symSize: 0xA4 }
+  - { offsetInCU: 0x223, offset: 0x6BC18, size: 0x8, addend: 0x0, symName: '-[FWFHTTPCookieStoreHostApiImpl setCookieForStoreWithIdentifier:cookie:completion:]', symObjAddr: 0x140, symBinAddr: 0x163F4, symSize: 0xD8 }
+  - { offsetInCU: 0x2FB, offset: 0x6BCF0, size: 0x8, addend: 0x0, symName: '___83-[FWFHTTPCookieStoreHostApiImpl setCookieForStoreWithIdentifier:cookie:completion:]_block_invoke', symObjAddr: 0x218, symBinAddr: 0x164CC, symSize: 0x10 }
+  - { offsetInCU: 0x349, offset: 0x6BD3E, size: 0x8, addend: 0x0, symName: '-[FWFHTTPCookieStoreHostApiImpl instanceManager]', symObjAddr: 0x240, symBinAddr: 0x164DC, symSize: 0x18 }
+  - { offsetInCU: 0x380, offset: 0x6BD75, size: 0x8, addend: 0x0, symName: '-[FWFHTTPCookieStoreHostApiImpl setInstanceManager:]', symObjAddr: 0x258, symBinAddr: 0x164F4, symSize: 0xC }
+  - { offsetInCU: 0x3C1, offset: 0x6BDB6, size: 0x8, addend: 0x0, symName: '-[FWFHTTPCookieStoreHostApiImpl .cxx_destruct]', symObjAddr: 0x264, symBinAddr: 0x16500, symSize: 0x8 }
+  - { offsetInCU: 0x27, offset: 0x6BF7D, size: 0x8, addend: 0x0, symName: '-[FWFFinalizer initWithIdentifier:callback:]', symObjAddr: 0x0, symBinAddr: 0x16508, symSize: 0x60 }
+  - { offsetInCU: 0x276, offset: 0x6C1CC, size: 0x8, addend: 0x0, symName: '-[FWFFinalizer initWithIdentifier:callback:]', symObjAddr: 0x0, symBinAddr: 0x16508, symSize: 0x60 }
+  - { offsetInCU: 0x2CD, offset: 0x6C223, size: 0x8, addend: 0x0, symName: '+[FWFFinalizer attachToInstance:withIdentifier:callback:]', symObjAddr: 0x60, symBinAddr: 0x16568, symSize: 0x94 }
+  - { offsetInCU: 0x3B9, offset: 0x6C30F, size: 0x8, addend: 0x0, symName: '+[FWFFinalizer detachFromInstance:]', symObjAddr: 0xF4, symBinAddr: 0x165FC, symSize: 0x18 }
+  - { offsetInCU: 0x41B, offset: 0x6C371, size: 0x8, addend: 0x0, symName: '-[FWFFinalizer dealloc]', symObjAddr: 0x10C, symBinAddr: 0x16614, symSize: 0x80 }
+  - { offsetInCU: 0x45A, offset: 0x6C3B0, size: 0x8, addend: 0x0, symName: '-[FWFFinalizer .cxx_destruct]', symObjAddr: 0x18C, symBinAddr: 0x16694, symSize: 0x8 }
+  - { offsetInCU: 0x48D, offset: 0x6C3E3, size: 0x8, addend: 0x0, symName: '-[FWFInstanceManager init]', symObjAddr: 0x194, symBinAddr: 0x1669C, symSize: 0x114 }
+  - { offsetInCU: 0x4FB, offset: 0x6C451, size: 0x8, addend: 0x0, symName: '___26-[FWFInstanceManager init]_block_invoke', symObjAddr: 0x2A8, symBinAddr: 0x167B0, symSize: 0x4 }
+  - { offsetInCU: 0x52E, offset: 0x6C484, size: 0x8, addend: 0x0, symName: '-[FWFInstanceManager initWithDeallocCallback:]', symObjAddr: 0x2AC, symBinAddr: 0x167B4, symSize: 0x5C }
+  - { offsetInCU: 0x575, offset: 0x6C4CB, size: 0x8, addend: 0x0, symName: '-[FWFInstanceManager addDartCreatedInstance:withIdentifier:]', symObjAddr: 0x308, symBinAddr: 0x16810, symSize: 0x94 }
+  - { offsetInCU: 0x5FE, offset: 0x6C554, size: 0x8, addend: 0x0, symName: '___60-[FWFInstanceManager addDartCreatedInstance:withIdentifier:]_block_invoke', symObjAddr: 0x39C, symBinAddr: 0x168A4, symSize: 0x10 }
+  - { offsetInCU: 0x65D, offset: 0x6C5B3, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40s, symObjAddr: 0x3AC, symBinAddr: 0x168B4, symSize: 0x28 }
+  - { offsetInCU: 0x686, offset: 0x6C5DC, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s40s, symObjAddr: 0x3D4, symBinAddr: 0x168DC, symSize: 0x28 }
+  - { offsetInCU: 0x6A5, offset: 0x6C5FB, size: 0x8, addend: 0x0, symName: '-[FWFInstanceManager addHostCreatedInstance:]', symObjAddr: 0x3FC, symBinAddr: 0x16904, symSize: 0xBC }
+  - { offsetInCU: 0x731, offset: 0x6C687, size: 0x8, addend: 0x0, symName: '___45-[FWFInstanceManager addHostCreatedInstance:]_block_invoke', symObjAddr: 0x4B8, symBinAddr: 0x169C0, symSize: 0x5C }
+  - { offsetInCU: 0x790, offset: 0x6C6E6, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40s48r, symObjAddr: 0x514, symBinAddr: 0x16A1C, symSize: 0x3C }
+  - { offsetInCU: 0x7B9, offset: 0x6C70F, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s40s48r, symObjAddr: 0x550, symBinAddr: 0x16A58, symSize: 0x34 }
+  - { offsetInCU: 0x7D8, offset: 0x6C72E, size: 0x8, addend: 0x0, symName: '-[FWFInstanceManager removeInstanceWithIdentifier:]', symObjAddr: 0x584, symBinAddr: 0x16A8C, symSize: 0xB8 }
+  - { offsetInCU: 0x84A, offset: 0x6C7A0, size: 0x8, addend: 0x0, symName: ___Block_byref_object_copy_, symObjAddr: 0x63C, symBinAddr: 0x16B44, symSize: 0x10 }
+  - { offsetInCU: 0x86F, offset: 0x6C7C5, size: 0x8, addend: 0x0, symName: ___Block_byref_object_dispose_, symObjAddr: 0x64C, symBinAddr: 0x16B54, symSize: 0x8 }
+  - { offsetInCU: 0x88E, offset: 0x6C7E4, size: 0x8, addend: 0x0, symName: '___51-[FWFInstanceManager removeInstanceWithIdentifier:]_block_invoke', symObjAddr: 0x654, symBinAddr: 0x16B5C, symSize: 0xF4 }
+  - { offsetInCU: 0x8ED, offset: 0x6C843, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40r, symObjAddr: 0x748, symBinAddr: 0x16C50, symSize: 0x34 }
+  - { offsetInCU: 0x916, offset: 0x6C86C, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s40r, symObjAddr: 0x77C, symBinAddr: 0x16C84, symSize: 0x2C }
+  - { offsetInCU: 0x935, offset: 0x6C88B, size: 0x8, addend: 0x0, symName: '-[FWFInstanceManager instanceForIdentifier:]', symObjAddr: 0x7A8, symBinAddr: 0x16CB0, symSize: 0xB8 }
+  - { offsetInCU: 0x9A7, offset: 0x6C8FD, size: 0x8, addend: 0x0, symName: '___44-[FWFInstanceManager instanceForIdentifier:]_block_invoke', symObjAddr: 0x860, symBinAddr: 0x16D68, symSize: 0x8C }
+  - { offsetInCU: 0xA06, offset: 0x6C95C, size: 0x8, addend: 0x0, symName: '-[FWFInstanceManager addInstance:withIdentifier:]', symObjAddr: 0x8EC, symBinAddr: 0x16DF4, symSize: 0x160 }
+  - { offsetInCU: 0xA59, offset: 0x6C9AF, size: 0x8, addend: 0x0, symName: '-[FWFInstanceManager identifierWithStrongReferenceForInstance:]', symObjAddr: 0xA4C, symBinAddr: 0x16F54, symSize: 0x104 }
+  - { offsetInCU: 0xAD2, offset: 0x6CA28, size: 0x8, addend: 0x0, symName: '___63-[FWFInstanceManager identifierWithStrongReferenceForInstance:]_block_invoke', symObjAddr: 0xB50, symBinAddr: 0x17058, symSize: 0xA4 }
+  - { offsetInCU: 0xB31, offset: 0x6CA87, size: 0x8, addend: 0x0, symName: '-[FWFInstanceManager containsInstance:]', symObjAddr: 0xBF4, symBinAddr: 0x170FC, symSize: 0xB4 }
+  - { offsetInCU: 0xBA9, offset: 0x6CAFF, size: 0x8, addend: 0x0, symName: '___39-[FWFInstanceManager containsInstance:]_block_invoke', symObjAddr: 0xCA8, symBinAddr: 0x171B0, symSize: 0x5C }
+  - { offsetInCU: 0xC08, offset: 0x6CB5E, size: 0x8, addend: 0x0, symName: '-[FWFInstanceManager strongInstanceCount]', symObjAddr: 0xD04, symBinAddr: 0x1720C, symSize: 0x94 }
+  - { offsetInCU: 0xC69, offset: 0x6CBBF, size: 0x8, addend: 0x0, symName: '___41-[FWFInstanceManager strongInstanceCount]_block_invoke', symObjAddr: 0xD98, symBinAddr: 0x172A0, symSize: 0x44 }
+  - { offsetInCU: 0xCB8, offset: 0x6CC0E, size: 0x8, addend: 0x0, symName: '-[FWFInstanceManager weakInstanceCount]', symObjAddr: 0xDDC, symBinAddr: 0x172E4, symSize: 0x94 }
+  - { offsetInCU: 0xD19, offset: 0x6CC6F, size: 0x8, addend: 0x0, symName: '___39-[FWFInstanceManager weakInstanceCount]_block_invoke', symObjAddr: 0xE70, symBinAddr: 0x17378, symSize: 0x44 }
+  - { offsetInCU: 0xD68, offset: 0x6CCBE, size: 0x8, addend: 0x0, symName: '-[FWFInstanceManager deallocCallback]', symObjAddr: 0xEB4, symBinAddr: 0x173BC, symSize: 0xC }
+  - { offsetInCU: 0xD9F, offset: 0x6CCF5, size: 0x8, addend: 0x0, symName: '-[FWFInstanceManager lockQueue]', symObjAddr: 0xEC0, symBinAddr: 0x173C8, symSize: 0xC }
+  - { offsetInCU: 0xDD6, offset: 0x6CD2C, size: 0x8, addend: 0x0, symName: '-[FWFInstanceManager setLockQueue:]', symObjAddr: 0xECC, symBinAddr: 0x173D4, symSize: 0x8 }
+  - { offsetInCU: 0xE15, offset: 0x6CD6B, size: 0x8, addend: 0x0, symName: '-[FWFInstanceManager identifiers]', symObjAddr: 0xED4, symBinAddr: 0x173DC, symSize: 0xC }
+  - { offsetInCU: 0xE4C, offset: 0x6CDA2, size: 0x8, addend: 0x0, symName: '-[FWFInstanceManager setIdentifiers:]', symObjAddr: 0xEE0, symBinAddr: 0x173E8, symSize: 0x8 }
+  - { offsetInCU: 0xE8B, offset: 0x6CDE1, size: 0x8, addend: 0x0, symName: '-[FWFInstanceManager weakInstances]', symObjAddr: 0xEE8, symBinAddr: 0x173F0, symSize: 0xC }
+  - { offsetInCU: 0xEC2, offset: 0x6CE18, size: 0x8, addend: 0x0, symName: '-[FWFInstanceManager setWeakInstances:]', symObjAddr: 0xEF4, symBinAddr: 0x173FC, symSize: 0x8 }
+  - { offsetInCU: 0xF01, offset: 0x6CE57, size: 0x8, addend: 0x0, symName: '-[FWFInstanceManager strongInstances]', symObjAddr: 0xEFC, symBinAddr: 0x17404, symSize: 0xC }
+  - { offsetInCU: 0xF38, offset: 0x6CE8E, size: 0x8, addend: 0x0, symName: '-[FWFInstanceManager setStrongInstances:]', symObjAddr: 0xF08, symBinAddr: 0x17410, symSize: 0x8 }
+  - { offsetInCU: 0xF77, offset: 0x6CECD, size: 0x8, addend: 0x0, symName: '-[FWFInstanceManager nextIdentifier]', symObjAddr: 0xF10, symBinAddr: 0x17418, symSize: 0x8 }
+  - { offsetInCU: 0xFAE, offset: 0x6CF04, size: 0x8, addend: 0x0, symName: '-[FWFInstanceManager setNextIdentifier:]', symObjAddr: 0xF18, symBinAddr: 0x17420, symSize: 0x8 }
+  - { offsetInCU: 0xFEB, offset: 0x6CF41, size: 0x8, addend: 0x0, symName: '-[FWFInstanceManager .cxx_destruct]', symObjAddr: 0xF20, symBinAddr: 0x17428, symSize: 0x54 }
+  - { offsetInCU: 0x27, offset: 0x6D583, size: 0x8, addend: 0x0, symName: '-[FWFNavigationDelegateFlutterApiImpl initWithBinaryMessenger:instanceManager:]', symObjAddr: 0x0, symBinAddr: 0x1747C, symSize: 0x90 }
+  - { offsetInCU: 0x2D3, offset: 0x6D82F, size: 0x8, addend: 0x0, symName: '-[FWFNavigationDelegateFlutterApiImpl initWithBinaryMessenger:instanceManager:]', symObjAddr: 0x0, symBinAddr: 0x1747C, symSize: 0x90 }
+  - { offsetInCU: 0x32A, offset: 0x6D886, size: 0x8, addend: 0x0, symName: '-[FWFNavigationDelegateFlutterApiImpl identifierForDelegate:]', symObjAddr: 0x90, symBinAddr: 0x1750C, symSize: 0x64 }
+  - { offsetInCU: 0x371, offset: 0x6D8CD, size: 0x8, addend: 0x0, symName: '-[FWFNavigationDelegateFlutterApiImpl didFinishNavigationForDelegate:webView:URL:completion:]', symObjAddr: 0xF4, symBinAddr: 0x17570, symSize: 0xDC }
+  - { offsetInCU: 0x3F4, offset: 0x6D950, size: 0x8, addend: 0x0, symName: '-[FWFNavigationDelegateFlutterApiImpl didStartProvisionalNavigationForDelegate:webView:URL:completion:]', symObjAddr: 0x1D0, symBinAddr: 0x1764C, symSize: 0xDC }
+  - { offsetInCU: 0x477, offset: 0x6D9D3, size: 0x8, addend: 0x0, symName: '-[FWFNavigationDelegateFlutterApiImpl decidePolicyForNavigationActionForDelegate:webView:navigationAction:completion:]', symObjAddr: 0x2AC, symBinAddr: 0x17728, symSize: 0xF8 }
+  - { offsetInCU: 0x622, offset: 0x6DB7E, size: 0x8, addend: 0x0, symName: '-[FWFNavigationDelegateFlutterApiImpl decidePolicyForNavigationResponseForDelegate:webView:navigationResponse:completion:]', symObjAddr: 0x3A4, symBinAddr: 0x17820, symSize: 0xF8 }
+  - { offsetInCU: 0x73D, offset: 0x6DC99, size: 0x8, addend: 0x0, symName: '-[FWFNavigationDelegateFlutterApiImpl didFailNavigationForDelegate:webView:error:completion:]', symObjAddr: 0x49C, symBinAddr: 0x17918, symSize: 0xF8 }
+  - { offsetInCU: 0x830, offset: 0x6DD8C, size: 0x8, addend: 0x0, symName: '-[FWFNavigationDelegateFlutterApiImpl didFailProvisionalNavigationForDelegate:webView:error:completion:]', symObjAddr: 0x594, symBinAddr: 0x17A10, symSize: 0xF8 }
+  - { offsetInCU: 0x8C9, offset: 0x6DE25, size: 0x8, addend: 0x0, symName: '-[FWFNavigationDelegateFlutterApiImpl webViewWebContentProcessDidTerminateForDelegate:webView:completion:]', symObjAddr: 0x68C, symBinAddr: 0x17B08, symSize: 0xB8 }
+  - { offsetInCU: 0x93C, offset: 0x6DE98, size: 0x8, addend: 0x0, symName: '-[FWFNavigationDelegateFlutterApiImpl didReceiveAuthenticationChallengeForDelegate:webView:challenge:completion:]', symObjAddr: 0x744, symBinAddr: 0x17BC0, symSize: 0x19C }
+  - { offsetInCU: 0x9CF, offset: 0x6DF2B, size: 0x8, addend: 0x0, symName: '___113-[FWFNavigationDelegateFlutterApiImpl didReceiveAuthenticationChallengeForDelegate:webView:challenge:completion:]_block_invoke', symObjAddr: 0x8E0, symBinAddr: 0x17D5C, symSize: 0x4 }
+  - { offsetInCU: 0xA02, offset: 0x6DF5E, size: 0x8, addend: 0x0, symName: '-[FWFNavigationDelegateFlutterApiImpl binaryMessenger]', symObjAddr: 0x8E4, symBinAddr: 0x17D60, symSize: 0x20 }
+  - { offsetInCU: 0xA39, offset: 0x6DF95, size: 0x8, addend: 0x0, symName: '-[FWFNavigationDelegateFlutterApiImpl setBinaryMessenger:]', symObjAddr: 0x904, symBinAddr: 0x17D80, symSize: 0x14 }
+  - { offsetInCU: 0xA7A, offset: 0x6DFD6, size: 0x8, addend: 0x0, symName: '-[FWFNavigationDelegateFlutterApiImpl instanceManager]', symObjAddr: 0x918, symBinAddr: 0x17D94, symSize: 0x20 }
+  - { offsetInCU: 0xAB1, offset: 0x6E00D, size: 0x8, addend: 0x0, symName: '-[FWFNavigationDelegateFlutterApiImpl setInstanceManager:]', symObjAddr: 0x938, symBinAddr: 0x17DB4, symSize: 0x14 }
+  - { offsetInCU: 0xAF2, offset: 0x6E04E, size: 0x8, addend: 0x0, symName: '-[FWFNavigationDelegateFlutterApiImpl .cxx_destruct]', symObjAddr: 0x94C, symBinAddr: 0x17DC8, symSize: 0x38 }
+  - { offsetInCU: 0xB25, offset: 0x6E081, size: 0x8, addend: 0x0, symName: '-[FWFNavigationDelegate initWithBinaryMessenger:instanceManager:]', symObjAddr: 0x984, symBinAddr: 0x17E00, symSize: 0xB8 }
+  - { offsetInCU: 0xB7C, offset: 0x6E0D8, size: 0x8, addend: 0x0, symName: '-[FWFNavigationDelegate webView:didFinishNavigation:]', symObjAddr: 0xA3C, symBinAddr: 0x17EB8, symSize: 0xA8 }
+  - { offsetInCU: 0xBCB, offset: 0x6E127, size: 0x8, addend: 0x0, symName: '___53-[FWFNavigationDelegate webView:didFinishNavigation:]_block_invoke', symObjAddr: 0xAE4, symBinAddr: 0x17F60, symSize: 0x4 }
+  - { offsetInCU: 0xBFE, offset: 0x6E15A, size: 0x8, addend: 0x0, symName: '-[FWFNavigationDelegate webView:didStartProvisionalNavigation:]', symObjAddr: 0xAE8, symBinAddr: 0x17F64, symSize: 0xA8 }
+  - { offsetInCU: 0xC4D, offset: 0x6E1A9, size: 0x8, addend: 0x0, symName: '___63-[FWFNavigationDelegate webView:didStartProvisionalNavigation:]_block_invoke', symObjAddr: 0xB90, symBinAddr: 0x1800C, symSize: 0x4 }
+  - { offsetInCU: 0xC80, offset: 0x6E1DC, size: 0x8, addend: 0x0, symName: '-[FWFNavigationDelegate webView:decidePolicyForNavigationAction:decisionHandler:]', symObjAddr: 0xB94, symBinAddr: 0x18010, symSize: 0xF0 }
+  - { offsetInCU: 0xCE3, offset: 0x6E23F, size: 0x8, addend: 0x0, symName: '___81-[FWFNavigationDelegate webView:decidePolicyForNavigationAction:decisionHandler:]_block_invoke', symObjAddr: 0xC84, symBinAddr: 0x18100, symSize: 0x3C }
+  - { offsetInCU: 0xDA3, offset: 0x6E2FF, size: 0x8, addend: 0x0, symName: '-[FWFNavigationDelegate webView:decidePolicyForNavigationResponse:decisionHandler:]', symObjAddr: 0xCD8, symBinAddr: 0x1813C, symSize: 0xF0 }
+  - { offsetInCU: 0xE06, offset: 0x6E362, size: 0x8, addend: 0x0, symName: '___83-[FWFNavigationDelegate webView:decidePolicyForNavigationResponse:decisionHandler:]_block_invoke', symObjAddr: 0xDC8, symBinAddr: 0x1822C, symSize: 0x40 }
+  - { offsetInCU: 0xEA0, offset: 0x6E3FC, size: 0x8, addend: 0x0, symName: '-[FWFNavigationDelegate webView:didFailNavigation:withError:]', symObjAddr: 0xE08, symBinAddr: 0x1826C, symSize: 0x80 }
+  - { offsetInCU: 0xEFF, offset: 0x6E45B, size: 0x8, addend: 0x0, symName: '___61-[FWFNavigationDelegate webView:didFailNavigation:withError:]_block_invoke', symObjAddr: 0xE88, symBinAddr: 0x182EC, symSize: 0x4 }
+  - { offsetInCU: 0xF32, offset: 0x6E48E, size: 0x8, addend: 0x0, symName: '-[FWFNavigationDelegate webView:didFailProvisionalNavigation:withError:]', symObjAddr: 0xE8C, symBinAddr: 0x182F0, symSize: 0x80 }
+  - { offsetInCU: 0xF91, offset: 0x6E4ED, size: 0x8, addend: 0x0, symName: '___72-[FWFNavigationDelegate webView:didFailProvisionalNavigation:withError:]_block_invoke', symObjAddr: 0xF0C, symBinAddr: 0x18370, symSize: 0x4 }
+  - { offsetInCU: 0xFC4, offset: 0x6E520, size: 0x8, addend: 0x0, symName: '-[FWFNavigationDelegate webViewWebContentProcessDidTerminate:]', symObjAddr: 0xF10, symBinAddr: 0x18374, symSize: 0x64 }
+  - { offsetInCU: 0x1007, offset: 0x6E563, size: 0x8, addend: 0x0, symName: '___62-[FWFNavigationDelegate webViewWebContentProcessDidTerminate:]_block_invoke', symObjAddr: 0xF74, symBinAddr: 0x183D8, symSize: 0x4 }
+  - { offsetInCU: 0x103D, offset: 0x6E599, size: 0x8, addend: 0x0, symName: '-[FWFNavigationDelegate webView:didReceiveAuthenticationChallenge:completionHandler:]', symObjAddr: 0xF78, symBinAddr: 0x183DC, symSize: 0xF0 }
+  - { offsetInCU: 0x10A4, offset: 0x6E600, size: 0x8, addend: 0x0, symName: '___85-[FWFNavigationDelegate webView:didReceiveAuthenticationChallenge:completionHandler:]_block_invoke', symObjAddr: 0x1068, symBinAddr: 0x184CC, symSize: 0x124 }
+  - { offsetInCU: 0x11AA, offset: 0x6E706, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40b, symObjAddr: 0x118C, symBinAddr: 0x185F0, symSize: 0x34 }
+  - { offsetInCU: 0x11D3, offset: 0x6E72F, size: 0x8, addend: 0x0, symName: '-[FWFNavigationDelegate navigationDelegateAPI]', symObjAddr: 0x11E8, symBinAddr: 0x18624, symSize: 0x10 }
+  - { offsetInCU: 0x120A, offset: 0x6E766, size: 0x8, addend: 0x0, symName: '-[FWFNavigationDelegate .cxx_destruct]', symObjAddr: 0x11F8, symBinAddr: 0x18634, symSize: 0x14 }
+  - { offsetInCU: 0x123D, offset: 0x6E799, size: 0x8, addend: 0x0, symName: '-[FWFNavigationDelegateHostApiImpl initWithBinaryMessenger:instanceManager:]', symObjAddr: 0x120C, symBinAddr: 0x18648, symSize: 0x7C }
+  - { offsetInCU: 0x1297, offset: 0x6E7F3, size: 0x8, addend: 0x0, symName: '-[FWFNavigationDelegateHostApiImpl navigationDelegateForIdentifier:]', symObjAddr: 0x1288, symBinAddr: 0x186C4, symSize: 0x4C }
+  - { offsetInCU: 0x12E0, offset: 0x6E83C, size: 0x8, addend: 0x0, symName: '-[FWFNavigationDelegateHostApiImpl createWithIdentifier:error:]', symObjAddr: 0x12D4, symBinAddr: 0x18710, symSize: 0xB8 }
+  - { offsetInCU: 0x1343, offset: 0x6E89F, size: 0x8, addend: 0x0, symName: '-[FWFNavigationDelegateHostApiImpl binaryMessenger]', symObjAddr: 0x138C, symBinAddr: 0x187C8, symSize: 0x18 }
+  - { offsetInCU: 0x137B, offset: 0x6E8D7, size: 0x8, addend: 0x0, symName: '-[FWFNavigationDelegateHostApiImpl setBinaryMessenger:]', symObjAddr: 0x13A4, symBinAddr: 0x187E0, symSize: 0xC }
+  - { offsetInCU: 0x13BD, offset: 0x6E919, size: 0x8, addend: 0x0, symName: '-[FWFNavigationDelegateHostApiImpl instanceManager]', symObjAddr: 0x13B0, symBinAddr: 0x187EC, symSize: 0x18 }
+  - { offsetInCU: 0x13F5, offset: 0x6E951, size: 0x8, addend: 0x0, symName: '-[FWFNavigationDelegateHostApiImpl setInstanceManager:]', symObjAddr: 0x13C8, symBinAddr: 0x18804, symSize: 0xC }
+  - { offsetInCU: 0x1437, offset: 0x6E993, size: 0x8, addend: 0x0, symName: '-[FWFNavigationDelegateHostApiImpl .cxx_destruct]', symObjAddr: 0x13D4, symBinAddr: 0x18810, symSize: 0x28 }
+  - { offsetInCU: 0x27, offset: 0x6F075, size: 0x8, addend: 0x0, symName: '-[FWFObjectFlutterApiImpl initWithBinaryMessenger:instanceManager:]', symObjAddr: 0x0, symBinAddr: 0x18838, symSize: 0x90 }
+  - { offsetInCU: 0x234, offset: 0x6F282, size: 0x8, addend: 0x0, symName: '-[FWFObjectFlutterApiImpl initWithBinaryMessenger:instanceManager:]', symObjAddr: 0x0, symBinAddr: 0x18838, symSize: 0x90 }
+  - { offsetInCU: 0x28B, offset: 0x6F2D9, size: 0x8, addend: 0x0, symName: '-[FWFObjectFlutterApiImpl identifierForObject:]', symObjAddr: 0x90, symBinAddr: 0x188C8, symSize: 0x64 }
+  - { offsetInCU: 0x2D2, offset: 0x6F320, size: 0x8, addend: 0x0, symName: '-[FWFObjectFlutterApiImpl observeValueForObject:keyPath:object:change:completion:]', symObjAddr: 0xF4, symBinAddr: 0x1892C, symSize: 0x1AC }
+  - { offsetInCU: 0x385, offset: 0x6F3D3, size: 0x8, addend: 0x0, symName: '___82-[FWFObjectFlutterApiImpl observeValueForObject:keyPath:object:change:completion:]_block_invoke', symObjAddr: 0x2A0, symBinAddr: 0x18AD8, symSize: 0x1C8 }
+  - { offsetInCU: 0x4E9, offset: 0x6F537, size: 0x8, addend: 0x0, symName: '___82-[FWFObjectFlutterApiImpl observeValueForObject:keyPath:object:change:completion:]_block_invoke_2', symObjAddr: 0x468, symBinAddr: 0x18CA0, symSize: 0x4 }
+  - { offsetInCU: 0x51C, offset: 0x6F56A, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40s48s, symObjAddr: 0x46C, symBinAddr: 0x18CA4, symSize: 0x30 }
+  - { offsetInCU: 0x545, offset: 0x6F593, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s40s48s, symObjAddr: 0x49C, symBinAddr: 0x18CD4, symSize: 0x30 }
+  - { offsetInCU: 0x564, offset: 0x6F5B2, size: 0x8, addend: 0x0, symName: '-[FWFObjectFlutterApiImpl binaryMessenger]', symObjAddr: 0x4CC, symBinAddr: 0x18D04, symSize: 0x20 }
+  - { offsetInCU: 0x59B, offset: 0x6F5E9, size: 0x8, addend: 0x0, symName: '-[FWFObjectFlutterApiImpl setBinaryMessenger:]', symObjAddr: 0x4EC, symBinAddr: 0x18D24, symSize: 0x14 }
+  - { offsetInCU: 0x5DC, offset: 0x6F62A, size: 0x8, addend: 0x0, symName: '-[FWFObjectFlutterApiImpl instanceManager]', symObjAddr: 0x500, symBinAddr: 0x18D38, symSize: 0x20 }
+  - { offsetInCU: 0x613, offset: 0x6F661, size: 0x8, addend: 0x0, symName: '-[FWFObjectFlutterApiImpl setInstanceManager:]', symObjAddr: 0x520, symBinAddr: 0x18D58, symSize: 0x14 }
+  - { offsetInCU: 0x654, offset: 0x6F6A2, size: 0x8, addend: 0x0, symName: '-[FWFObjectFlutterApiImpl .cxx_destruct]', symObjAddr: 0x534, symBinAddr: 0x18D6C, symSize: 0x38 }
+  - { offsetInCU: 0x687, offset: 0x6F6D5, size: 0x8, addend: 0x0, symName: '-[FWFObject initWithBinaryMessenger:instanceManager:]', symObjAddr: 0x56C, symBinAddr: 0x18DA4, symSize: 0x8C }
+  - { offsetInCU: 0x6DE, offset: 0x6F72C, size: 0x8, addend: 0x0, symName: '-[FWFObject observeValueForKeyPath:ofObject:change:context:]', symObjAddr: 0x5F8, symBinAddr: 0x18E30, symSize: 0xA4 }
+  - { offsetInCU: 0x74D, offset: 0x6F79B, size: 0x8, addend: 0x0, symName: '___60-[FWFObject observeValueForKeyPath:ofObject:change:context:]_block_invoke', symObjAddr: 0x69C, symBinAddr: 0x18ED4, symSize: 0x4 }
+  - { offsetInCU: 0x780, offset: 0x6F7CE, size: 0x8, addend: 0x0, symName: '-[FWFObject objectApi]', symObjAddr: 0x6A0, symBinAddr: 0x18ED8, symSize: 0x8 }
+  - { offsetInCU: 0x7B7, offset: 0x6F805, size: 0x8, addend: 0x0, symName: '-[FWFObject .cxx_destruct]', symObjAddr: 0x6A8, symBinAddr: 0x18EE0, symSize: 0xC }
+  - { offsetInCU: 0x7EA, offset: 0x6F838, size: 0x8, addend: 0x0, symName: '-[FWFObjectHostApiImpl initWithInstanceManager:]', symObjAddr: 0x6B4, symBinAddr: 0x18EEC, symSize: 0x50 }
+  - { offsetInCU: 0x831, offset: 0x6F87F, size: 0x8, addend: 0x0, symName: '-[FWFObjectHostApiImpl objectForIdentifier:]', symObjAddr: 0x704, symBinAddr: 0x18F3C, symSize: 0x4C }
+  - { offsetInCU: 0x878, offset: 0x6F8C6, size: 0x8, addend: 0x0, symName: '-[FWFObjectHostApiImpl addObserverForObjectWithIdentifier:observerIdentifier:keyPath:options:error:]', symObjAddr: 0x750, symBinAddr: 0x18F88, symSize: 0x188 }
+  - { offsetInCU: 0x977, offset: 0x6F9C5, size: 0x8, addend: 0x0, symName: '-[FWFObjectHostApiImpl removeObserverForObjectWithIdentifier:observerIdentifier:keyPath:error:]', symObjAddr: 0x8D8, symBinAddr: 0x19110, symSize: 0x8C }
+  - { offsetInCU: 0x9E6, offset: 0x6FA34, size: 0x8, addend: 0x0, symName: '-[FWFObjectHostApiImpl disposeObjectWithIdentifier:error:]', symObjAddr: 0x964, symBinAddr: 0x1919C, symSize: 0x40 }
+  - { offsetInCU: 0xA35, offset: 0x6FA83, size: 0x8, addend: 0x0, symName: '-[FWFObjectHostApiImpl instanceManager]', symObjAddr: 0x9A4, symBinAddr: 0x191DC, symSize: 0x18 }
+  - { offsetInCU: 0xA6C, offset: 0x6FABA, size: 0x8, addend: 0x0, symName: '-[FWFObjectHostApiImpl setInstanceManager:]', symObjAddr: 0x9BC, symBinAddr: 0x191F4, symSize: 0xC }
+  - { offsetInCU: 0xAAD, offset: 0x6FAFB, size: 0x8, addend: 0x0, symName: '-[FWFObjectHostApiImpl .cxx_destruct]', symObjAddr: 0x9C8, symBinAddr: 0x19200, symSize: 0x8 }
+  - { offsetInCU: 0x27, offset: 0x6FDED, size: 0x8, addend: 0x0, symName: '-[FWFPreferencesHostApiImpl initWithInstanceManager:]', symObjAddr: 0x0, symBinAddr: 0x19208, symSize: 0x50 }
+  - { offsetInCU: 0x126, offset: 0x6FEEC, size: 0x8, addend: 0x0, symName: '-[FWFPreferencesHostApiImpl initWithInstanceManager:]', symObjAddr: 0x0, symBinAddr: 0x19208, symSize: 0x50 }
+  - { offsetInCU: 0x16D, offset: 0x6FF33, size: 0x8, addend: 0x0, symName: '-[FWFPreferencesHostApiImpl preferencesForIdentifier:]', symObjAddr: 0x50, symBinAddr: 0x19258, symSize: 0x4C }
+  - { offsetInCU: 0x1B4, offset: 0x6FF7A, size: 0x8, addend: 0x0, symName: '-[FWFPreferencesHostApiImpl createWithIdentifier:error:]', symObjAddr: 0x9C, symBinAddr: 0x192A4, symSize: 0x68 }
+  - { offsetInCU: 0x213, offset: 0x6FFD9, size: 0x8, addend: 0x0, symName: '-[FWFPreferencesHostApiImpl createFromWebViewConfigurationWithIdentifier:configurationIdentifier:error:]', symObjAddr: 0x104, symBinAddr: 0x1930C, symSize: 0xA4 }
+  - { offsetInCU: 0x282, offset: 0x70048, size: 0x8, addend: 0x0, symName: '-[FWFPreferencesHostApiImpl setJavaScriptEnabledForPreferencesWithIdentifier:isEnabled:error:]', symObjAddr: 0x1A8, symBinAddr: 0x193B0, symSize: 0x38 }
+  - { offsetInCU: 0x2E1, offset: 0x700A7, size: 0x8, addend: 0x0, symName: '-[FWFPreferencesHostApiImpl instanceManager]', symObjAddr: 0x1E0, symBinAddr: 0x193E8, symSize: 0x18 }
+  - { offsetInCU: 0x318, offset: 0x700DE, size: 0x8, addend: 0x0, symName: '-[FWFPreferencesHostApiImpl setInstanceManager:]', symObjAddr: 0x1F8, symBinAddr: 0x19400, symSize: 0xC }
+  - { offsetInCU: 0x359, offset: 0x7011F, size: 0x8, addend: 0x0, symName: '-[FWFPreferencesHostApiImpl .cxx_destruct]', symObjAddr: 0x204, symBinAddr: 0x1940C, symSize: 0x8 }
+  - { offsetInCU: 0x27, offset: 0x701E3, size: 0x8, addend: 0x0, symName: '-[FWFScriptMessageHandlerFlutterApiImpl initWithBinaryMessenger:instanceManager:]', symObjAddr: 0x0, symBinAddr: 0x19414, symSize: 0x68 }
+  - { offsetInCU: 0x21D, offset: 0x703D9, size: 0x8, addend: 0x0, symName: '-[FWFScriptMessageHandlerFlutterApiImpl initWithBinaryMessenger:instanceManager:]', symObjAddr: 0x0, symBinAddr: 0x19414, symSize: 0x68 }
+  - { offsetInCU: 0x274, offset: 0x70430, size: 0x8, addend: 0x0, symName: '-[FWFScriptMessageHandlerFlutterApiImpl identifierForHandler:]', symObjAddr: 0x68, symBinAddr: 0x1947C, symSize: 0x64 }
+  - { offsetInCU: 0x2BB, offset: 0x70477, size: 0x8, addend: 0x0, symName: '-[FWFScriptMessageHandlerFlutterApiImpl didReceiveScriptMessageForHandler:userContentController:message:completion:]', symObjAddr: 0xCC, symBinAddr: 0x194E0, symSize: 0xF8 }
+  - { offsetInCU: 0x3B4, offset: 0x70570, size: 0x8, addend: 0x0, symName: '-[FWFScriptMessageHandlerFlutterApiImpl instanceManager]', symObjAddr: 0x1C4, symBinAddr: 0x195D8, symSize: 0x20 }
+  - { offsetInCU: 0x3EB, offset: 0x705A7, size: 0x8, addend: 0x0, symName: '-[FWFScriptMessageHandlerFlutterApiImpl setInstanceManager:]', symObjAddr: 0x1E4, symBinAddr: 0x195F8, symSize: 0x14 }
+  - { offsetInCU: 0x42C, offset: 0x705E8, size: 0x8, addend: 0x0, symName: '-[FWFScriptMessageHandlerFlutterApiImpl .cxx_destruct]', symObjAddr: 0x1F8, symBinAddr: 0x1960C, symSize: 0x10 }
+  - { offsetInCU: 0x45F, offset: 0x7061B, size: 0x8, addend: 0x0, symName: '-[FWFScriptMessageHandler initWithBinaryMessenger:instanceManager:]', symObjAddr: 0x208, symBinAddr: 0x1961C, symSize: 0xB8 }
+  - { offsetInCU: 0x4B6, offset: 0x70672, size: 0x8, addend: 0x0, symName: '-[FWFScriptMessageHandler userContentController:didReceiveScriptMessage:]', symObjAddr: 0x2C0, symBinAddr: 0x196D4, symSize: 0x80 }
+  - { offsetInCU: 0x509, offset: 0x706C5, size: 0x8, addend: 0x0, symName: '___73-[FWFScriptMessageHandler userContentController:didReceiveScriptMessage:]_block_invoke', symObjAddr: 0x340, symBinAddr: 0x19754, symSize: 0x4 }
+  - { offsetInCU: 0x53C, offset: 0x706F8, size: 0x8, addend: 0x0, symName: '-[FWFScriptMessageHandler scriptMessageHandlerAPI]', symObjAddr: 0x344, symBinAddr: 0x19758, symSize: 0x10 }
+  - { offsetInCU: 0x573, offset: 0x7072F, size: 0x8, addend: 0x0, symName: '-[FWFScriptMessageHandler .cxx_destruct]', symObjAddr: 0x354, symBinAddr: 0x19768, symSize: 0x14 }
+  - { offsetInCU: 0x5A6, offset: 0x70762, size: 0x8, addend: 0x0, symName: '-[FWFScriptMessageHandlerHostApiImpl initWithBinaryMessenger:instanceManager:]', symObjAddr: 0x368, symBinAddr: 0x1977C, symSize: 0x7C }
+  - { offsetInCU: 0x5FD, offset: 0x707B9, size: 0x8, addend: 0x0, symName: '-[FWFScriptMessageHandlerHostApiImpl scriptMessageHandlerForIdentifier:]', symObjAddr: 0x3E4, symBinAddr: 0x197F8, symSize: 0x7C }
+  - { offsetInCU: 0x644, offset: 0x70800, size: 0x8, addend: 0x0, symName: '-[FWFScriptMessageHandlerHostApiImpl createWithIdentifier:error:]', symObjAddr: 0x460, symBinAddr: 0x19874, symSize: 0xB8 }
+  - { offsetInCU: 0x6A3, offset: 0x7085F, size: 0x8, addend: 0x0, symName: '-[FWFScriptMessageHandlerHostApiImpl binaryMessenger]', symObjAddr: 0x518, symBinAddr: 0x1992C, symSize: 0x18 }
+  - { offsetInCU: 0x6DA, offset: 0x70896, size: 0x8, addend: 0x0, symName: '-[FWFScriptMessageHandlerHostApiImpl setBinaryMessenger:]', symObjAddr: 0x530, symBinAddr: 0x19944, symSize: 0xC }
+  - { offsetInCU: 0x71B, offset: 0x708D7, size: 0x8, addend: 0x0, symName: '-[FWFScriptMessageHandlerHostApiImpl instanceManager]', symObjAddr: 0x53C, symBinAddr: 0x19950, symSize: 0x18 }
+  - { offsetInCU: 0x752, offset: 0x7090E, size: 0x8, addend: 0x0, symName: '-[FWFScriptMessageHandlerHostApiImpl setInstanceManager:]', symObjAddr: 0x554, symBinAddr: 0x19968, symSize: 0xC }
+  - { offsetInCU: 0x793, offset: 0x7094F, size: 0x8, addend: 0x0, symName: '-[FWFScriptMessageHandlerHostApiImpl .cxx_destruct]', symObjAddr: 0x560, symBinAddr: 0x19974, symSize: 0x28 }
+  - { offsetInCU: 0x27, offset: 0x70ACC, size: 0x8, addend: 0x0, symName: '-[FWFScrollViewDelegateFlutterApiImpl initWithBinaryMessenger:instanceManager:]', symObjAddr: 0x0, symBinAddr: 0x1999C, symSize: 0x90 }
+  - { offsetInCU: 0x237, offset: 0x70CDC, size: 0x8, addend: 0x0, symName: '-[FWFScrollViewDelegateFlutterApiImpl initWithBinaryMessenger:instanceManager:]', symObjAddr: 0x0, symBinAddr: 0x1999C, symSize: 0x90 }
+  - { offsetInCU: 0x28E, offset: 0x70D33, size: 0x8, addend: 0x0, symName: '-[FWFScrollViewDelegateFlutterApiImpl identifierForDelegate:]', symObjAddr: 0x90, symBinAddr: 0x19A2C, symSize: 0x64 }
+  - { offsetInCU: 0x2D5, offset: 0x70D7A, size: 0x8, addend: 0x0, symName: '-[FWFScrollViewDelegateFlutterApiImpl scrollViewDidScrollForDelegate:uiScrollView:completion:]', symObjAddr: 0xF4, symBinAddr: 0x19A90, symSize: 0xCC }
+  - { offsetInCU: 0x338, offset: 0x70DDD, size: 0x8, addend: 0x0, symName: '-[FWFScrollViewDelegateFlutterApiImpl binaryMessenger]', symObjAddr: 0x1C0, symBinAddr: 0x19B5C, symSize: 0x20 }
+  - { offsetInCU: 0x36F, offset: 0x70E14, size: 0x8, addend: 0x0, symName: '-[FWFScrollViewDelegateFlutterApiImpl setBinaryMessenger:]', symObjAddr: 0x1E0, symBinAddr: 0x19B7C, symSize: 0x14 }
+  - { offsetInCU: 0x3B0, offset: 0x70E55, size: 0x8, addend: 0x0, symName: '-[FWFScrollViewDelegateFlutterApiImpl instanceManager]', symObjAddr: 0x1F4, symBinAddr: 0x19B90, symSize: 0x20 }
+  - { offsetInCU: 0x3E7, offset: 0x70E8C, size: 0x8, addend: 0x0, symName: '-[FWFScrollViewDelegateFlutterApiImpl setInstanceManager:]', symObjAddr: 0x214, symBinAddr: 0x19BB0, symSize: 0x14 }
+  - { offsetInCU: 0x428, offset: 0x70ECD, size: 0x8, addend: 0x0, symName: '-[FWFScrollViewDelegateFlutterApiImpl .cxx_destruct]', symObjAddr: 0x228, symBinAddr: 0x19BC4, symSize: 0x38 }
+  - { offsetInCU: 0x45B, offset: 0x70F00, size: 0x8, addend: 0x0, symName: '-[FWFScrollViewDelegate initWithBinaryMessenger:instanceManager:]', symObjAddr: 0x260, symBinAddr: 0x19BFC, symSize: 0xB8 }
+  - { offsetInCU: 0x4B2, offset: 0x70F57, size: 0x8, addend: 0x0, symName: '-[FWFScrollViewDelegate scrollViewDidScroll:]', symObjAddr: 0x318, symBinAddr: 0x19CB4, symSize: 0x64 }
+  - { offsetInCU: 0x4F5, offset: 0x70F9A, size: 0x8, addend: 0x0, symName: '___45-[FWFScrollViewDelegate scrollViewDidScroll:]_block_invoke', symObjAddr: 0x37C, symBinAddr: 0x19D18, symSize: 0x4 }
+  - { offsetInCU: 0x528, offset: 0x70FCD, size: 0x8, addend: 0x0, symName: '-[FWFScrollViewDelegate scrollViewDelegateAPI]', symObjAddr: 0x380, symBinAddr: 0x19D1C, symSize: 0x10 }
+  - { offsetInCU: 0x55F, offset: 0x71004, size: 0x8, addend: 0x0, symName: '-[FWFScrollViewDelegate .cxx_destruct]', symObjAddr: 0x390, symBinAddr: 0x19D2C, symSize: 0x14 }
+  - { offsetInCU: 0x592, offset: 0x71037, size: 0x8, addend: 0x0, symName: '-[FWFScrollViewDelegateHostApiImpl initWithBinaryMessenger:instanceManager:]', symObjAddr: 0x3A4, symBinAddr: 0x19D40, symSize: 0x7C }
+  - { offsetInCU: 0x5E9, offset: 0x7108E, size: 0x8, addend: 0x0, symName: '-[FWFScrollViewDelegateHostApiImpl createWithIdentifier:error:]', symObjAddr: 0x420, symBinAddr: 0x19DBC, symSize: 0xB8 }
+  - { offsetInCU: 0x648, offset: 0x710ED, size: 0x8, addend: 0x0, symName: '-[FWFScrollViewDelegateHostApiImpl binaryMessenger]', symObjAddr: 0x4D8, symBinAddr: 0x19E74, symSize: 0x18 }
+  - { offsetInCU: 0x67F, offset: 0x71124, size: 0x8, addend: 0x0, symName: '-[FWFScrollViewDelegateHostApiImpl setBinaryMessenger:]', symObjAddr: 0x4F0, symBinAddr: 0x19E8C, symSize: 0xC }
+  - { offsetInCU: 0x6C0, offset: 0x71165, size: 0x8, addend: 0x0, symName: '-[FWFScrollViewDelegateHostApiImpl instanceManager]', symObjAddr: 0x4FC, symBinAddr: 0x19E98, symSize: 0x18 }
+  - { offsetInCU: 0x6F7, offset: 0x7119C, size: 0x8, addend: 0x0, symName: '-[FWFScrollViewDelegateHostApiImpl setInstanceManager:]', symObjAddr: 0x514, symBinAddr: 0x19EB0, symSize: 0xC }
+  - { offsetInCU: 0x738, offset: 0x711DD, size: 0x8, addend: 0x0, symName: '-[FWFScrollViewDelegateHostApiImpl .cxx_destruct]', symObjAddr: 0x520, symBinAddr: 0x19EBC, symSize: 0x28 }
+  - { offsetInCU: 0x27, offset: 0x71355, size: 0x8, addend: 0x0, symName: '-[FWFScrollViewHostApiImpl initWithInstanceManager:]', symObjAddr: 0x0, symBinAddr: 0x19EE4, symSize: 0x50 }
+  - { offsetInCU: 0x169, offset: 0x71497, size: 0x8, addend: 0x0, symName: '-[FWFScrollViewHostApiImpl initWithInstanceManager:]', symObjAddr: 0x0, symBinAddr: 0x19EE4, symSize: 0x50 }
+  - { offsetInCU: 0x1B0, offset: 0x714DE, size: 0x8, addend: 0x0, symName: '-[FWFScrollViewHostApiImpl scrollViewForIdentifier:]', symObjAddr: 0x50, symBinAddr: 0x19F34, symSize: 0x4C }
+  - { offsetInCU: 0x1F7, offset: 0x71525, size: 0x8, addend: 0x0, symName: '-[FWFScrollViewHostApiImpl createFromWebViewWithIdentifier:webViewIdentifier:error:]', symObjAddr: 0x9C, symBinAddr: 0x19F80, symSize: 0xA4 }
+  - { offsetInCU: 0x266, offset: 0x71594, size: 0x8, addend: 0x0, symName: '-[FWFScrollViewHostApiImpl contentOffsetForScrollViewWithIdentifier:error:]', symObjAddr: 0x140, symBinAddr: 0x1A024, symSize: 0xF0 }
+  - { offsetInCU: 0x2C9, offset: 0x715F7, size: 0x8, addend: 0x0, symName: '-[FWFScrollViewHostApiImpl scrollByForScrollViewWithIdentifier:x:y:error:]', symObjAddr: 0x230, symBinAddr: 0x1A114, symSize: 0x50 }
+  - { offsetInCU: 0x358, offset: 0x71686, size: 0x8, addend: 0x0, symName: '-[FWFScrollViewHostApiImpl setContentOffsetForScrollViewWithIdentifier:toX:y:error:]', symObjAddr: 0x280, symBinAddr: 0x1A164, symSize: 0x48 }
+  - { offsetInCU: 0x3C7, offset: 0x716F5, size: 0x8, addend: 0x0, symName: '-[FWFScrollViewHostApiImpl setDelegateForScrollViewWithIdentifier:uiScrollViewDelegateIdentifier:error:]', symObjAddr: 0x2C8, symBinAddr: 0x1A1AC, symSize: 0xBC }
+  - { offsetInCU: 0x426, offset: 0x71754, size: 0x8, addend: 0x0, symName: '-[FWFScrollViewHostApiImpl binaryMessenger]', symObjAddr: 0x384, symBinAddr: 0x1A268, symSize: 0x18 }
+  - { offsetInCU: 0x45D, offset: 0x7178B, size: 0x8, addend: 0x0, symName: '-[FWFScrollViewHostApiImpl setBinaryMessenger:]', symObjAddr: 0x39C, symBinAddr: 0x1A280, symSize: 0xC }
+  - { offsetInCU: 0x49E, offset: 0x717CC, size: 0x8, addend: 0x0, symName: '-[FWFScrollViewHostApiImpl instanceManager]', symObjAddr: 0x3A8, symBinAddr: 0x1A28C, symSize: 0x18 }
+  - { offsetInCU: 0x4D5, offset: 0x71803, size: 0x8, addend: 0x0, symName: '-[FWFScrollViewHostApiImpl setInstanceManager:]', symObjAddr: 0x3C0, symBinAddr: 0x1A2A4, symSize: 0xC }
+  - { offsetInCU: 0x516, offset: 0x71844, size: 0x8, addend: 0x0, symName: '-[FWFScrollViewHostApiImpl .cxx_destruct]', symObjAddr: 0x3CC, symBinAddr: 0x1A2B0, symSize: 0x28 }
+  - { offsetInCU: 0x27, offset: 0x718E9, size: 0x8, addend: 0x0, symName: '-[FWFUIDelegateFlutterApiImpl initWithBinaryMessenger:instanceManager:]', symObjAddr: 0x0, symBinAddr: 0x1A2D8, symSize: 0xC0 }
+  - { offsetInCU: 0x2F4, offset: 0x71BB6, size: 0x8, addend: 0x0, symName: '-[FWFUIDelegateFlutterApiImpl initWithBinaryMessenger:instanceManager:]', symObjAddr: 0x0, symBinAddr: 0x1A2D8, symSize: 0xC0 }
+  - { offsetInCU: 0x34B, offset: 0x71C0D, size: 0x8, addend: 0x0, symName: '-[FWFUIDelegateFlutterApiImpl identifierForDelegate:]', symObjAddr: 0xC0, symBinAddr: 0x1A398, symSize: 0x64 }
+  - { offsetInCU: 0x392, offset: 0x71C54, size: 0x8, addend: 0x0, symName: '-[FWFUIDelegateFlutterApiImpl onCreateWebViewForDelegate:webView:configuration:navigationAction:completion:]', symObjAddr: 0x124, symBinAddr: 0x1A3FC, symSize: 0x19C }
+  - { offsetInCU: 0x54D, offset: 0x71E0F, size: 0x8, addend: 0x0, symName: '___108-[FWFUIDelegateFlutterApiImpl onCreateWebViewForDelegate:webView:configuration:navigationAction:completion:]_block_invoke', symObjAddr: 0x2C0, symBinAddr: 0x1A598, symSize: 0x4 }
+  - { offsetInCU: 0x580, offset: 0x71E42, size: 0x8, addend: 0x0, symName: '-[FWFUIDelegateFlutterApiImpl requestMediaCapturePermissionForDelegateWithIdentifier:webView:origin:frame:type:completion:]', symObjAddr: 0x2C4, symBinAddr: 0x1A59C, symSize: 0x198 }
+  - { offsetInCU: 0x708, offset: 0x71FCA, size: 0x8, addend: 0x0, symName: '___123-[FWFUIDelegateFlutterApiImpl requestMediaCapturePermissionForDelegateWithIdentifier:webView:origin:frame:type:completion:]_block_invoke', symObjAddr: 0x45C, symBinAddr: 0x1A734, symSize: 0x30 }
+  - { offsetInCU: 0x7CD, offset: 0x7208F, size: 0x8, addend: 0x0, symName: '-[FWFUIDelegateFlutterApiImpl runJavaScriptAlertPanelForDelegateWithIdentifier:message:frame:completionHandler:]', symObjAddr: 0x4A4, symBinAddr: 0x1A764, symSize: 0x104 }
+  - { offsetInCU: 0x856, offset: 0x72118, size: 0x8, addend: 0x0, symName: '___112-[FWFUIDelegateFlutterApiImpl runJavaScriptAlertPanelForDelegateWithIdentifier:message:frame:completionHandler:]_block_invoke', symObjAddr: 0x5A8, symBinAddr: 0x1A868, symSize: 0xC }
+  - { offsetInCU: 0x8A9, offset: 0x7216B, size: 0x8, addend: 0x0, symName: '-[FWFUIDelegateFlutterApiImpl runJavaScriptConfirmPanelForDelegateWithIdentifier:message:frame:completionHandler:]', symObjAddr: 0x5B4, symBinAddr: 0x1A874, symSize: 0x104 }
+  - { offsetInCU: 0x932, offset: 0x721F4, size: 0x8, addend: 0x0, symName: '___114-[FWFUIDelegateFlutterApiImpl runJavaScriptConfirmPanelForDelegateWithIdentifier:message:frame:completionHandler:]_block_invoke', symObjAddr: 0x6B8, symBinAddr: 0x1A978, symSize: 0x3C }
+  - { offsetInCU: 0x9A1, offset: 0x72263, size: 0x8, addend: 0x0, symName: '-[FWFUIDelegateFlutterApiImpl runJavaScriptTextInputPanelForDelegateWithIdentifier:prompt:defaultText:frame:completionHandler:]', symObjAddr: 0x6F4, symBinAddr: 0x1A9B4, symSize: 0x128 }
+  - { offsetInCU: 0xA3A, offset: 0x722FC, size: 0x8, addend: 0x0, symName: '___127-[FWFUIDelegateFlutterApiImpl runJavaScriptTextInputPanelForDelegateWithIdentifier:prompt:defaultText:frame:completionHandler:]_block_invoke', symObjAddr: 0x81C, symBinAddr: 0x1AADC, symSize: 0x14 }
+  - { offsetInCU: 0xA9F, offset: 0x72361, size: 0x8, addend: 0x0, symName: '-[FWFUIDelegateFlutterApiImpl webViewConfigurationFlutterApi]', symObjAddr: 0x830, symBinAddr: 0x1AAF0, symSize: 0x10 }
+  - { offsetInCU: 0xAD6, offset: 0x72398, size: 0x8, addend: 0x0, symName: '-[FWFUIDelegateFlutterApiImpl binaryMessenger]', symObjAddr: 0x840, symBinAddr: 0x1AB00, symSize: 0x20 }
+  - { offsetInCU: 0xB0D, offset: 0x723CF, size: 0x8, addend: 0x0, symName: '-[FWFUIDelegateFlutterApiImpl setBinaryMessenger:]', symObjAddr: 0x860, symBinAddr: 0x1AB20, symSize: 0x14 }
+  - { offsetInCU: 0xB4E, offset: 0x72410, size: 0x8, addend: 0x0, symName: '-[FWFUIDelegateFlutterApiImpl instanceManager]', symObjAddr: 0x874, symBinAddr: 0x1AB34, symSize: 0x20 }
+  - { offsetInCU: 0xB85, offset: 0x72447, size: 0x8, addend: 0x0, symName: '-[FWFUIDelegateFlutterApiImpl setInstanceManager:]', symObjAddr: 0x894, symBinAddr: 0x1AB54, symSize: 0x14 }
+  - { offsetInCU: 0xBC6, offset: 0x72488, size: 0x8, addend: 0x0, symName: '-[FWFUIDelegateFlutterApiImpl .cxx_destruct]', symObjAddr: 0x8A8, symBinAddr: 0x1AB68, symSize: 0x4C }
+  - { offsetInCU: 0xBF9, offset: 0x724BB, size: 0x8, addend: 0x0, symName: '-[FWFUIDelegate initWithBinaryMessenger:instanceManager:]', symObjAddr: 0x8F4, symBinAddr: 0x1ABB4, symSize: 0xB8 }
+  - { offsetInCU: 0xC50, offset: 0x72512, size: 0x8, addend: 0x0, symName: '-[FWFUIDelegate webView:createWebViewWithConfiguration:forNavigationAction:windowFeatures:]', symObjAddr: 0x9AC, symBinAddr: 0x1AC6C, symSize: 0xAC }
+  - { offsetInCU: 0xCC3, offset: 0x72585, size: 0x8, addend: 0x0, symName: '___91-[FWFUIDelegate webView:createWebViewWithConfiguration:forNavigationAction:windowFeatures:]_block_invoke', symObjAddr: 0xA58, symBinAddr: 0x1AD18, symSize: 0x4 }
+  - { offsetInCU: 0xCF6, offset: 0x725B8, size: 0x8, addend: 0x0, symName: '-[FWFUIDelegate webView:requestMediaCapturePermissionForOrigin:initiatedByFrame:type:decisionHandler:]', symObjAddr: 0xA5C, symBinAddr: 0x1AD1C, symSize: 0x11C }
+  - { offsetInCU: 0xD79, offset: 0x7263B, size: 0x8, addend: 0x0, symName: '___102-[FWFUIDelegate webView:requestMediaCapturePermissionForOrigin:initiatedByFrame:type:decisionHandler:]_block_invoke', symObjAddr: 0xB78, symBinAddr: 0x1AE38, symSize: 0xC }
+  - { offsetInCU: 0xDD7, offset: 0x72699, size: 0x8, addend: 0x0, symName: '-[FWFUIDelegate webView:runJavaScriptAlertPanelWithMessage:initiatedByFrame:completionHandler:]', symObjAddr: 0xB84, symBinAddr: 0x1AE44, symSize: 0x9C }
+  - { offsetInCU: 0xE46, offset: 0x72708, size: 0x8, addend: 0x0, symName: '-[FWFUIDelegate webView:runJavaScriptConfirmPanelWithMessage:initiatedByFrame:completionHandler:]', symObjAddr: 0xC20, symBinAddr: 0x1AEE0, symSize: 0x9C }
+  - { offsetInCU: 0xEB5, offset: 0x72777, size: 0x8, addend: 0x0, symName: '-[FWFUIDelegate webView:runJavaScriptTextInputPanelWithPrompt:defaultText:initiatedByFrame:completionHandler:]', symObjAddr: 0xCBC, symBinAddr: 0x1AF7C, symSize: 0xB8 }
+  - { offsetInCU: 0xF34, offset: 0x727F6, size: 0x8, addend: 0x0, symName: '-[FWFUIDelegate UIDelegateAPI]', symObjAddr: 0xD74, symBinAddr: 0x1B034, symSize: 0x10 }
+  - { offsetInCU: 0xF6B, offset: 0x7282D, size: 0x8, addend: 0x0, symName: '-[FWFUIDelegate .cxx_destruct]', symObjAddr: 0xD84, symBinAddr: 0x1B044, symSize: 0x14 }
+  - { offsetInCU: 0xF9E, offset: 0x72860, size: 0x8, addend: 0x0, symName: '-[FWFUIDelegateHostApiImpl initWithBinaryMessenger:instanceManager:]', symObjAddr: 0xD98, symBinAddr: 0x1B058, symSize: 0x7C }
+  - { offsetInCU: 0xFF5, offset: 0x728B7, size: 0x8, addend: 0x0, symName: '-[FWFUIDelegateHostApiImpl delegateForIdentifier:]', symObjAddr: 0xE14, symBinAddr: 0x1B0D4, symSize: 0x7C }
+  - { offsetInCU: 0x103C, offset: 0x728FE, size: 0x8, addend: 0x0, symName: '-[FWFUIDelegateHostApiImpl createWithIdentifier:error:]', symObjAddr: 0xE90, symBinAddr: 0x1B150, symSize: 0xB8 }
+  - { offsetInCU: 0x109B, offset: 0x7295D, size: 0x8, addend: 0x0, symName: '-[FWFUIDelegateHostApiImpl binaryMessenger]', symObjAddr: 0xF48, symBinAddr: 0x1B208, symSize: 0x18 }
+  - { offsetInCU: 0x10D2, offset: 0x72994, size: 0x8, addend: 0x0, symName: '-[FWFUIDelegateHostApiImpl setBinaryMessenger:]', symObjAddr: 0xF60, symBinAddr: 0x1B220, symSize: 0xC }
+  - { offsetInCU: 0x1113, offset: 0x729D5, size: 0x8, addend: 0x0, symName: '-[FWFUIDelegateHostApiImpl instanceManager]', symObjAddr: 0xF6C, symBinAddr: 0x1B22C, symSize: 0x18 }
+  - { offsetInCU: 0x114A, offset: 0x72A0C, size: 0x8, addend: 0x0, symName: '-[FWFUIDelegateHostApiImpl setInstanceManager:]', symObjAddr: 0xF84, symBinAddr: 0x1B244, symSize: 0xC }
+  - { offsetInCU: 0x118B, offset: 0x72A4D, size: 0x8, addend: 0x0, symName: '-[FWFUIDelegateHostApiImpl .cxx_destruct]', symObjAddr: 0xF90, symBinAddr: 0x1B250, symSize: 0x28 }
+  - { offsetInCU: 0x27, offset: 0x72F79, size: 0x8, addend: 0x0, symName: '-[FWFUIViewHostApiImpl initWithInstanceManager:]', symObjAddr: 0x0, symBinAddr: 0x1B278, symSize: 0x50 }
+  - { offsetInCU: 0x11F, offset: 0x73071, size: 0x8, addend: 0x0, symName: '-[FWFUIViewHostApiImpl initWithInstanceManager:]', symObjAddr: 0x0, symBinAddr: 0x1B278, symSize: 0x50 }
+  - { offsetInCU: 0x166, offset: 0x730B8, size: 0x8, addend: 0x0, symName: '-[FWFUIViewHostApiImpl viewForIdentifier:]', symObjAddr: 0x50, symBinAddr: 0x1B2C8, symSize: 0x4C }
+  - { offsetInCU: 0x1AD, offset: 0x730FF, size: 0x8, addend: 0x0, symName: '-[FWFUIViewHostApiImpl setBackgroundColorForViewWithIdentifier:toValue:error:]', symObjAddr: 0x9C, symBinAddr: 0x1B314, symSize: 0xF0 }
+  - { offsetInCU: 0x22C, offset: 0x7317E, size: 0x8, addend: 0x0, symName: '-[FWFUIViewHostApiImpl setOpaqueForViewWithIdentifier:isOpaque:error:]', symObjAddr: 0x18C, symBinAddr: 0x1B404, symSize: 0x38 }
+  - { offsetInCU: 0x28B, offset: 0x731DD, size: 0x8, addend: 0x0, symName: '-[FWFUIViewHostApiImpl instanceManager]', symObjAddr: 0x1C4, symBinAddr: 0x1B43C, symSize: 0x18 }
+  - { offsetInCU: 0x2C2, offset: 0x73214, size: 0x8, addend: 0x0, symName: '-[FWFUIViewHostApiImpl setInstanceManager:]', symObjAddr: 0x1DC, symBinAddr: 0x1B454, symSize: 0xC }
+  - { offsetInCU: 0x303, offset: 0x73255, size: 0x8, addend: 0x0, symName: '-[FWFUIViewHostApiImpl .cxx_destruct]', symObjAddr: 0x1E8, symBinAddr: 0x1B460, symSize: 0x8 }
+  - { offsetInCU: 0x27, offset: 0x7331E, size: 0x8, addend: 0x0, symName: '-[FWFURLAuthenticationChallengeFlutterApiImpl initWithBinaryMessenger:instanceManager:]', symObjAddr: 0x0, symBinAddr: 0x1B468, symSize: 0xA0 }
+  - { offsetInCU: 0x193, offset: 0x7348A, size: 0x8, addend: 0x0, symName: '-[FWFURLAuthenticationChallengeFlutterApiImpl initWithBinaryMessenger:instanceManager:]', symObjAddr: 0x0, symBinAddr: 0x1B468, symSize: 0xA0 }
+  - { offsetInCU: 0x1EA, offset: 0x734E1, size: 0x8, addend: 0x0, symName: '-[FWFURLAuthenticationChallengeFlutterApiImpl createWithInstance:protectionSpace:completion:]', symObjAddr: 0xA0, symBinAddr: 0x1B508, symSize: 0x1F4 }
+  - { offsetInCU: 0x25D, offset: 0x73554, size: 0x8, addend: 0x0, symName: '___93-[FWFURLAuthenticationChallengeFlutterApiImpl createWithInstance:protectionSpace:completion:]_block_invoke', symObjAddr: 0x294, symBinAddr: 0x1B6FC, symSize: 0x4 }
+  - { offsetInCU: 0x290, offset: 0x73587, size: 0x8, addend: 0x0, symName: '-[FWFURLAuthenticationChallengeFlutterApiImpl api]', symObjAddr: 0x298, symBinAddr: 0x1B700, symSize: 0xC }
+  - { offsetInCU: 0x2C7, offset: 0x735BE, size: 0x8, addend: 0x0, symName: '-[FWFURLAuthenticationChallengeFlutterApiImpl setApi:]', symObjAddr: 0x2A4, symBinAddr: 0x1B70C, symSize: 0x8 }
+  - { offsetInCU: 0x306, offset: 0x735FD, size: 0x8, addend: 0x0, symName: '-[FWFURLAuthenticationChallengeFlutterApiImpl binaryMessenger]', symObjAddr: 0x2AC, symBinAddr: 0x1B714, symSize: 0x18 }
+  - { offsetInCU: 0x33D, offset: 0x73634, size: 0x8, addend: 0x0, symName: '-[FWFURLAuthenticationChallengeFlutterApiImpl setBinaryMessenger:]', symObjAddr: 0x2C4, symBinAddr: 0x1B72C, symSize: 0xC }
+  - { offsetInCU: 0x37E, offset: 0x73675, size: 0x8, addend: 0x0, symName: '-[FWFURLAuthenticationChallengeFlutterApiImpl instanceManager]', symObjAddr: 0x2D0, symBinAddr: 0x1B738, symSize: 0x18 }
+  - { offsetInCU: 0x3B5, offset: 0x736AC, size: 0x8, addend: 0x0, symName: '-[FWFURLAuthenticationChallengeFlutterApiImpl setInstanceManager:]', symObjAddr: 0x2E8, symBinAddr: 0x1B750, symSize: 0xC }
+  - { offsetInCU: 0x3F6, offset: 0x736ED, size: 0x8, addend: 0x0, symName: '-[FWFURLAuthenticationChallengeFlutterApiImpl .cxx_destruct]', symObjAddr: 0x2F4, symBinAddr: 0x1B75C, symSize: 0x34 }
+  - { offsetInCU: 0x27, offset: 0x7388F, size: 0x8, addend: 0x0, symName: '-[FWFURLCredentialHostApiImpl initWithBinaryMessenger:instanceManager:]', symObjAddr: 0x0, symBinAddr: 0x1B790, symSize: 0x7C }
+  - { offsetInCU: 0x18F, offset: 0x739F7, size: 0x8, addend: 0x0, symName: '-[FWFURLCredentialHostApiImpl initWithBinaryMessenger:instanceManager:]', symObjAddr: 0x0, symBinAddr: 0x1B790, symSize: 0x7C }
+  - { offsetInCU: 0x1E6, offset: 0x73A4E, size: 0x8, addend: 0x0, symName: '-[FWFURLCredentialHostApiImpl createWithUserWithIdentifier:user:password:persistence:error:]', symObjAddr: 0x7C, symBinAddr: 0x1B80C, symSize: 0xC0 }
+  - { offsetInCU: 0x299, offset: 0x73B01, size: 0x8, addend: 0x0, symName: '-[FWFURLCredentialHostApiImpl credentialForIdentifier:error:]', symObjAddr: 0x13C, symBinAddr: 0x1B8CC, symSize: 0xE4 }
+  - { offsetInCU: 0x31F, offset: 0x73B87, size: 0x8, addend: 0x0, symName: '-[FWFURLCredentialHostApiImpl binaryMessenger]', symObjAddr: 0x220, symBinAddr: 0x1B9B0, symSize: 0x18 }
+  - { offsetInCU: 0x356, offset: 0x73BBE, size: 0x8, addend: 0x0, symName: '-[FWFURLCredentialHostApiImpl setBinaryMessenger:]', symObjAddr: 0x238, symBinAddr: 0x1B9C8, symSize: 0xC }
+  - { offsetInCU: 0x397, offset: 0x73BFF, size: 0x8, addend: 0x0, symName: '-[FWFURLCredentialHostApiImpl instanceManager]', symObjAddr: 0x244, symBinAddr: 0x1B9D4, symSize: 0x18 }
+  - { offsetInCU: 0x3CE, offset: 0x73C36, size: 0x8, addend: 0x0, symName: '-[FWFURLCredentialHostApiImpl setInstanceManager:]', symObjAddr: 0x25C, symBinAddr: 0x1B9EC, symSize: 0xC }
+  - { offsetInCU: 0x40F, offset: 0x73C77, size: 0x8, addend: 0x0, symName: '-[FWFURLCredentialHostApiImpl .cxx_destruct]', symObjAddr: 0x268, symBinAddr: 0x1B9F8, symSize: 0x28 }
+  - { offsetInCU: 0x27, offset: 0x73D10, size: 0x8, addend: 0x0, symName: '-[FWFURLHostApiImpl initWithBinaryMessenger:instanceManager:]', symObjAddr: 0x0, symBinAddr: 0x1BA20, symSize: 0x7C }
+  - { offsetInCU: 0x1BE, offset: 0x73EA7, size: 0x8, addend: 0x0, symName: '-[FWFURLHostApiImpl initWithBinaryMessenger:instanceManager:]', symObjAddr: 0x0, symBinAddr: 0x1BA20, symSize: 0x7C }
+  - { offsetInCU: 0x215, offset: 0x73EFE, size: 0x8, addend: 0x0, symName: '-[FWFURLHostApiImpl absoluteStringForNSURLWithIdentifier:error:]', symObjAddr: 0x7C, symBinAddr: 0x1BA9C, symSize: 0x5C }
+  - { offsetInCU: 0x27C, offset: 0x73F65, size: 0x8, addend: 0x0, symName: '-[FWFURLHostApiImpl urlForIdentifier:error:]', symObjAddr: 0xD8, symBinAddr: 0x1BAF8, symSize: 0xC0 }
+  - { offsetInCU: 0x302, offset: 0x73FEB, size: 0x8, addend: 0x0, symName: '-[FWFURLHostApiImpl binaryMessenger]', symObjAddr: 0x198, symBinAddr: 0x1BBB8, symSize: 0x18 }
+  - { offsetInCU: 0x339, offset: 0x74022, size: 0x8, addend: 0x0, symName: '-[FWFURLHostApiImpl setBinaryMessenger:]', symObjAddr: 0x1B0, symBinAddr: 0x1BBD0, symSize: 0xC }
+  - { offsetInCU: 0x37A, offset: 0x74063, size: 0x8, addend: 0x0, symName: '-[FWFURLHostApiImpl instanceManager]', symObjAddr: 0x1BC, symBinAddr: 0x1BBDC, symSize: 0x18 }
+  - { offsetInCU: 0x3B1, offset: 0x7409A, size: 0x8, addend: 0x0, symName: '-[FWFURLHostApiImpl setInstanceManager:]', symObjAddr: 0x1D4, symBinAddr: 0x1BBF4, symSize: 0xC }
+  - { offsetInCU: 0x3F2, offset: 0x740DB, size: 0x8, addend: 0x0, symName: '-[FWFURLHostApiImpl .cxx_destruct]', symObjAddr: 0x1E0, symBinAddr: 0x1BC00, symSize: 0x28 }
+  - { offsetInCU: 0x425, offset: 0x7410E, size: 0x8, addend: 0x0, symName: '-[FWFURLFlutterApiImpl initWithBinaryMessenger:instanceManager:]', symObjAddr: 0x208, symBinAddr: 0x1BC28, symSize: 0x94 }
+  - { offsetInCU: 0x47C, offset: 0x74165, size: 0x8, addend: 0x0, symName: '-[FWFURLFlutterApiImpl create:completion:]', symObjAddr: 0x29C, symBinAddr: 0x1BCBC, symSize: 0xA8 }
+  - { offsetInCU: 0x4CF, offset: 0x741B8, size: 0x8, addend: 0x0, symName: '-[FWFURLFlutterApiImpl api]', symObjAddr: 0x344, symBinAddr: 0x1BD64, symSize: 0xC }
+  - { offsetInCU: 0x506, offset: 0x741EF, size: 0x8, addend: 0x0, symName: '-[FWFURLFlutterApiImpl setApi:]', symObjAddr: 0x350, symBinAddr: 0x1BD70, symSize: 0x8 }
+  - { offsetInCU: 0x545, offset: 0x7422E, size: 0x8, addend: 0x0, symName: '-[FWFURLFlutterApiImpl instanceManager]', symObjAddr: 0x358, symBinAddr: 0x1BD78, symSize: 0x18 }
+  - { offsetInCU: 0x57C, offset: 0x74265, size: 0x8, addend: 0x0, symName: '-[FWFURLFlutterApiImpl setInstanceManager:]', symObjAddr: 0x370, symBinAddr: 0x1BD90, symSize: 0xC }
+  - { offsetInCU: 0x5BD, offset: 0x742A6, size: 0x8, addend: 0x0, symName: '-[FWFURLFlutterApiImpl .cxx_destruct]', symObjAddr: 0x37C, symBinAddr: 0x1BD9C, symSize: 0x2C }
+  - { offsetInCU: 0x27, offset: 0x743AB, size: 0x8, addend: 0x0, symName: '-[FWFURLProtectionSpaceFlutterApiImpl initWithBinaryMessenger:instanceManager:]', symObjAddr: 0x0, symBinAddr: 0x1BDC8, symSize: 0x94 }
+  - { offsetInCU: 0x150, offset: 0x744D4, size: 0x8, addend: 0x0, symName: '-[FWFURLProtectionSpaceFlutterApiImpl initWithBinaryMessenger:instanceManager:]', symObjAddr: 0x0, symBinAddr: 0x1BDC8, symSize: 0x94 }
+  - { offsetInCU: 0x1A7, offset: 0x7452B, size: 0x8, addend: 0x0, symName: '-[FWFURLProtectionSpaceFlutterApiImpl createWithInstance:host:realm:authenticationMethod:completion:]', symObjAddr: 0x94, symBinAddr: 0x1BE5C, symSize: 0x12C }
+  - { offsetInCU: 0x22A, offset: 0x745AE, size: 0x8, addend: 0x0, symName: '-[FWFURLProtectionSpaceFlutterApiImpl api]', symObjAddr: 0x1C0, symBinAddr: 0x1BF88, symSize: 0xC }
+  - { offsetInCU: 0x261, offset: 0x745E5, size: 0x8, addend: 0x0, symName: '-[FWFURLProtectionSpaceFlutterApiImpl setApi:]', symObjAddr: 0x1CC, symBinAddr: 0x1BF94, symSize: 0x8 }
+  - { offsetInCU: 0x2A0, offset: 0x74624, size: 0x8, addend: 0x0, symName: '-[FWFURLProtectionSpaceFlutterApiImpl instanceManager]', symObjAddr: 0x1D4, symBinAddr: 0x1BF9C, symSize: 0x18 }
+  - { offsetInCU: 0x2D7, offset: 0x7465B, size: 0x8, addend: 0x0, symName: '-[FWFURLProtectionSpaceFlutterApiImpl setInstanceManager:]', symObjAddr: 0x1EC, symBinAddr: 0x1BFB4, symSize: 0xC }
+  - { offsetInCU: 0x318, offset: 0x7469C, size: 0x8, addend: 0x0, symName: '-[FWFURLProtectionSpaceFlutterApiImpl .cxx_destruct]', symObjAddr: 0x1F8, symBinAddr: 0x1BFC0, symSize: 0x2C }
+  - { offsetInCU: 0x27, offset: 0x747BB, size: 0x8, addend: 0x0, symName: '-[FWFUserContentControllerHostApiImpl initWithInstanceManager:]', symObjAddr: 0x0, symBinAddr: 0x1BFEC, symSize: 0x50 }
+  - { offsetInCU: 0x168, offset: 0x748FC, size: 0x8, addend: 0x0, symName: '-[FWFUserContentControllerHostApiImpl initWithInstanceManager:]', symObjAddr: 0x0, symBinAddr: 0x1BFEC, symSize: 0x50 }
+  - { offsetInCU: 0x1AF, offset: 0x74943, size: 0x8, addend: 0x0, symName: '-[FWFUserContentControllerHostApiImpl userContentControllerForIdentifier:]', symObjAddr: 0x50, symBinAddr: 0x1C03C, symSize: 0x4C }
+  - { offsetInCU: 0x1F6, offset: 0x7498A, size: 0x8, addend: 0x0, symName: '-[FWFUserContentControllerHostApiImpl createFromWebViewConfigurationWithIdentifier:configurationIdentifier:error:]', symObjAddr: 0x9C, symBinAddr: 0x1C088, symSize: 0xA4 }
+  - { offsetInCU: 0x265, offset: 0x749F9, size: 0x8, addend: 0x0, symName: '-[FWFUserContentControllerHostApiImpl addScriptMessageHandlerForControllerWithIdentifier:handlerIdentifier:ofName:error:]', symObjAddr: 0x140, symBinAddr: 0x1C12C, symSize: 0xA4 }
+  - { offsetInCU: 0x2D4, offset: 0x74A68, size: 0x8, addend: 0x0, symName: '-[FWFUserContentControllerHostApiImpl removeScriptMessageHandlerForControllerWithIdentifier:name:error:]', symObjAddr: 0x1E4, symBinAddr: 0x1C1D0, symSize: 0x60 }
+  - { offsetInCU: 0x333, offset: 0x74AC7, size: 0x8, addend: 0x0, symName: '-[FWFUserContentControllerHostApiImpl removeAllScriptMessageHandlersForControllerWithIdentifier:error:]', symObjAddr: 0x244, symBinAddr: 0x1C230, symSize: 0xA4 }
+  - { offsetInCU: 0x386, offset: 0x74B1A, size: 0x8, addend: 0x0, symName: '-[FWFUserContentControllerHostApiImpl addUserScriptForControllerWithIdentifier:userScript:error:]', symObjAddr: 0x2E8, symBinAddr: 0x1C2D4, symSize: 0x80 }
+  - { offsetInCU: 0x492, offset: 0x74C26, size: 0x8, addend: 0x0, symName: '-[FWFUserContentControllerHostApiImpl removeAllUserScriptsForControllerWithIdentifier:error:]', symObjAddr: 0x368, symBinAddr: 0x1C354, symSize: 0x30 }
+  - { offsetInCU: 0x4E1, offset: 0x74C75, size: 0x8, addend: 0x0, symName: '-[FWFUserContentControllerHostApiImpl instanceManager]', symObjAddr: 0x398, symBinAddr: 0x1C384, symSize: 0x18 }
+  - { offsetInCU: 0x518, offset: 0x74CAC, size: 0x8, addend: 0x0, symName: '-[FWFUserContentControllerHostApiImpl setInstanceManager:]', symObjAddr: 0x3B0, symBinAddr: 0x1C39C, symSize: 0xC }
+  - { offsetInCU: 0x559, offset: 0x74CED, size: 0x8, addend: 0x0, symName: '-[FWFUserContentControllerHostApiImpl .cxx_destruct]', symObjAddr: 0x3BC, symBinAddr: 0x1C3A8, symSize: 0x8 }
+  - { offsetInCU: 0x27, offset: 0x74D81, size: 0x8, addend: 0x0, symName: '-[FWFWebsiteDataStoreHostApiImpl initWithInstanceManager:]', symObjAddr: 0x0, symBinAddr: 0x1C3B0, symSize: 0x50 }
+  - { offsetInCU: 0x163, offset: 0x74EBD, size: 0x8, addend: 0x0, symName: '-[FWFWebsiteDataStoreHostApiImpl initWithInstanceManager:]', symObjAddr: 0x0, symBinAddr: 0x1C3B0, symSize: 0x50 }
+  - { offsetInCU: 0x1AA, offset: 0x74F04, size: 0x8, addend: 0x0, symName: '-[FWFWebsiteDataStoreHostApiImpl websiteDataStoreForIdentifier:]', symObjAddr: 0x50, symBinAddr: 0x1C400, symSize: 0x4C }
+  - { offsetInCU: 0x1F1, offset: 0x74F4B, size: 0x8, addend: 0x0, symName: '-[FWFWebsiteDataStoreHostApiImpl createFromWebViewConfigurationWithIdentifier:configurationIdentifier:error:]', symObjAddr: 0x9C, symBinAddr: 0x1C44C, symSize: 0xA4 }
+  - { offsetInCU: 0x260, offset: 0x74FBA, size: 0x8, addend: 0x0, symName: '-[FWFWebsiteDataStoreHostApiImpl createDefaultDataStoreWithIdentifier:error:]', symObjAddr: 0x140, symBinAddr: 0x1C4F0, symSize: 0x68 }
+  - { offsetInCU: 0x2AF, offset: 0x75009, size: 0x8, addend: 0x0, symName: '-[FWFWebsiteDataStoreHostApiImpl removeDataFromDataStoreWithIdentifier:ofTypes:modifiedSince:completion:]', symObjAddr: 0x1A8, symBinAddr: 0x1C558, symSize: 0x21C }
+  - { offsetInCU: 0x3B7, offset: 0x75111, size: 0x8, addend: 0x0, symName: '___105-[FWFWebsiteDataStoreHostApiImpl removeDataFromDataStoreWithIdentifier:ofTypes:modifiedSince:completion:]_block_invoke', symObjAddr: 0x3C4, symBinAddr: 0x1C774, symSize: 0xD8 }
+  - { offsetInCU: 0x432, offset: 0x7518C, size: 0x8, addend: 0x0, symName: '___105-[FWFWebsiteDataStoreHostApiImpl removeDataFromDataStoreWithIdentifier:ofTypes:modifiedSince:completion:]_block_invoke_2', symObjAddr: 0x49C, symBinAddr: 0x1C84C, symSize: 0x5C }
+  - { offsetInCU: 0x49E, offset: 0x751F8, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40s48b, symObjAddr: 0x554, symBinAddr: 0x1C8A8, symSize: 0x3C }
+  - { offsetInCU: 0x4C7, offset: 0x75221, size: 0x8, addend: 0x0, symName: '-[FWFWebsiteDataStoreHostApiImpl instanceManager]', symObjAddr: 0x5C0, symBinAddr: 0x1C8E4, symSize: 0x18 }
+  - { offsetInCU: 0x4FE, offset: 0x75258, size: 0x8, addend: 0x0, symName: '-[FWFWebsiteDataStoreHostApiImpl setInstanceManager:]', symObjAddr: 0x5D8, symBinAddr: 0x1C8FC, symSize: 0xC }
+  - { offsetInCU: 0x53F, offset: 0x75299, size: 0x8, addend: 0x0, symName: '-[FWFWebsiteDataStoreHostApiImpl .cxx_destruct]', symObjAddr: 0x5E4, symBinAddr: 0x1C908, symSize: 0x8 }
+  - { offsetInCU: 0x27, offset: 0x7551C, size: 0x8, addend: 0x0, symName: '-[FWFWebViewConfigurationFlutterApiImpl initWithBinaryMessenger:instanceManager:]', symObjAddr: 0x0, symBinAddr: 0x1C910, symSize: 0x68 }
+  - { offsetInCU: 0x21F, offset: 0x75714, size: 0x8, addend: 0x0, symName: '-[FWFWebViewConfigurationFlutterApiImpl initWithBinaryMessenger:instanceManager:]', symObjAddr: 0x0, symBinAddr: 0x1C910, symSize: 0x68 }
+  - { offsetInCU: 0x276, offset: 0x7576B, size: 0x8, addend: 0x0, symName: '-[FWFWebViewConfigurationFlutterApiImpl createWithConfiguration:completion:]', symObjAddr: 0x68, symBinAddr: 0x1C978, symSize: 0x8C }
+  - { offsetInCU: 0x2D9, offset: 0x757CE, size: 0x8, addend: 0x0, symName: '-[FWFWebViewConfigurationFlutterApiImpl instanceManager]', symObjAddr: 0xF4, symBinAddr: 0x1CA04, symSize: 0x20 }
+  - { offsetInCU: 0x310, offset: 0x75805, size: 0x8, addend: 0x0, symName: '-[FWFWebViewConfigurationFlutterApiImpl setInstanceManager:]', symObjAddr: 0x114, symBinAddr: 0x1CA24, symSize: 0x14 }
+  - { offsetInCU: 0x351, offset: 0x75846, size: 0x8, addend: 0x0, symName: '-[FWFWebViewConfigurationFlutterApiImpl .cxx_destruct]', symObjAddr: 0x128, symBinAddr: 0x1CA38, symSize: 0x10 }
+  - { offsetInCU: 0x384, offset: 0x75879, size: 0x8, addend: 0x0, symName: '-[FWFWebViewConfiguration initWithBinaryMessenger:instanceManager:]', symObjAddr: 0x138, symBinAddr: 0x1CA48, symSize: 0x94 }
+  - { offsetInCU: 0x3DB, offset: 0x758D0, size: 0x8, addend: 0x0, symName: '-[FWFWebViewConfiguration observeValueForKeyPath:ofObject:change:context:]', symObjAddr: 0x1CC, symBinAddr: 0x1CADC, symSize: 0xA4 }
+  - { offsetInCU: 0x44A, offset: 0x7593F, size: 0x8, addend: 0x0, symName: '___74-[FWFWebViewConfiguration observeValueForKeyPath:ofObject:change:context:]_block_invoke', symObjAddr: 0x270, symBinAddr: 0x1CB80, symSize: 0x4 }
+  - { offsetInCU: 0x47D, offset: 0x75972, size: 0x8, addend: 0x0, symName: '-[FWFWebViewConfiguration objectApi]', symObjAddr: 0x274, symBinAddr: 0x1CB84, symSize: 0x10 }
+  - { offsetInCU: 0x4B4, offset: 0x759A9, size: 0x8, addend: 0x0, symName: '-[FWFWebViewConfiguration .cxx_destruct]', symObjAddr: 0x284, symBinAddr: 0x1CB94, symSize: 0x14 }
+  - { offsetInCU: 0x4E7, offset: 0x759DC, size: 0x8, addend: 0x0, symName: '-[FWFWebViewConfigurationHostApiImpl initWithBinaryMessenger:instanceManager:]', symObjAddr: 0x298, symBinAddr: 0x1CBA8, symSize: 0x7C }
+  - { offsetInCU: 0x53E, offset: 0x75A33, size: 0x8, addend: 0x0, symName: '-[FWFWebViewConfigurationHostApiImpl webViewConfigurationForIdentifier:]', symObjAddr: 0x314, symBinAddr: 0x1CC24, symSize: 0x4C }
+  - { offsetInCU: 0x585, offset: 0x75A7A, size: 0x8, addend: 0x0, symName: '-[FWFWebViewConfigurationHostApiImpl createWithIdentifier:error:]', symObjAddr: 0x360, symBinAddr: 0x1CC70, symSize: 0xB8 }
+  - { offsetInCU: 0x5E4, offset: 0x75AD9, size: 0x8, addend: 0x0, symName: '-[FWFWebViewConfigurationHostApiImpl createFromWebViewWithIdentifier:webViewIdentifier:error:]', symObjAddr: 0x418, symBinAddr: 0x1CD28, symSize: 0xA4 }
+  - { offsetInCU: 0x653, offset: 0x75B48, size: 0x8, addend: 0x0, symName: '-[FWFWebViewConfigurationHostApiImpl setAllowsInlineMediaPlaybackForConfigurationWithIdentifier:isAllowed:error:]', symObjAddr: 0x4BC, symBinAddr: 0x1CDCC, symSize: 0x38 }
+  - { offsetInCU: 0x6B2, offset: 0x75BA7, size: 0x8, addend: 0x0, symName: '-[FWFWebViewConfigurationHostApiImpl setLimitsNavigationsToAppBoundDomainsForConfigurationWithIdentifier:isLimited:error:]', symObjAddr: 0x4F4, symBinAddr: 0x1CE04, symSize: 0xAC }
+  - { offsetInCU: 0x715, offset: 0x75C0A, size: 0x8, addend: 0x0, symName: '-[FWFWebViewConfigurationHostApiImpl setMediaTypesRequiresUserActionForConfigurationWithIdentifier:forTypes:error:]', symObjAddr: 0x5A0, symBinAddr: 0x1CEB0, symSize: 0x14C }
+  - { offsetInCU: 0x804, offset: 0x75CF9, size: 0x8, addend: 0x0, symName: '-[FWFWebViewConfigurationHostApiImpl binaryMessenger]', symObjAddr: 0x6EC, symBinAddr: 0x1CFFC, symSize: 0x18 }
+  - { offsetInCU: 0x83B, offset: 0x75D30, size: 0x8, addend: 0x0, symName: '-[FWFWebViewConfigurationHostApiImpl setBinaryMessenger:]', symObjAddr: 0x704, symBinAddr: 0x1D014, symSize: 0xC }
+  - { offsetInCU: 0x87C, offset: 0x75D71, size: 0x8, addend: 0x0, symName: '-[FWFWebViewConfigurationHostApiImpl instanceManager]', symObjAddr: 0x710, symBinAddr: 0x1D020, symSize: 0x18 }
+  - { offsetInCU: 0x8B3, offset: 0x75DA8, size: 0x8, addend: 0x0, symName: '-[FWFWebViewConfigurationHostApiImpl setInstanceManager:]', symObjAddr: 0x728, symBinAddr: 0x1D038, symSize: 0xC }
+  - { offsetInCU: 0x8F4, offset: 0x75DE9, size: 0x8, addend: 0x0, symName: '-[FWFWebViewConfigurationHostApiImpl .cxx_destruct]', symObjAddr: 0x734, symBinAddr: 0x1D044, symSize: 0x28 }
+  - { offsetInCU: 0x27, offset: 0x75F86, size: 0x8, addend: 0x0, symName: '+[FWFWebViewFlutterWKWebViewExternalAPI webViewForIdentifier:withPluginRegistry:]', symObjAddr: 0x0, symBinAddr: 0x1D06C, symSize: 0x98 }
+  - { offsetInCU: 0x51, offset: 0x75FB0, size: 0x8, addend: 0x0, symName: '+[FWFWebViewFlutterWKWebViewExternalAPI webViewForIdentifier:withPluginRegistry:]', symObjAddr: 0x0, symBinAddr: 0x1D06C, symSize: 0x98 }
+  - { offsetInCU: 0x27, offset: 0x76143, size: 0x8, addend: 0x0, symName: '-[FWFAssetManager lookupKeyForAsset:]', symObjAddr: 0x0, symBinAddr: 0x1D104, symSize: 0xC }
+  - { offsetInCU: 0x20B, offset: 0x76327, size: 0x8, addend: 0x0, symName: '-[FWFAssetManager lookupKeyForAsset:]', symObjAddr: 0x0, symBinAddr: 0x1D104, symSize: 0xC }
+  - { offsetInCU: 0x24C, offset: 0x76368, size: 0x8, addend: 0x0, symName: '-[FWFWebView initWithFrame:configuration:binaryMessenger:instanceManager:]', symObjAddr: 0xC, symBinAddr: 0x1D110, symSize: 0x12C }
+  - { offsetInCU: 0x2EC, offset: 0x76408, size: 0x8, addend: 0x0, symName: '-[FWFWebView setFrame:]', symObjAddr: 0x138, symBinAddr: 0x1D23C, symSize: 0x150 }
+  - { offsetInCU: 0x365, offset: 0x76481, size: 0x8, addend: 0x0, symName: '-[FWFWebView observeValueForKeyPath:ofObject:change:context:]', symObjAddr: 0x288, symBinAddr: 0x1D38C, symSize: 0xA4 }
+  - { offsetInCU: 0x3D4, offset: 0x764F0, size: 0x8, addend: 0x0, symName: '___61-[FWFWebView observeValueForKeyPath:ofObject:change:context:]_block_invoke', symObjAddr: 0x32C, symBinAddr: 0x1D430, symSize: 0x4 }
+  - { offsetInCU: 0x407, offset: 0x76523, size: 0x8, addend: 0x0, symName: '-[FWFWebView view]', symObjAddr: 0x330, symBinAddr: 0x1D434, symSize: 0x4 }
+  - { offsetInCU: 0x43C, offset: 0x76558, size: 0x8, addend: 0x0, symName: '-[FWFWebView objectApi]', symObjAddr: 0x334, symBinAddr: 0x1D438, symSize: 0x10 }
+  - { offsetInCU: 0x473, offset: 0x7658F, size: 0x8, addend: 0x0, symName: '-[FWFWebView .cxx_destruct]', symObjAddr: 0x344, symBinAddr: 0x1D448, symSize: 0x14 }
+  - { offsetInCU: 0x4A6, offset: 0x765C2, size: 0x8, addend: 0x0, symName: '-[FWFWebViewHostApiImpl initWithBinaryMessenger:instanceManager:]', symObjAddr: 0x358, symBinAddr: 0x1D45C, symSize: 0xB8 }
+  - { offsetInCU: 0x4FD, offset: 0x76619, size: 0x8, addend: 0x0, symName: '-[FWFWebViewHostApiImpl initWithBinaryMessenger:instanceManager:bundle:assetManager:]', symObjAddr: 0x410, symBinAddr: 0x1D514, symSize: 0xD4 }
+  - { offsetInCU: 0x574, offset: 0x76690, size: 0x8, addend: 0x0, symName: '-[FWFWebViewHostApiImpl webViewForIdentifier:]', symObjAddr: 0x4E4, symBinAddr: 0x1D5E8, symSize: 0x4C }
+  - { offsetInCU: 0x5BB, offset: 0x766D7, size: 0x8, addend: 0x0, symName: '+[FWFWebViewHostApiImpl errorForURLString:]', symObjAddr: 0x530, symBinAddr: 0x1D634, symSize: 0x7C }
+  - { offsetInCU: 0x60E, offset: 0x7672A, size: 0x8, addend: 0x0, symName: '-[FWFWebViewHostApiImpl createWithIdentifier:configurationIdentifier:error:]', symObjAddr: 0x5AC, symBinAddr: 0x1D6B0, symSize: 0x104 }
+  - { offsetInCU: 0x68D, offset: 0x767A9, size: 0x8, addend: 0x0, symName: '-[FWFWebViewHostApiImpl loadRequestForWebViewWithIdentifier:request:error:]', symObjAddr: 0x6B0, symBinAddr: 0x1D7B4, symSize: 0x114 }
+  - { offsetInCU: 0x785, offset: 0x768A1, size: 0x8, addend: 0x0, symName: '-[FWFWebViewHostApiImpl setCustomUserAgentForWebViewWithIdentifier:userAgent:error:]', symObjAddr: 0x7C4, symBinAddr: 0x1D8C8, symSize: 0x60 }
+  - { offsetInCU: 0x7E4, offset: 0x76900, size: 0x8, addend: 0x0, symName: '-[FWFWebViewHostApiImpl canGoBackForWebViewWithIdentifier:error:]', symObjAddr: 0x824, symBinAddr: 0x1D928, symSize: 0x58 }
+  - { offsetInCU: 0x837, offset: 0x76953, size: 0x8, addend: 0x0, symName: '-[FWFWebViewHostApiImpl URLForWebViewWithIdentifier:error:]', symObjAddr: 0x87C, symBinAddr: 0x1D980, symSize: 0x64 }
+  - { offsetInCU: 0x88A, offset: 0x769A6, size: 0x8, addend: 0x0, symName: '-[FWFWebViewHostApiImpl canGoForwardForWebViewWithIdentifier:error:]', symObjAddr: 0x8E0, symBinAddr: 0x1D9E4, symSize: 0x58 }
+  - { offsetInCU: 0x8DD, offset: 0x769F9, size: 0x8, addend: 0x0, symName: '-[FWFWebViewHostApiImpl estimatedProgressForWebViewWithIdentifier:error:]', symObjAddr: 0x938, symBinAddr: 0x1DA3C, symSize: 0x54 }
+  - { offsetInCU: 0x930, offset: 0x76A4C, size: 0x8, addend: 0x0, symName: '-[FWFWebViewHostApiImpl evaluateJavaScriptForWebViewWithIdentifier:javaScriptString:completion:]', symObjAddr: 0x98C, symBinAddr: 0x1DA90, symSize: 0xD0 }
+  - { offsetInCU: 0x993, offset: 0x76AAF, size: 0x8, addend: 0x0, symName: '___96-[FWFWebViewHostApiImpl evaluateJavaScriptForWebViewWithIdentifier:javaScriptString:completion:]_block_invoke', symObjAddr: 0xA5C, symBinAddr: 0x1DB60, symSize: 0x190 }
+  - { offsetInCU: 0xAE9, offset: 0x76C05, size: 0x8, addend: 0x0, symName: '-[FWFWebViewHostApiImpl setInspectableForWebViewWithIdentifier:inspectable:error:]', symObjAddr: 0xC04, symBinAddr: 0x1DCF0, symSize: 0xAC }
+  - { offsetInCU: 0xB4C, offset: 0x76C68, size: 0x8, addend: 0x0, symName: '-[FWFWebViewHostApiImpl goBackForWebViewWithIdentifier:error:]', symObjAddr: 0xCB0, symBinAddr: 0x1DD9C, symSize: 0x38 }
+  - { offsetInCU: 0xB9B, offset: 0x76CB7, size: 0x8, addend: 0x0, symName: '-[FWFWebViewHostApiImpl goForwardForWebViewWithIdentifier:error:]', symObjAddr: 0xCE8, symBinAddr: 0x1DDD4, symSize: 0x38 }
+  - { offsetInCU: 0xBEA, offset: 0x76D06, size: 0x8, addend: 0x0, symName: '-[FWFWebViewHostApiImpl loadAssetForWebViewWithIdentifier:assetKey:error:]', symObjAddr: 0xD20, symBinAddr: 0x1DE0C, symSize: 0x178 }
+  - { offsetInCU: 0xC6D, offset: 0x76D89, size: 0x8, addend: 0x0, symName: '-[FWFWebViewHostApiImpl loadFileForWebViewWithIdentifier:fileURL:readAccessURL:error:]', symObjAddr: 0xE98, symBinAddr: 0x1DF84, symSize: 0x120 }
+  - { offsetInCU: 0xD00, offset: 0x76E1C, size: 0x8, addend: 0x0, symName: '-[FWFWebViewHostApiImpl loadHTMLForWebViewWithIdentifier:HTMLString:baseURL:error:]', symObjAddr: 0xFB8, symBinAddr: 0x1E0A4, symSize: 0xAC }
+  - { offsetInCU: 0xD74, offset: 0x76E90, size: 0x8, addend: 0x0, symName: '-[FWFWebViewHostApiImpl reloadWebViewWithIdentifier:error:]', symObjAddr: 0x1064, symBinAddr: 0x1E150, symSize: 0x38 }
+  - { offsetInCU: 0xDC6, offset: 0x76EE2, size: 0x8, addend: 0x0, symName: '-[FWFWebViewHostApiImpl setAllowsBackForwardForWebViewWithIdentifier:isAllowed:error:]', symObjAddr: 0x109C, symBinAddr: 0x1E188, symSize: 0x38 }
+  - { offsetInCU: 0xE29, offset: 0x76F45, size: 0x8, addend: 0x0, symName: '-[FWFWebViewHostApiImpl setNavigationDelegateForWebViewWithIdentifier:delegateIdentifier:error:]', symObjAddr: 0x10D4, symBinAddr: 0x1E1C0, symSize: 0xB0 }
+  - { offsetInCU: 0xE9D, offset: 0x76FB9, size: 0x8, addend: 0x0, symName: '-[FWFWebViewHostApiImpl setUIDelegateForWebViewWithIdentifier:delegateIdentifier:error:]', symObjAddr: 0x1184, symBinAddr: 0x1E270, symSize: 0xB0 }
+  - { offsetInCU: 0xF11, offset: 0x7702D, size: 0x8, addend: 0x0, symName: '-[FWFWebViewHostApiImpl titleForWebViewWithIdentifier:error:]', symObjAddr: 0x1234, symBinAddr: 0x1E320, symSize: 0x44 }
+  - { offsetInCU: 0xF67, offset: 0x77083, size: 0x8, addend: 0x0, symName: '-[FWFWebViewHostApiImpl customUserAgentForWebViewWithIdentifier:error:]', symObjAddr: 0x1278, symBinAddr: 0x1E364, symSize: 0x44 }
+  - { offsetInCU: 0xFBD, offset: 0x770D9, size: 0x8, addend: 0x0, symName: '-[FWFWebViewHostApiImpl binaryMessenger]', symObjAddr: 0x12BC, symBinAddr: 0x1E3A8, symSize: 0x18 }
+  - { offsetInCU: 0xFF4, offset: 0x77110, size: 0x8, addend: 0x0, symName: '-[FWFWebViewHostApiImpl setBinaryMessenger:]', symObjAddr: 0x12D4, symBinAddr: 0x1E3C0, symSize: 0xC }
+  - { offsetInCU: 0x1035, offset: 0x77151, size: 0x8, addend: 0x0, symName: '-[FWFWebViewHostApiImpl instanceManager]', symObjAddr: 0x12E0, symBinAddr: 0x1E3CC, symSize: 0x18 }
+  - { offsetInCU: 0x106C, offset: 0x77188, size: 0x8, addend: 0x0, symName: '-[FWFWebViewHostApiImpl setInstanceManager:]', symObjAddr: 0x12F8, symBinAddr: 0x1E3E4, symSize: 0xC }
+  - { offsetInCU: 0x10AD, offset: 0x771C9, size: 0x8, addend: 0x0, symName: '-[FWFWebViewHostApiImpl bundle]', symObjAddr: 0x1304, symBinAddr: 0x1E3F0, symSize: 0xC }
+  - { offsetInCU: 0x10E4, offset: 0x77200, size: 0x8, addend: 0x0, symName: '-[FWFWebViewHostApiImpl setBundle:]', symObjAddr: 0x1310, symBinAddr: 0x1E3FC, symSize: 0x8 }
+  - { offsetInCU: 0x1123, offset: 0x7723F, size: 0x8, addend: 0x0, symName: '-[FWFWebViewHostApiImpl assetManager]', symObjAddr: 0x1318, symBinAddr: 0x1E404, symSize: 0xC }
+  - { offsetInCU: 0x115A, offset: 0x77276, size: 0x8, addend: 0x0, symName: '-[FWFWebViewHostApiImpl setAssetManager:]', symObjAddr: 0x1324, symBinAddr: 0x1E410, symSize: 0x8 }
+  - { offsetInCU: 0x1199, offset: 0x772B5, size: 0x8, addend: 0x0, symName: '-[FWFWebViewHostApiImpl .cxx_destruct]', symObjAddr: 0x132C, symBinAddr: 0x1E418, symSize: 0x40 }
+...

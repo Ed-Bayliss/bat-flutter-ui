@@ -33,11 +33,13 @@ dependencies:
   flutter_svg: ^2.0.5
   path_provider: ^2.0.15
   webview_flutter: ^4.2.1
-  flutter_inappwebview: ^5.7.2+3
+  flutter_inappwebview: ^5.8.0
   permission_handler: ^10.2.0
   url_launcher: ^6.1.11
   http: ^1.2.1
   shared_preferences: ^2.2.3
+  flutter_secure_storage: ^9.2.2
+  qr_code_scanner: 1.0.1
 
 platforms:
   android:

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/io_client.dart';
 import 'WebViewPage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert'; // For JSON encoding
@@ -99,11 +100,15 @@ Future<void> _checkLoginStatus() async {
 
     // Perform the POST request
     try {
-      var response = await http.post(
-        Uri.parse(url),
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode(body),
-      );
+      bool trustSelfSigned = true;
+      HttpClient httpClient = new HttpClient()
+        ..badCertificateCallback =
+            ((X509Certificate cert, String host, int port) => trustSelfSigned);
+      IOClient ioClient = new IOClient(httpClient);
+      var response = await ioClient.post(Uri.parse(url),
+          headers: {"Content-Type": "application/json"},
+          body: jsonEncode(body));
+      
 
       // Check the response status and print the result
       if (response.statusCode == 200) {
