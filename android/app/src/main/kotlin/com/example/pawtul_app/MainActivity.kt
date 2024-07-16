@@ -1,4 +1,4 @@
-package com.example.pawtul_app
+package com.burtonaletrail
 
 import io.flutter.embedding.android.FlutterActivity
 

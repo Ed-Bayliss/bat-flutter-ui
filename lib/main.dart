@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'WebViewPage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert'; // For JSON encoding
+import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart'; // Add this line
 
 void main() async {
@@ -13,8 +14,18 @@ void main() async {
   //   "3002aa80-35a6-465d-a7dc-6172f15fe72d",
   // );
   // OneSignal.Notifications.requestPermission(true);
+  HttpOverrides.global = MyHttpOverrides();
 
   runApp(MyApp());
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -27,9 +38,6 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => LoginScreen(),
       }
-      // home: WebViewPage(url: 'https://www.pawtul.com/login'),
-      // home: WebViewPage(url: 'https://app.pawtul.com/login'),
-      // home: WebViewPage(url: 'http://localhost:5000'),
     );
   }
 }
@@ -69,6 +77,9 @@ Future<void> _checkLoginStatus() async {
   void LoginPost() async {
     String email = emailController.text;
     String password = passwordController.text;
+    // String domain = "http://192.168.1.90:8000/";
+    String domain = "https://burtonaletrail.pawtul.com/";
+
 
     // Save email and password to shared preferences
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -76,7 +87,7 @@ Future<void> _checkLoginStatus() async {
     await prefs.setString('password', password);
 
     // Define the URL for the POST request
-    String url = 'https://burtonaletrail.pawtul.com/login_app';
+    String url = domain + 'login_app';
 
     // Create the JSON body for the POST request
     Map<String, String> body = {
@@ -106,7 +117,7 @@ Future<void> _checkLoginStatus() async {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => WebViewPage(
-            url: 'https://burtonaletrail.pawtul.com/app_login',
+            url: domain + 'app_login',
             email: email,
             password: password)),
         );

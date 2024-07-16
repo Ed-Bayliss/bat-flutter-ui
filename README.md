@@ -1,4 +1,4 @@
-# pawtul_app
+# burton ale trail app
 
 A new Flutter project.
 

@@ -32,6 +32,7 @@ class _WebViewPageState extends State<WebViewPage> {
       'email': widget.email,
       'password': widget.password,
     });
+    print(postData);
 
     return Scaffold(
       // appBar: PreferredSize(
@@ -49,7 +50,7 @@ class _WebViewPageState extends State<WebViewPage> {
                   initialUrlRequest: URLRequest(
                     url: Uri.parse(widget.url),
                     method: 'POST',
-                    body: Uint8List.fromList(utf8.encode(postData)),
+                    body: utf8.encode(postData),
                     headers: {
                       'Content-Type': 'application/json',
                     },
@@ -76,13 +77,10 @@ class _WebViewPageState extends State<WebViewPage> {
                       _progress = progress / 100;
                     });
                   },
-                  onReceivedServerTrustAuthRequest: (controller, challenge) {
-                    setState(() {
-                      print(challenge);
-                    });
-                    return Future.value(ServerTrustAuthResponse(
-                        action: ServerTrustAuthResponseAction.PROCEED));
-                  },
+                  onReceivedServerTrustAuthRequest: (controller, challenge) async {
+                  print(challenge);
+                  return ServerTrustAuthResponse(action: ServerTrustAuthResponseAction.PROCEED);
+                },
                   shouldOverrideUrlLoading: (controller, navigationAction) async {
                     final url = navigationAction.request.url?.toString();
                     if (url != null && url.contains('pawtul.com/login')) {
