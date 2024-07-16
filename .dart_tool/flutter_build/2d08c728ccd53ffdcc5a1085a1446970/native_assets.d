@@ -1,0 +1,1 @@
+ D:\\ed\\bat_flutter_ui\\bat-flutter-ui\\.dart_tool\\flutter_build\\2d08c728ccd53ffdcc5a1085a1446970\\native_assets.yaml: 
