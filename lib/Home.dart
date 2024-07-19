@@ -1,7 +1,11 @@
+import 'dart:io';
+
+import 'package:burtonaletrail_app/Badges.dart';
 import 'package:burtonaletrail_app/Beers.dart';
 import 'package:burtonaletrail_app/Leaderboard.dart';
 import 'package:burtonaletrail_app/Pubs.dart';
 import 'package:flutter/material.dart';
+import 'package:http/io_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -45,11 +49,18 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  void _fetchUserData() async {
-    // Replace with your API endpoint
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    uuid = prefs.getString('uuid');
-    final response = await http.get(Uri.parse('https://burtonaletrail.pawtul.com/home_screen/' + uuid!));
+void _fetchUserData() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? uuid = prefs.getString('uuid');
+
+  if (uuid != null) {
+    bool trustSelfSigned = true;
+    HttpClient httpClient = HttpClient()
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => trustSelfSigned;
+    IOClient ioClient = IOClient(httpClient);
+
+    final response = await ioClient.get(Uri.parse('https://burtonaletrail.pawtul.com/home_screen/' + uuid));
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
@@ -63,7 +74,10 @@ class _HomeScreenState extends State<HomeScreen> {
       // Handle the error appropriately
       print('Failed to load user data');
     }
+  } else {
+    throw Exception('UUID not found');
   }
+}
 
   String getSuffix(int number) {
     if (11 <= number % 100 && number % 100 <= 13) {
@@ -287,15 +301,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         2,
                         Icons.badge,
                         onTap: () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(builder: (context) => WebViewPage(
-                                url: domain + 'redirect',
-                                email: email ?? '',
-                                password: password ?? '',
-                               new_url: 'badges'
-)),
-);
+                            MaterialPageRoute(builder: (context) => BadgesScreen()),
+                          );
 },
 ),
 _buildFeatureCard(

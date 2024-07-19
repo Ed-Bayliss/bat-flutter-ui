@@ -6,6 +6,7 @@ import 'package:burtonaletrail_app/Home.dart';
 import 'package:burtonaletrail_app/UnlockedBadge.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:http/io_client.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:http/http.dart' as http;
@@ -77,9 +78,21 @@ class _QRScannerState extends State<QRScanner> {
 
   Future<void> checkIn(String url) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uuid = prefs.getString('uuid');
-    final response = await http.get(Uri.parse(url + '/' + uuid!));
+    String? uuid = prefs.getString('uuid');
+
+    if (uuid == null) {
+      throw Exception('UUID is null');
+    }
+
+    bool trustSelfSigned = true;
+    HttpClient httpClient = HttpClient()
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => trustSelfSigned;
+    IOClient ioClient = IOClient(httpClient);
+
+    final response = await ioClient.get(Uri.parse(url + '/' + uuid));
     final data = jsonDecode(response.body);
+
     if (response.statusCode == 200) {
       if (mounted) { // Ensure the widget is still mounted before calling setState
         setState(() {
@@ -96,8 +109,19 @@ class _QRScannerState extends State<QRScanner> {
           );
         });
       }
+    } else if (response.statusCode == 700) {
+      if (mounted) {
+        setState(() {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('The event has not yet started'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        });
+      }
     } else {
-      throw Exception('Failed to load pub data');
+      throw Exception('Failed to check in');
     }
   }
 
@@ -137,44 +161,48 @@ class _QRScannerState extends State<QRScanner> {
                             'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}'
                           )
                         else
-                          const Text('Scan the QR code in the pub.'),
+                          const Text(' ',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 10,
+                          ),),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            Container(
-                              margin: const EdgeInsets.all(8),
-                              child: ElevatedButton(
-                                  onPressed: () async {
-                                    await controller?.toggleFlash();
-                                    setState(() {});
-                                  },
-                                  child: FutureBuilder(
-                                    future: controller?.getFlashStatus(),
-                                    builder: (context, snapshot) {
-                                      return Text('Flash: ${snapshot.data}');
-                                    },
-                                  )),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.all(8),
-                              child: ElevatedButton(
-                                  onPressed: () async {
-                                    await controller?.flipCamera();
-                                    setState(() {});
-                                  },
-                                  child: FutureBuilder(
-                                    future: controller?.getCameraInfo(),
-                                    builder: (context, snapshot) {
-                                      if (snapshot.data != null) {
-                                        return Text(
-                                            'Camera: ${snapshot.data!.toString().toUpperCase()}');
-                                      } else {
-                                        return const Text('loading');
-                                      }
-                                    },
-                                  )),
-                            )
+                            // Container(
+                            //   margin: const EdgeInsets.all(8),
+                            //   child: ElevatedButton(
+                            //       onPressed: () async {
+                            //         await controller?.toggleFlash();
+                            //         setState(() {});
+                            //       },
+                            //       child: FutureBuilder(
+                            //         future: controller?.getFlashStatus(),
+                            //         builder: (context, snapshot) {
+                            //           return Text('Flash: ${snapshot.data}');
+                            //         },
+                            //       )),
+                            // ),
+                            // Container(
+                            //   margin: const EdgeInsets.all(8),
+                            //   child: ElevatedButton(
+                            //       onPressed: () async {
+                            //         await controller?.flipCamera();
+                            //         setState(() {});
+                            //       },
+                            //       child: FutureBuilder(
+                            //         future: controller?.getCameraInfo(),
+                            //         builder: (context, snapshot) {
+                            //           if (snapshot.data != null) {
+                            //             return Text(
+                            //                 'Camera: ${snapshot.data!.toString().toUpperCase()}');
+                            //           } else {
+                            //             return const Text('loading');
+                            //           }
+                            //         },
+                            //       )),
+                            // )
                           ],
                         ),
                       ],

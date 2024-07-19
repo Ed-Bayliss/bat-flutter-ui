@@ -1,9 +1,11 @@
+import 'dart:io';
 import 'dart:ui';
 import 'package:burtonaletrail_app/BeerProfile.dart';
 import 'package:burtonaletrail_app/QRScanner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/io_client.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:burtonaletrail_app/Home.dart';  // Import for navigation
@@ -30,10 +32,18 @@ class _BeersScreenState extends State<BeersScreen> {
     });
   }
 
-  Future<void> fetchBeerData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    uuid = prefs.getString('uuid');
-    final response = await http.get(Uri.parse('https://burtonaletrail.pawtul.com/beer_data/' + uuid!));
+Future<void> fetchBeerData() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? uuid = prefs.getString('uuid');
+
+  if (uuid != null) {
+    bool trustSelfSigned = true;
+    HttpClient httpClient = HttpClient()
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => trustSelfSigned;
+    IOClient ioClient = IOClient(httpClient);
+
+    final response = await ioClient.get(Uri.parse('https://burtonaletrail.pawtul.com/beer_data/' + uuid));
 
     if (response.statusCode == 200) {
       setState(() {
@@ -44,7 +54,10 @@ class _BeersScreenState extends State<BeersScreen> {
     } else {
       throw Exception('Failed to load beer data');
     }
+  } else {
+    throw Exception('UUID not found');
   }
+}
 
   void _onItemTapped(int index) {
     setState(() {
@@ -164,7 +177,7 @@ class _BeersScreenState extends State<BeersScreen> {
           ),
           SizedBox(height: 4),
           Text(
-            'Total Votes: ${item['beerVotesSum']}',
+            'Total Stars Given: ${item['beerVotesSum']}',
             style: TextStyle(
               fontSize: 14,
               color: Colors.grey[600],

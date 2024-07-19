@@ -1,6 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:ui';
+import 'package:burtonaletrail_app/BeerProfile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:http/io_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:burtonaletrail_app/Home.dart';  // Import for navigation
@@ -54,7 +58,13 @@ class _PubProfileScreenState extends State<PubProfileScreen> {
     String? uuid = prefs.getString('uuid');
 
     if (uuid != null) {
-      final response = await http.get(Uri.parse('https://burtonaletrail.pawtul.com/pub_data/'+ widget.pubId + "/" + uuid));
+      bool trustSelfSigned = true;
+      HttpClient httpClient = HttpClient()
+        ..badCertificateCallback =
+            (X509Certificate cert, String host, int port) => trustSelfSigned;
+      IOClient ioClient = IOClient(httpClient);
+
+      final response = await ioClient.get(Uri.parse('https://burtonaletrail.pawtul.com/pub_data/'+ widget.pubId + "/" + uuid));
 
       if (response.statusCode == 200) {
         setState(() {
@@ -81,16 +91,27 @@ class _PubProfileScreenState extends State<PubProfileScreen> {
 
   Future<void> fetchBeerData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uuid = prefs.getString('uuid');
-    final response = await http.get(Uri.parse('https://burtonaletrail.pawtul.com/pub_data_beer/' + widget.pubId + '/' + uuid!));
+    String? uuid = prefs.getString('uuid');
 
-    if (response.statusCode == 200) {
-      setState(() {
-        beerData = json.decode(response.body);
-        print(beerData);
-      });
+    if (uuid != null) {
+      bool trustSelfSigned = true;
+      HttpClient httpClient = HttpClient()
+        ..badCertificateCallback =
+            (X509Certificate cert, String host, int port) => trustSelfSigned;
+      IOClient ioClient = IOClient(httpClient);
+
+      final response = await ioClient.get(Uri.parse('https://burtonaletrail.pawtul.com/pub_data_beer/' + widget.pubId + '/' + uuid));
+
+      if (response.statusCode == 200) {
+        setState(() {
+          beerData = json.decode(response.body);
+          print(beerData);
+        });
+      } else {
+        throw Exception('Failed to load pub data');
+      }
     } else {
-      throw Exception('Failed to load pub data');
+      throw Exception('UUID not found');
     }
   }
 
@@ -210,51 +231,67 @@ class _PubProfileScreenState extends State<PubProfileScreen> {
                               ),
                             ),
                             ListView.builder(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount: beerData[0].length,
-                              itemBuilder: (context, index) {
-                                final item = beerData[0][index];
-                                print(beerData);
-                                return ListTile(
-  contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-  leading: '${item['beerGraphic']}' != null
-      ? Image.network(
-          '${item['beerGraphic']}',
-          width: 50,
-          height: 50,
-          fit: BoxFit.cover,
-        )
-      : Container(
-          width: 50,
-          height: 50,
-          color: Colors.grey,
+  shrinkWrap: true,
+  physics: NeverScrollableScrollPhysics(),
+  itemCount: beerData[0].length,
+  itemBuilder: (context, index) {
+    final item = beerData[0][index];
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BeerProfileScreen(beerId: '${item['beerId']}'),
+          ),
+        );
+      },
+      child: ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        leading: item['beerGraphic'] != null
+            ? Image.network(
+                '${item['beerGraphic']}',
+                width: 50,
+                height: 50,
+                fit: BoxFit.cover,
+              )
+            : Container(
+                width: 50,
+                height: 50,
+                color: Colors.grey,
+              ),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '${item['beerName']}',
+              style: TextStyle(
+                fontSize: 16.0, // Set font size for beer name
+                color: Colors.black,
+              ),
+            ),
+            SizedBox(height: 4.0), // Space between name and details
+          ],
         ),
-  title: Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(
-        '${item['beerName']}',
-        style: TextStyle(
-          fontSize: 16.0, // Set font size for beer name
-          color: Colors.black,
+        subtitle: RatingBar.builder(
+          initialRating: double.parse(item['beerVotesSum']),
+          minRating: 1,
+          direction: Axis.horizontal,
+          allowHalfRating: true,
+          itemCount: 5,
+          itemSize: 20.0, // Change this value to make stars smaller
+          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+          itemBuilder: (context, _) => Icon(
+            Icons.star,
+            color: Colors.amber,
+          ),
+          onRatingUpdate: (rating) {
+            // You can handle the rating update here if needed
+          },
         ),
       ),
-      SizedBox(height: 4.0), // Space between name and details
-    ],
-  ),
-  subtitle: Text(
-    '${item['beerDesc']}',
-    style: TextStyle(
-      fontSize: 14.0, // Set font size for beer description
-      color: Colors.black,
-    ),
-    maxLines: 3,
-    overflow: TextOverflow.ellipsis,
-  ),
-);
-                              },
-                            ),
+    );
+  },
+),
                           ],
                         ),
                       ),

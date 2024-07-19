@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:http/io_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:burtonaletrail_app/Home.dart';  // Import for navigation
@@ -49,43 +51,55 @@ class _BeerProfileScreenState extends State<BeerProfileScreen> {
     await fetchBeerData();
   }
 
-  Future<void> fetchBeerData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? uuid = prefs.getString('uuid');
+Future<void> fetchBeerData() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? uuid = prefs.getString('uuid');
 
-    if (uuid != null) {
-      final response = await http.get(Uri.parse('https://burtonaletrail.pawtul.com/beer_data/'+ widget.beerId + "/" + uuid));
+  if (uuid != null) {
+    bool trustSelfSigned = true;
+    HttpClient httpClient = HttpClient()
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => trustSelfSigned;
+    IOClient ioClient = IOClient(httpClient);
 
-      if (response.statusCode == 200) {
-        setState(() {
-          final List<dynamic> pubDataList = json.decode(response.body);
-          if (pubDataList.isNotEmpty) {
-            final beerData = pubDataList[0];
-            print(beerData);
-            beerName = beerData['beerName'];
-            beerBrewery = beerData['beerBrewery'];
-            beerAbv = beerData['beerAbv'];
-            beerDesc = beerData['beerDesc'];
-            beerGraphic = beerData['beerGraphic'];
-            beerVotesSum = beerData['beerVotesSum'];
-            isLoading = false;
-          }
-        });
-      } else {
-        throw Exception('Failed to load pub data');
-      }
+    final response = await ioClient.get(Uri.parse('https://burtonaletrail.pawtul.com/beer_data/'+ widget.beerId + "/" + uuid));
+
+    if (response.statusCode == 200) {
+      setState(() {
+        final List<dynamic> pubDataList = json.decode(response.body);
+        if (pubDataList.isNotEmpty) {
+          final beerData = pubDataList[0];
+          print(beerData);
+          beerName = beerData['beerName'];
+          beerBrewery = beerData['beerBrewery'];
+          beerAbv = beerData['beerAbv'];
+          beerDesc = beerData['beerDesc'];
+          beerGraphic = beerData['beerGraphic'];
+          beerVotesSum = beerData['beerVotesSum'];
+          isLoading = false;
+        }
+      });
     } else {
-      throw Exception('UUID not found');
+      throw Exception('Failed to load pub data');
     }
+  } else {
+    throw Exception('UUID not found');
   }
+}
 
   Future<void> submitRating(double rating) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? uuid = prefs.getString('uuid');
 
     if (uuid != null) {
-      final response = await http.get(
-        Uri.parse('https/beer_vote/' + widget.beerId + '/' + rating.toString() + '/' + uuid),
+      bool trustSelfSigned = true;
+      HttpClient httpClient = HttpClient()
+        ..badCertificateCallback =
+            (X509Certificate cert, String host, int port) => trustSelfSigned;
+      IOClient ioClient = IOClient(httpClient);
+
+      final response = await ioClient.get(
+        Uri.parse('https://burtonaletrail.pawtul.com/beer_vote/' + widget.beerId + '/' + rating.toString() + '/' + uuid),
       );
 
       if (response.statusCode == 200) {
@@ -93,17 +107,22 @@ class _BeerProfileScreenState extends State<BeerProfileScreen> {
           SnackBar(backgroundColor: Colors.green, content: Text('Rating submitted successfully!')),
         );
       } else if (response.statusCode == 700) {
-     ScaffoldMessenger.of(context).showSnackBar(
-  SnackBar(
-    backgroundColor: Colors.green,
-    content: Text('Your vote was changed, no points were added.'),
-  ),
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.green,
+            content: Text('Your vote was changed, no points were added.'),
+          ),
         );
       } else if (response.statusCode == 600) {
-         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(backgroundColor: Colors.red,content: Text('The event has not yet started.')),
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.red,
+            content: Text('The event has not yet started.'),
+          ),
         );
-    }
+      } else {
+        throw Exception('Failed to submit rating');
+      }
     } else {
       throw Exception('UUID not found');
     }
