@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:burtonaletrail_app/Home.dart';  // Import for navigation
 import 'package:burtonaletrail_app/QRScanner.dart';  // Import for navigation
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class BeerProfileScreen extends StatefulWidget {
   final String beerId;
@@ -29,6 +30,7 @@ class _BeerProfileScreenState extends State<BeerProfileScreen> {
   String? beerAbv;
   String? beerDesc;
   String? beerGraphic;
+  String? beerVotesSum;
 
   String? uuid;
 
@@ -52,19 +54,20 @@ class _BeerProfileScreenState extends State<BeerProfileScreen> {
     String? uuid = prefs.getString('uuid');
 
     if (uuid != null) {
-      final response = await http.get(Uri.parse('https://burtonaletrail.pawtul.com/beer_data/${widget.beerId}/$uuid'));
+      final response = await http.get(Uri.parse('https://burtonaletrail.pawtul.com/beer_data/'+ widget.beerId + "/" + uuid));
 
       if (response.statusCode == 200) {
         setState(() {
           final List<dynamic> pubDataList = json.decode(response.body);
           if (pubDataList.isNotEmpty) {
-            final pubData = pubDataList[0];
-            pubName = pubData['pubName'];
-            pubDescription = pubData['pubDescription'];
-            pubLandlord = pubData['pubLandlord'];
-            landlordPhoneNumber = pubData['pubPhone'];
-            openingTimes = pubData['pubOpen'];
-            pubLogo = pubData['pubLogo'];
+            final beerData = pubDataList[0];
+            print(beerData);
+            beerName = beerData['beerName'];
+            beerBrewery = beerData['beerBrewery'];
+            beerAbv = beerData['beerAbv'];
+            beerDesc = beerData['beerDesc'];
+            beerGraphic = beerData['beerGraphic'];
+            beerVotesSum = beerData['beerVotesSum'];
             isLoading = false;
           }
         });
@@ -76,6 +79,35 @@ class _BeerProfileScreenState extends State<BeerProfileScreen> {
     }
   }
 
+  Future<void> submitRating(double rating) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? uuid = prefs.getString('uuid');
+
+    if (uuid != null) {
+      final response = await http.get(
+        Uri.parse('https/beer_vote/' + widget.beerId + '/' + rating.toString() + '/' + uuid),
+      );
+
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(backgroundColor: Colors.green, content: Text('Rating submitted successfully!')),
+        );
+      } else if (response.statusCode == 700) {
+     ScaffoldMessenger.of(context).showSnackBar(
+  SnackBar(
+    backgroundColor: Colors.green,
+    content: Text('Your vote was changed, no points were added.'),
+  ),
+        );
+      } else if (response.statusCode == 600) {
+         ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(backgroundColor: Colors.red,content: Text('The event has not yet started.')),
+        );
+    }
+    } else {
+      throw Exception('UUID not found');
+    }
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -128,68 +160,49 @@ class _BeerProfileScreenState extends State<BeerProfileScreen> {
                         child: ListView(
                           padding: EdgeInsets.zero, // Remove padding
                           children: [
-                            pubLogo != null
-                                ? Image.asset(
-                                    pubLogo!,
-                                    height: 200,
-                                    fit: BoxFit.cover,
-                                  )
-                                : Container(),
+                            beerGraphic != null
+                              ? Image.network(
+                                  beerGraphic!,
+                                  height: 200,
+                                  fit: BoxFit.contain,
+                                )
+                              : Container(),
                             SizedBox(height: 20),
-                            Text(
-                              pubName ?? '',
+                            Center(
+                            child :Text(
+                              beerName ?? '',
                               style: TextStyle(
                                 fontSize: 24.0, // Set font size for title
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
+                            ),
                             SizedBox(height: 10),
-                            Text(
-                              pubDescription ?? '',
+                            Center(child:Text(
+                              beerDesc ?? '',
                               style: TextStyle(
                                 fontSize: 16.0, // Set font size for description
                                 color: Colors.black,
                               ),
                             ),
-                            SizedBox(height: 20),
-                            Text(
-                              "Landlord: ${pubLandlord ?? ''}",
-                              style: TextStyle(
-                                fontSize: 18.0, // Set font size for landlord info
-                                color: Colors.black,
-                              ),
-                            ),
-                            Text(
-                              "Phone: ${landlordPhoneNumber ?? ''}",
-                              style: TextStyle(
-                                fontSize: 18.0, // Set font size for phone number
-                                color: Colors.black,
-                              ),
                             ),
                             SizedBox(height: 20),
-                            Text(
-                              "Opening Times:",
-                              style: TextStyle(
-                                fontSize: 18.0, // Set font size for opening times title
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              openingTimes ?? '',
-                              style: TextStyle(
-                                fontSize: 16.0, // Set font size for opening times
-                                color: Colors.black,
-                              ),
-                            ),
-                            SizedBox(height: 20),
-                            Text(
-                              "Beers Available:",
-                              style: TextStyle(
-                                fontSize: 18.0, // Set font size for beers title
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
+                            Center(
+                              child: RatingBar.builder(
+                                initialRating: double.parse(beerVotesSum!),
+                                minRating: 1,
+                                direction: Axis.horizontal,
+                                allowHalfRating: true,
+                                itemCount: 5,
+                                itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                                itemBuilder: (context, _) => Icon(
+                                  Icons.star,
+                                  color: Colors.amber,
+                                ),
+                                onRatingUpdate: (rating) {
+                                  submitRating(rating);
+                                },
                               ),
                             ),
                           ],

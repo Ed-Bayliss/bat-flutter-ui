@@ -1,13 +1,18 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';  // Add this import for blur effect
 import 'package:burtonaletrail_app/Home.dart';
+import 'package:burtonaletrail_app/UnlockedBadge.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:http/http.dart' as http;
+
 import 'package:burtonaletrail_app/WebViewPage.dart';  // Import for navigation
-import 'package:burtonaletrail_app/main.dart';  // Import for navigation
+import 'package:burtonaletrail_app/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';  // Import for navigation
 
 class QRScanner extends StatefulWidget {
   const QRScanner({Key? key}) : super(key: key);
@@ -21,6 +26,9 @@ class _QRScannerState extends State<QRScanner> {
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   int _selectedIndex = 1;  // Set initial index to Scan
+  String? uuid;
+  int scanCount = 0;
+  DateTime? lastScanTime;  // Add this to store the last scan time
 
   @override
   void initState() {
@@ -62,6 +70,34 @@ class _QRScannerState extends State<QRScanner> {
         // Already on Scan, do nothing
         break;
       case 2:
+        // Add any additional case here if needed
+        break;
+    }
+  }
+
+  Future<void> checkIn(String url) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    uuid = prefs.getString('uuid');
+    final response = await http.get(Uri.parse(url + '/' + uuid!));
+    final data = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      if (mounted) { // Ensure the widget is still mounted before calling setState
+        setState(() {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => UnlockedBadgeScreen(
+                badgeName: data['badgeName'],
+                badgeDesc: data['badgeDesc'],
+                badgeGraphic: data['badgeGraphic'],
+                badgePoints: data['badgePoints'],
+              ),
+            ),
+          );
+        });
+      }
+    } else {
+      throw Exception('Failed to load pub data');
     }
   }
 
@@ -98,7 +134,8 @@ class _QRScannerState extends State<QRScanner> {
                       children: <Widget>[
                         if (result != null)
                           Text(
-                            'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
+                            'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}'
+                          )
                         else
                           const Text('Scan the QR code in the pub.'),
                         Row(
@@ -108,36 +145,35 @@ class _QRScannerState extends State<QRScanner> {
                             Container(
                               margin: const EdgeInsets.all(8),
                               child: ElevatedButton(
-                                onPressed: () async {
-                                  await controller?.toggleFlash();
-                                  setState(() {});
-                                },
-                                child: FutureBuilder(
-                                  future: controller?.getFlashStatus(),
-                                  builder: (context, snapshot) {
-                                    return Text('Flash: ${snapshot.data}');
+                                  onPressed: () async {
+                                    await controller?.toggleFlash();
+                                    setState(() {});
                                   },
-                                )),
+                                  child: FutureBuilder(
+                                    future: controller?.getFlashStatus(),
+                                    builder: (context, snapshot) {
+                                      return Text('Flash: ${snapshot.data}');
+                                    },
+                                  )),
                             ),
                             Container(
                               margin: const EdgeInsets.all(8),
                               child: ElevatedButton(
-                                onPressed: () async {
-                                  await controller?.flipCamera();
-                                  setState(() {});
-                                },
-                                child: FutureBuilder(
-                                  future: controller?.getCameraInfo(),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.data != null) {
-                                      return Text(
-                                          'Camera: ${snapshot.data!.toString().toUpperCase()}'
-                                          );
-                                    } else {
-                                      return const Text('loading');
-                                    }
+                                  onPressed: () async {
+                                    await controller?.flipCamera();
+                                    setState(() {});
                                   },
-                                )),
+                                  child: FutureBuilder(
+                                    future: controller?.getCameraInfo(),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.data != null) {
+                                        return Text(
+                                            'Camera: ${snapshot.data!.toString().toUpperCase()}');
+                                      } else {
+                                        return const Text('loading');
+                                      }
+                                    },
+                                  )),
                             )
                           ],
                         ),
@@ -206,10 +242,17 @@ class _QRScannerState extends State<QRScanner> {
     setState(() {
       this.controller = controller;
     });
-    controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        result = scanData;
-      });
+    controller.scannedDataStream.listen((scanData) async {
+      DateTime now = DateTime.now();
+      if (lastScanTime == null || now.difference(lastScanTime!) >= Duration(seconds: 1)) {
+        setState(() {
+          result = scanData;
+          lastScanTime = now;
+        });
+        if (result != null) {
+          await checkIn(result!.code!);
+        }
+      }
     });
   }
 

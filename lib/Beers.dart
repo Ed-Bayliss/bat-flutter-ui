@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:burtonaletrail_app/BeerProfile.dart';
 import 'package:burtonaletrail_app/QRScanner.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -37,8 +38,8 @@ class _BeersScreenState extends State<BeersScreen> {
     if (response.statusCode == 200) {
       setState(() {
         beerData = json.decode(response.body);
-        print(beerData);
         filteredBeerData = beerData[0];
+        print(filteredBeerData[1]['beerAvg']);
       });
     } else {
       throw Exception('Failed to load beer data');
@@ -79,6 +80,7 @@ class _BeersScreenState extends State<BeersScreen> {
       filteredBeerData = filtered;
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -135,35 +137,67 @@ class _BeersScreenState extends State<BeersScreen> {
                                   );
                                 },
                                 child: ListTile(
-                                  contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 0), // Adjust content padding
-                                  leading: item['beerGraphic'] != null
-                                      ? Image.network(
-                                          '${item['beerGraphic']}',
-                                          width: 50,
-                                          height: 50,
-                                          fit: BoxFit.cover,
-                                        )
-                                      : Container(
-                                          width: 50,
-                                          height: 50,
-                                          color: Colors.grey,
-                                        ),
-                                  title: Text(
-                                    '${item['beerName']}',
-                                    style: TextStyle(
-                                      fontSize: 16.0, // Set font size for title
-                                      color: item['beerVoted'] == 'voted' ? const Color.fromARGB(255, 2, 119, 6) : Colors.black, // Conditional text color
-                                    ),
-                                  ),
-                                  subtitle: Text(
-                                    '${item['beerAvg']}/5 stars\n''${item['beerVotesSum']} ratings',
-                                    style: TextStyle(
-                                        fontSize: 14.0, // Set font size for title
-                                        color: item['beerVoted'] == 'voted' ? const Color.fromARGB(255, 2, 119, 6) : Colors.black, // Conditional text color
-                                      ),
-                                  ),
-                                ),
-                              ),
+      contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 0), // Adjust content padding
+      leading: item['beerGraphic'] != null
+          ? Image.network(
+              '${item['beerGraphic']}',
+              width: 50,
+              height: 50,
+              fit: BoxFit.cover,
+            )
+          : Container(
+              width: 50,
+              height: 50,
+              color: Colors.grey,
+            ),
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '${item['beerName']}',
+            style: TextStyle(
+              fontSize: 16.0, // Set font size for title
+              color: item['beerVoted'] == 'voted'
+                  ? const Color.fromARGB(255, 2, 119, 6)
+                  : Colors.black, // Conditional text color
+            ),
+          ),
+          SizedBox(height: 4),
+          Text(
+            'Total Votes: ${item['beerVotesSum']}',
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.grey[600],
+            ),
+          ),
+        ],
+      ),
+      subtitle: RatingBar.builder(
+          initialRating: double.parse(item['beerAvg']),
+          minRating: 1,
+          direction: Axis.horizontal,
+          allowHalfRating: true,
+          itemCount: 5,
+          itemSize: 20.0, // Change this value to make stars smaller
+          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+          itemBuilder: (context, _) => Icon(
+            Icons.star,
+            color: Colors.amber,
+          ),
+          onRatingUpdate: (rating) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => BeerProfileScreen(beerId: '${item['beerId']}'),
+              ),
+            );
+          },
+        ),
+      ),
+    ),
+
+                                
+                          
                             );
                           },
                         ),
