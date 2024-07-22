@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:http/io_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'package:burtonaletrail_app/Home.dart';  // Import for navigation
-import 'package:burtonaletrail_app/QRScanner.dart';  // Import for navigation
+import 'package:burtonaletrail_app/Home.dart'; // Import for navigation
+import 'package:burtonaletrail_app/QRScanner.dart'; // Import for navigation
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class BeerProfileScreen extends StatefulWidget {
@@ -33,14 +33,15 @@ class _BeerProfileScreenState extends State<BeerProfileScreen> {
   String? beerDesc;
   String? beerGraphic;
   String? beerVotesSum;
+  String? beerPubs;
 
   String? uuid;
 
   List<dynamic> beerData = [];
 
-  int _selectedIndex = 0;  // Set initial index to Home
+  int _selectedIndex = 0; // Set initial index to Home
   bool isLoading = true;
- 
+
   @override
   void initState() {
     super.initState();
@@ -51,41 +52,44 @@ class _BeerProfileScreenState extends State<BeerProfileScreen> {
     await fetchBeerData();
   }
 
-Future<void> fetchBeerData() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String? uuid = prefs.getString('uuid');
+  Future<void> fetchBeerData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? uuid = prefs.getString('uuid');
 
-  if (uuid != null) {
-    bool trustSelfSigned = true;
-    HttpClient httpClient = HttpClient()
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => trustSelfSigned;
-    IOClient ioClient = IOClient(httpClient);
+    if (uuid != null) {
+      bool trustSelfSigned = true;
+      HttpClient httpClient = HttpClient()
+        ..badCertificateCallback =
+            (X509Certificate cert, String host, int port) => trustSelfSigned;
+      IOClient ioClient = IOClient(httpClient);
 
-    final response = await ioClient.get(Uri.parse('https://burtonaletrail.pawtul.com/beer_data/'+ widget.beerId + "/" + uuid));
+      // final response = await ioClient.get(Uri.parse('https://burtonaletrail.pawtul.com/beer_data/'+ widget.beerId + "/" + uuid));
+      final response = await ioClient.get(Uri.parse(
+          'http://192.168.1.90:8000/beer_data/' + widget.beerId + "/" + uuid));
 
-    if (response.statusCode == 200) {
-      setState(() {
-        final List<dynamic> pubDataList = json.decode(response.body);
-        if (pubDataList.isNotEmpty) {
-          final beerData = pubDataList[0];
-          print(beerData);
-          beerName = beerData['beerName'];
-          beerBrewery = beerData['beerBrewery'];
-          beerAbv = beerData['beerAbv'];
-          beerDesc = beerData['beerDesc'];
-          beerGraphic = beerData['beerGraphic'];
-          beerVotesSum = beerData['beerVotesSum'];
-          isLoading = false;
-        }
-      });
+      if (response.statusCode == 200) {
+        setState(() {
+          final List<dynamic> pubDataList = json.decode(response.body);
+          if (pubDataList.isNotEmpty) {
+            final beerData = pubDataList[0];
+            print(beerData);
+            beerName = beerData['beerName'];
+            beerBrewery = beerData['beerBrewery'];
+            beerAbv = beerData['beerAbv'];
+            beerDesc = beerData['beerDesc'];
+            beerGraphic = beerData['beerGraphic'];
+            beerVotesSum = beerData['beerVotesSum'];
+            beerPubs = beerData['beerPubs'];
+            isLoading = false;
+          }
+        });
+      } else {
+        throw Exception('Failed to load pub data');
+      }
     } else {
-      throw Exception('Failed to load pub data');
+      throw Exception('UUID not found');
     }
-  } else {
-    throw Exception('UUID not found');
   }
-}
 
   Future<void> submitRating(double rating) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -99,17 +103,27 @@ Future<void> fetchBeerData() async {
       IOClient ioClient = IOClient(httpClient);
 
       final response = await ioClient.get(
-        Uri.parse('https://burtonaletrail.pawtul.com/beer_vote/' + widget.beerId + '/' + rating.toString() + '/' + uuid),
+        Uri.parse('https://burtonaletrail.pawtul.com/beer_vote/' +
+            widget.beerId +
+            '/' +
+            rating.toString() +
+            '/' +
+            uuid),
       );
 
       if (response.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(backgroundColor: Colors.green, content: Text('Rating submitted successfully!')),
+          SnackBar(
+            backgroundColor: Colors.green,
+            duration: Duration(seconds: 1),
+            content: Text('Rating submitted successfully!'),
+          ),
         );
       } else if (response.statusCode == 700) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: Colors.green,
+            duration: Duration(seconds: 1),
             content: Text('Your vote was changed, no points were added.'),
           ),
         );
@@ -117,6 +131,7 @@ Future<void> fetchBeerData() async {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: Colors.red,
+            duration: Duration(seconds: 1),
             content: Text('The event has not yet started.'),
           ),
         );
@@ -162,7 +177,8 @@ Future<void> fetchBeerData() async {
                 Positioned.fill(
                   child: Image.asset(
                     'assets/images/backdrop.jpg', // Path to your background image
-                    fit: BoxFit.cover, // Makes the image cover the entire screen
+                    fit:
+                        BoxFit.cover, // Makes the image cover the entire screen
                   ),
                 ),
                 // Foreground content
@@ -180,31 +196,44 @@ Future<void> fetchBeerData() async {
                           padding: EdgeInsets.zero, // Remove padding
                           children: [
                             beerGraphic != null
-                              ? Image.network(
-                                  beerGraphic!,
-                                  height: 200,
-                                  fit: BoxFit.contain,
-                                )
-                              : Container(),
+                                ? Image.network(
+                                    beerGraphic!,
+                                    height: 200,
+                                    fit: BoxFit.contain,
+                                  )
+                                : Container(),
                             SizedBox(height: 20),
                             Center(
-                            child :Text(
-                              beerName ?? '',
-                              style: TextStyle(
-                                fontSize: 24.0, // Set font size for title
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
+                              child: Text(
+                                beerName ?? '',
+                                style: TextStyle(
+                                  fontSize: 24.0, // Set font size for title
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
                             ),
                             SizedBox(height: 10),
-                            Center(child:Text(
-                              beerDesc ?? '',
-                              style: TextStyle(
-                                fontSize: 16.0, // Set font size for description
-                                color: Colors.black,
+                            Center(
+                              child: Text(
+                                'Available At: ' + beerPubs!,
+                                style: TextStyle(
+                                  fontSize:
+                                      16.0, // Set font size for description
+                                  color: Colors.black,
+                                ),
                               ),
                             ),
+                            SizedBox(height: 10),
+                            Center(
+                              child: Text(
+                                beerDesc ?? '',
+                                style: TextStyle(
+                                  fontSize:
+                                      16.0, // Set font size for description
+                                  color: Colors.black,
+                                ),
+                              ),
                             ),
                             SizedBox(height: 20),
                             Center(
@@ -214,7 +243,8 @@ Future<void> fetchBeerData() async {
                                 direction: Axis.horizontal,
                                 allowHalfRating: true,
                                 itemCount: 5,
-                                itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                                itemPadding:
+                                    EdgeInsets.symmetric(horizontal: 4.0),
                                 itemBuilder: (context, _) => Icon(
                                   Icons.star,
                                   color: Colors.amber,

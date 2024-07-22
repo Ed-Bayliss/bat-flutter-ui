@@ -7,8 +7,8 @@ import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:burtonaletrail_app/Home.dart';  // Import for navigation
-import 'package:burtonaletrail_app/WebViewPage.dart';  // Import for navigation
+import 'package:burtonaletrail_app/Home.dart'; // Import for navigation
+import 'package:burtonaletrail_app/WebViewPage.dart'; // Import for navigation
 
 class PubsScreen extends StatefulWidget {
   @override
@@ -19,7 +19,7 @@ class _PubsScreenState extends State<PubsScreen> {
   List<dynamic> pubData = [];
   List<dynamic> filteredPubData = [];
   String? uuid;
-  int _selectedIndex = 0;  // Set initial index to Home
+  int _selectedIndex = 0; // Set initial index to Home
   TextEditingController searchController = TextEditingController();
 
   @override
@@ -45,7 +45,8 @@ class _PubsScreenState extends State<PubsScreen> {
           (X509Certificate cert, String host, int port) => trustSelfSigned;
     IOClient ioClient = IOClient(httpClient);
 
-    final response = await ioClient.get(Uri.parse('https://burtonaletrail.pawtul.com/pub_data/' + uuid));
+    final response = await ioClient
+        .get(Uri.parse('https://burtonaletrail.pawtul.com/pub_data/' + uuid));
 
     if (response.statusCode == 200) {
       setState(() {
@@ -95,6 +96,8 @@ class _PubsScreenState extends State<PubsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
+
     return Scaffold(
       body: Stack(
         children: [
@@ -130,12 +133,16 @@ class _PubsScreenState extends State<PubsScreen> {
                     ? CircularProgressIndicator()
                     : Expanded(
                         child: ListView.builder(
-                          padding: EdgeInsets.zero, // Remove padding
+                          padding: EdgeInsets.only(
+                              bottom:
+                                  bottomPadding), // Add padding to the bottom
                           itemCount: filteredPubData.length,
                           itemBuilder: (context, index) {
                             final item = filteredPubData[index];
                             return Container(
-                              padding: EdgeInsets.symmetric(vertical: 10.0), // Adjust padding to make rows thinner
+                              padding: EdgeInsets.symmetric(
+                                  vertical:
+                                      10.0), // Adjust padding to make rows thinner
                               child: InkWell(
                                 onTap: () {
                                   // Handle the tap event here
@@ -143,43 +150,58 @@ class _PubsScreenState extends State<PubsScreen> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => PubProfileScreen(pubId: '${item['pubId']}'),
+                                      builder: (context) => PubProfileScreen(
+                                          pubId: '${item['pubId']}'),
                                     ),
                                   );
                                 },
-child: ListTile(
-  contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 0), // Adjust content padding
-  leading: Container(
-    width: 80.0, // Set the width of the image
-    height: 80.0, // Set the height of the image
-    decoration: BoxDecoration(
-      shape: BoxShape.rectangle, // Set the shape to rectangle
-      image: DecorationImage(
-        image: AssetImage('${item['pubLogo']}'),
-        fit: BoxFit.cover, // Ensure the image covers the container
-      ),
-    ),
-  ),
-  title: Text(
-    '${item['pubName']}',
-    style: TextStyle(
-      fontSize: 16.0, // Set font size for title
-      color: item['pubAwarded'] == 'awarded' ? const Color.fromARGB(255, 2, 119, 6) : Colors.black, // Conditional text color
-    ),
-  ),
-  subtitle: Text(
-    '${item['pubCheckIn']} check-ins',
-    style: TextStyle(
-      fontSize: 14.0, // Set font size for subtitle
-      color: item['pubAwarded'] == 'awarded' ? const Color.fromARGB(255, 2, 119, 6): Colors.black, // Conditional text color
-    ),
-  ),
-),
+                                child: ListTile(
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 16.0,
+                                      vertical: 0), // Adjust content padding
+                                  leading: Container(
+                                    width: 80.0, // Set the width of the image
+                                    height: 80.0, // Set the height of the image
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape
+                                          .rectangle, // Set the shape to rectangle
+                                      image: DecorationImage(
+                                        image: AssetImage('${item['pubLogo']}'),
+                                        fit: BoxFit
+                                            .cover, // Ensure the image covers the container
+                                      ),
+                                    ),
+                                  ),
+                                  title: Text(
+                                    '${item['pubName']}',
+                                    style: TextStyle(
+                                      fontSize: 16.0, // Set font size for title
+                                      color: item['pubAwarded'] == 'awarded'
+                                          ? const Color.fromARGB(255, 2, 119, 6)
+                                          : Colors
+                                              .black, // Conditional text color
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    '${item['pubCheckIn']} check-ins',
+                                    style: TextStyle(
+                                      fontSize:
+                                          14.0, // Set font size for subtitle
+                                      color: item['pubAwarded'] == 'awarded'
+                                          ? const Color.fromARGB(255, 2, 119, 6)
+                                          : Colors
+                                              .black, // Conditional text color
+                                    ),
+                                  ),
+                                ),
                               ),
                             );
                           },
                         ),
                       ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                )
               ],
             ),
           ),

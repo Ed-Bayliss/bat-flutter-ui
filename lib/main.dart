@@ -9,11 +9,8 @@ import 'dart:math'; // For random selection
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-
   runApp(MyApp());
 }
-
-
 
 class MyApp extends StatelessWidget {
   @override
@@ -37,18 +34,18 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-final List<String> sentences = [
-  "Get your groove on with Burton Ale Trail!",
-  "Disco and drafts, a match made in heaven!",
-  "Boogie down and bottoms up!",
-  "Stayin' alive with our special ale offers!",
-  "Saturday night fever? Cure it with a pint!",
-  "Dance the night away with a cold ale in hand!",
-  "Cheers to disco days and ale nights!",
-  "Find your boogie pub today!",
-  "Shake your groove thing, sip your brew thing!",
-  "Disco inferno meets ale oasis!"
-];
+  final List<String> sentences = [
+    "Get your groove on with Burton Ale Trail!",
+    "Disco and drafts, a match made in heaven!",
+    "Boogie down and bottoms up!",
+    "Stayin' alive with our special ale offers!",
+    "Saturday night fever? Cure it with a pint!",
+    "Dance the night away with a cold ale in hand!",
+    "Cheers to disco days and ale nights!",
+    "Find your boogie pub today!",
+    "Shake your groove thing, sip your brew thing!",
+    "Disco inferno meets ale oasis!"
+  ];
 
   String getRandomSentence() {
     final random = Random();
@@ -119,9 +116,9 @@ final List<String> sentences = [
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Login failed with status: ${response.statusCode}'),
+            content: Text('Login Failed'),
             backgroundColor: Colors.red,
-            duration: Duration(seconds: 3),
+            duration: Duration(seconds: 1),
           ),
         );
       }
@@ -152,7 +149,7 @@ final List<String> sentences = [
                   'assets/app_logo.png',
                   height: 200,
                 ),
-              Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
@@ -173,8 +170,7 @@ final List<String> sentences = [
                     // ),
                   ],
                 ),
-                                SizedBox(height: 20),
-
+                SizedBox(height: 20),
                 TextField(
                   controller: emailController,
                   decoration: InputDecoration(
@@ -183,22 +179,22 @@ final List<String> sentences = [
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                   ),
-                  keyboardType: TextInputType.emailAddress,
-                  autofillHints: [AutofillHints.username],
+                  keyboardType: TextInputType.phone,
+                  autofillHints: [AutofillHints.telephoneNumber],
                 ),
                 SizedBox(height: 20),
-              TextField(
-                controller: passwordController,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
+                TextField(
+                  controller: passwordController,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
                   ),
+                  obscureText: true,
+                  autofillHints: [AutofillHints.password],
                 ),
-                obscureText: true,
-                autofillHints: [AutofillHints.password],
-              ),
-              SizedBox(height: 20),
+                SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: LoginPost,
                   child: Text('Next'),
@@ -211,6 +207,15 @@ final List<String> sentences = [
                     ),
                   ),
                 ),
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    'Forgot password?',
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
                 SizedBox(height: 10),
                 Spacer(),
                 TextButton(
@@ -218,7 +223,7 @@ final List<String> sentences = [
                   child: Text(
                     'Don\'t have an account? Sign up',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.black,
                     ),
                   ),
                 ),

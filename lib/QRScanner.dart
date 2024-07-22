@@ -115,6 +115,7 @@ class _QRScannerState extends State<QRScanner> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text('The event has not yet started'),
+              duration: Duration(seconds: 1),
               backgroundColor: Colors.red,
             ),
           );

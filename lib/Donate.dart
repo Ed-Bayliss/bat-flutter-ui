@@ -11,23 +11,16 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:math' as math;
 
-class WebViewPage extends StatefulWidget {
+class Donate extends StatefulWidget {
   final String url;
-  final String email;
-  final String password;
-  final String new_url;
 
-  WebViewPage(
-      {required this.url,
-      required this.email,
-      required this.password,
-      required this.new_url});
+  Donate({required this.url});
 
   @override
-  _WebViewPageState createState() => _WebViewPageState();
+  _DonateState createState() => _DonateState();
 }
 
-class _WebViewPageState extends State<WebViewPage> {
+class _DonateState extends State<Donate> {
   InAppWebViewController? _webViewController;
   double _progress = 0;
   int _selectedIndex = 0;
@@ -35,6 +28,7 @@ class _WebViewPageState extends State<WebViewPage> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      print(widget.url);
     });
 
     switch (index) {
@@ -52,66 +46,11 @@ class _WebViewPageState extends State<WebViewPage> {
           MaterialPageRoute(builder: (context) => QRScanner()),
         );
         break;
-      case 2:
-        // Pubs
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => WebViewPage(
-                  url: "https://burtonaletrail.pawtul.com/",
-                  email: widget.email,
-                  password: widget.password,
-                  new_url: 'pubs')),
-        );
-        break;
-      case 3:
-        // Beers
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => WebViewPage(
-                  url: "https://burtonaletrail.pawtul.com/",
-                  email: widget.email,
-                  password: widget.password,
-                  new_url: 'ratings')),
-        );
-        break;
-      case 4:
-        // Badges
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => WebViewPage(
-                  url: "https://burtonaletrail.pawtul.com/",
-                  email: widget.email,
-                  password: widget.password,
-                  new_url: 'badges')),
-        );
-        break;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    Map<String, String> postData = {
-      'email': widget.email,
-      'password': widget.password,
-      'redirect': widget.new_url,
-    };
-
-    String encodeQueryParameters(Map<String, String> params) {
-      return params.entries
-          .map((e) =>
-              '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
-          .join('&');
-    }
-
-    String urlWithQueryParams(String url, Map<String, String> params) {
-      return Uri.parse(url)
-          .replace(query: encodeQueryParameters(params))
-          .toString();
-    }
-
     return Scaffold(
       body: Stack(
         children: [
@@ -123,11 +62,8 @@ class _WebViewPageState extends State<WebViewPage> {
                   // onVerticalDragUpdate: (updateDetails) {},
                   child: InAppWebView(
                     initialUrlRequest: URLRequest(
-                      url: Uri.parse(
-                        urlWithQueryParams(widget.url, postData),
-                      ),
+                      url: Uri.parse(widget.url),
                       method: 'GET',
-                      body: null,
                       headers: {
                         'Content-Type': 'application/json',
                       },
@@ -143,8 +79,8 @@ class _WebViewPageState extends State<WebViewPage> {
                         useHybridComposition: true,
                       ),
                       ios: IOSInAppWebViewOptions(
-                        allowsInlineMediaPlayback: true,
-                      ),
+                          allowsInlineMediaPlayback: true,
+                          applePayAPIEnabled: true),
                     ),
                     onWebViewCreated: (controller) {
                       _webViewController = controller;
