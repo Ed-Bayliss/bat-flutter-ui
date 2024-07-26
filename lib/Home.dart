@@ -204,7 +204,7 @@ class _HomeScreenState extends State<HomeScreen> {
       });
 
       // Start a timer to hide the overlay after 60 seconds
-      _hideOverlayTimer = Timer(Duration(seconds: 60), () {
+      _hideOverlayTimer = Timer(Duration(seconds: 240), () {
         setState(() {
           _showDiscoLights = false; // Hide the overlay
           _discoTimer?.cancel(); // Cancel the periodic timer

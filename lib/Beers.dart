@@ -8,8 +8,8 @@ import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:burtonaletrail_app/Home.dart';  // Import for navigation
-import 'package:burtonaletrail_app/WebViewPage.dart';  // Import for navigation
+import 'package:burtonaletrail_app/Home.dart'; // Import for navigation
+import 'package:burtonaletrail_app/WebViewPage.dart'; // Import for navigation
 
 class BeersScreen extends StatefulWidget {
   @override
@@ -20,7 +20,7 @@ class _BeersScreenState extends State<BeersScreen> {
   List<dynamic> beerData = [];
   List<dynamic> filteredBeerData = [];
   String? uuid;
-  int _selectedIndex = 0;  // Set initial index to Home
+  int _selectedIndex = 0; // Set initial index to Home
   TextEditingController searchController = TextEditingController();
 
   @override
@@ -32,32 +32,33 @@ class _BeersScreenState extends State<BeersScreen> {
     });
   }
 
-Future<void> fetchBeerData() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String? uuid = prefs.getString('uuid');
+  Future<void> fetchBeerData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? uuid = prefs.getString('uuid');
 
-  if (uuid != null) {
-    bool trustSelfSigned = true;
-    HttpClient httpClient = HttpClient()
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => trustSelfSigned;
-    IOClient ioClient = IOClient(httpClient);
+    if (uuid != null) {
+      bool trustSelfSigned = true;
+      HttpClient httpClient = HttpClient()
+        ..badCertificateCallback =
+            (X509Certificate cert, String host, int port) => trustSelfSigned;
+      IOClient ioClient = IOClient(httpClient);
 
-    final response = await ioClient.get(Uri.parse('https://burtonaletrail.pawtul.com/beer_data/' + uuid));
+      final response = await ioClient.get(
+          Uri.parse('https://burtonaletrail.pawtul.com/beer_data/' + uuid));
 
-    if (response.statusCode == 200) {
-      setState(() {
-        beerData = json.decode(response.body);
-        filteredBeerData = beerData[0];
-        print(filteredBeerData[1]['beerAvg']);
-      });
+      if (response.statusCode == 200) {
+        setState(() {
+          beerData = json.decode(response.body);
+          filteredBeerData = beerData[0];
+          print(filteredBeerData[1]['beerAvg']);
+        });
+      } else {
+        throw Exception('Failed to load beer data');
+      }
     } else {
-      throw Exception('Failed to load beer data');
+      throw Exception('UUID not found');
     }
-  } else {
-    throw Exception('UUID not found');
   }
-}
 
   void _onItemTapped(int index) {
     setState(() {
@@ -93,7 +94,6 @@ Future<void> fetchBeerData() async {
       filteredBeerData = filtered;
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -137,7 +137,9 @@ Future<void> fetchBeerData() async {
                           itemBuilder: (context, index) {
                             final item = filteredBeerData[index];
                             return Container(
-                              padding: EdgeInsets.symmetric(vertical: 10.0), // Adjust padding to make rows thinner
+                              padding: EdgeInsets.symmetric(
+                                  vertical:
+                                      10.0), // Adjust padding to make rows thinner
                               child: InkWell(
                                 onTap: () {
                                   // Handle the tap event here
@@ -145,76 +147,86 @@ Future<void> fetchBeerData() async {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => BeerProfileScreen(beerId: '${item['beerId']}'),
+                                      builder: (context) => BeerProfileScreen(
+                                          beerId: '${item['beerId']}'),
                                     ),
                                   );
                                 },
                                 child: ListTile(
-      contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 0), // Adjust content padding
-      leading: item['beerGraphic'] != null
-          ? Image.network(
-              '${item['beerGraphic']}',
-              width: 50,
-              height: 50,
-              fit: BoxFit.cover,
-            )
-          : Container(
-              width: 50,
-              height: 50,
-              color: Colors.grey,
-            ),
-      title: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '${item['beerName']}',
-            style: TextStyle(
-              fontSize: 16.0, // Set font size for title
-              color: item['beerVoted'] == 'voted'
-                  ? const Color.fromARGB(255, 2, 119, 6)
-                  : Colors.black, // Conditional text color
-            ),
-          ),
-          SizedBox(height: 4),
-          Text(
-            'Total Stars Given: ${item['beerVotesSum']}',
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey[600],
-            ),
-          ),
-        ],
-      ),
-      subtitle: RatingBar.builder(
-          initialRating: double.parse(item['beerAvg']),
-          minRating: 1,
-          direction: Axis.horizontal,
-          allowHalfRating: true,
-          itemCount: 5,
-          itemSize: 20.0, // Change this value to make stars smaller
-          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-          itemBuilder: (context, _) => Icon(
-            Icons.star,
-            color: Colors.amber,
-          ),
-          onRatingUpdate: (rating) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => BeerProfileScreen(beerId: '${item['beerId']}'),
-              ),
-            );
-          },
-        ),
-      ),
-    ),
-
-                                
-                          
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 16.0,
+                                      vertical: 0), // Adjust content padding
+                                  leading: item['beerGraphic'] != null
+                                      ? Image.network(
+                                          '${item['beerGraphic']}',
+                                          width: 50,
+                                          height: 50,
+                                          fit: BoxFit.cover,
+                                        )
+                                      : Container(
+                                          width: 50,
+                                          height: 50,
+                                          color: Colors.grey,
+                                        ),
+                                  title: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        '${item['beerName']}',
+                                        style: TextStyle(
+                                          fontSize:
+                                              16.0, // Set font size for title
+                                          color: item['beerVoted'] == 'voted'
+                                              ? const Color.fromARGB(
+                                                  255, 2, 119, 6)
+                                              : Colors
+                                                  .black, // Conditional text color
+                                        ),
+                                      ),
+                                      SizedBox(height: 4),
+                                      Text(
+                                        'Total Stars Given: ${item['beerVotesSum']}',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.grey[600],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  subtitle: RatingBar.builder(
+                                    initialRating:
+                                        double.parse(item['beerAvg']),
+                                    minRating: 1,
+                                    direction: Axis.horizontal,
+                                    allowHalfRating: true,
+                                    itemCount: 5,
+                                    itemSize:
+                                        20.0, // Change this value to make stars smaller
+                                    itemPadding:
+                                        EdgeInsets.symmetric(horizontal: 4.0),
+                                    itemBuilder: (context, _) => Icon(
+                                      Icons.star,
+                                      color: Colors.amber,
+                                    ),
+                                    onRatingUpdate: (rating) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              BeerProfileScreen(
+                                                  beerId: '${item['beerId']}'),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
                             );
                           },
                         ),
                       ),
+                SizedBox(height: 60),
               ],
             ),
           ),

@@ -63,9 +63,13 @@ class _BeerProfileScreenState extends State<BeerProfileScreen> {
             (X509Certificate cert, String host, int port) => trustSelfSigned;
       IOClient ioClient = IOClient(httpClient);
 
-      // final response = await ioClient.get(Uri.parse('https://burtonaletrail.pawtul.com/beer_data/'+ widget.beerId + "/" + uuid));
       final response = await ioClient.get(Uri.parse(
-          'http://192.168.1.90:8000/beer_data/' + widget.beerId + "/" + uuid));
+          'https://burtonaletrail.pawtul.com/beer_data/' +
+              widget.beerId +
+              "/" +
+              uuid));
+      // final response = await ioClient.get(Uri.parse(
+      //     'http://192.168.1.90:8000/beer_data/' + widget.beerId + "/" + uuid));
 
       if (response.statusCode == 200) {
         setState(() {

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
 import 'package:burtonaletrail_app/Home.dart';
+import 'package:burtonaletrail_app/Login.dart';
 import 'package:burtonaletrail_app/QRScanner.dart';
 import 'package:burtonaletrail_app/main.dart';
 import 'package:flutter/material.dart';

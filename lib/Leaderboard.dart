@@ -6,8 +6,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:http/io_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:burtonaletrail_app/Home.dart';  // Import for navigation
-import 'package:burtonaletrail_app/WebViewPage.dart';  // Import for navigation
+import 'package:burtonaletrail_app/Home.dart'; // Import for navigation
+import 'package:burtonaletrail_app/WebViewPage.dart'; // Import for navigation
 
 class LeaderboardScreen extends StatefulWidget {
   @override
@@ -17,7 +17,7 @@ class LeaderboardScreen extends StatefulWidget {
 class _LeaderboardScreenState extends State<LeaderboardScreen> {
   List<dynamic> leaderboardData = [];
   String? uuid;
-  int _selectedIndex = 0;  // Set initial index to Home
+  int _selectedIndex = 0; // Set initial index to Home
 
   @override
   void initState() {
@@ -25,31 +25,32 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
     fetchLeaderboardData();
   }
 
-Future<void> fetchLeaderboardData() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String? uuid = prefs.getString('uuid');
+  Future<void> fetchLeaderboardData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? uuid = prefs.getString('uuid');
 
-  if (uuid == null) {
-    throw Exception('UUID is null');
+    if (uuid == null) {
+      throw Exception('UUID is null');
+    }
+
+    bool trustSelfSigned = true;
+    HttpClient httpClient = HttpClient()
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => trustSelfSigned;
+    IOClient ioClient = IOClient(httpClient);
+
+    final response = await ioClient.get(Uri.parse(
+        'https://burtonaletrail.pawtul.com/leaderboard_data/' + uuid));
+
+    if (response.statusCode == 200) {
+      setState(() {
+        leaderboardData = json.decode(response.body);
+        print(leaderboardData);
+      });
+    } else {
+      throw Exception('Failed to load leaderboard data');
+    }
   }
-
-  bool trustSelfSigned = true;
-  HttpClient httpClient = HttpClient()
-    ..badCertificateCallback =
-        (X509Certificate cert, String host, int port) => trustSelfSigned;
-  IOClient ioClient = IOClient(httpClient);
-
-  final response = await ioClient.get(Uri.parse('https://burtonaletrail.pawtul.com/leaderboard_data/' + uuid));
-
-  if (response.statusCode == 200) {
-    setState(() {
-      leaderboardData = json.decode(response.body);
-      print(leaderboardData);
-    });
-  } else {
-    throw Exception('Failed to load leaderboard data');
-  }
-}
 
   void _onItemTapped(int index) {
     setState(() {
@@ -101,10 +102,13 @@ Future<void> fetchLeaderboardData() async {
     return Column(
       children: [
         Text(
-          position == 1 ? '🥇' : position == 2 ? '🥈' : '🥉',
+          position == 1
+              ? '🥇'
+              : position == 2
+                  ? '🥈'
+                  : '🥉',
           style: TextStyle(fontSize: positionFontSize),
         ),
-        
         Text(
           player != null ? player['userName'] : '',
           style: TextStyle(color: positionColor),
@@ -138,41 +142,55 @@ Future<void> fetchLeaderboardData() async {
                   'assets/app_logo.png', // Path to your asset image
                   height: 200,
                 ),
+                Text(
+                    'You can earn points by rating beers or scanning the QR codes at participating pubs to unlock badges.',
+                    textAlign: TextAlign.center,
+                  ),
                 buildPodium(),
                 leaderboardData.isEmpty
-    ? CircularProgressIndicator()
-    : Expanded(
-        child: ListView.builder(
-          padding: EdgeInsets.zero, // Remove padding
-          itemCount: leaderboardData[0].length,
-          itemBuilder: (context, index) {
-            final item = leaderboardData[0][index];
-            return Container(
-              padding: EdgeInsets.symmetric(vertical: -0.0), // Adjust padding to make rows thinner
-              child: ListTile(
-                contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 0), // Adjust content padding
-                leading: CircleAvatar(
-                  radius: 16.0, // Adjust radius to make the avatar smaller
-                  backgroundImage: AssetImage('assets/images/discoball.gif'),
-                ),
-                title: Text(
-                  '${item['userName']}',
-                  style: TextStyle(
-                    fontSize: 16.0, // Set font size for title
-                    color: item['userName'] == item['myUserName'] ? Colors.green : Colors.black,
-                  ),
-                ),
-                subtitle: Text(
-                  '${item['userPoints']} points',
-                  style: TextStyle(
-                    fontSize: 14.0, // Set font size for subtitle
-                  ),
-              ),
-              ),
-            );
-          },
-        ),
-      )
+                    ? CircularProgressIndicator()
+                    : Expanded(
+                        child: ListView.builder(
+                          padding: EdgeInsets.zero, // Remove padding
+                          itemCount: leaderboardData[0].length,
+                          itemBuilder: (context, index) {
+                            final item = leaderboardData[0][index];
+                            return Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical:
+                                      -0.0), // Adjust padding to make rows thinner
+                              child: ListTile(
+                                contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 16.0,
+                                    vertical: 0), // Adjust content padding
+                                leading: CircleAvatar(
+                                  radius:
+                                      16.0, // Adjust radius to make the avatar smaller
+                                  backgroundImage:
+                                      AssetImage('assets/images/discoball.gif'),
+                                ),
+                                title: Text(
+                                  '${item['userName']}',
+                                  style: TextStyle(
+                                    fontSize: 16.0, // Set font size for title
+                                    color:
+                                        item['userName'] == item['myUserName']
+                                            ? Colors.green
+                                            : Colors.black,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  '${item['userPoints']} points',
+                                  style: TextStyle(
+                                    fontSize:
+                                        14.0, // Set font size for subtitle
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      )
               ],
             ),
           ),

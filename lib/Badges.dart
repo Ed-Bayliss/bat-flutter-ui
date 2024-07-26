@@ -5,8 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:burtonaletrail_app/Home.dart';  // Import for navigation
-import 'package:burtonaletrail_app/QRScanner.dart';  // Import for navigation
+import 'package:burtonaletrail_app/Home.dart'; // Import for navigation
+import 'package:burtonaletrail_app/QRScanner.dart'; // Import for navigation
 
 class BadgesScreen extends StatefulWidget {
   @override
@@ -19,7 +19,7 @@ class _BadgesScreenState extends State<BadgesScreen> {
   String userName = '';
   String userPoints = '0';
   String userPosition = '0';
-  int _selectedIndex = 0;  // Set initial index to Home
+  int _selectedIndex = 0; // Set initial index to Home
 
   @override
   void initState() {
@@ -39,7 +39,8 @@ class _BadgesScreenState extends State<BadgesScreen> {
             (X509Certificate cert, String host, int port) => trustSelfSigned;
       IOClient ioClient = IOClient(httpClient);
 
-      final response = await ioClient.get(Uri.parse('https://burtonaletrail.pawtul.com/badge_data/' + uuid));
+      final response = await ioClient.get(
+          Uri.parse('https://burtonaletrail.pawtul.com/badge_data/' + uuid));
 
       if (response.statusCode == 200) {
         setState(() {
@@ -56,7 +57,8 @@ class _BadgesScreenState extends State<BadgesScreen> {
   void _fetchUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     uuid = prefs.getString('uuid');
-    final response = await http.get(Uri.parse('https://burtonaletrail.pawtul.com/total_points/' + uuid!));
+    final response = await http.get(
+        Uri.parse('https://burtonaletrail.pawtul.com/total_points/' + uuid!));
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
@@ -110,117 +112,120 @@ class _BadgesScreenState extends State<BadgesScreen> {
   }
 
   @override
-Widget build(BuildContext context) {
-  int position = int.tryParse(userPosition) ?? 0;
-  String positionSuffix = getSuffix(position);
+  Widget build(BuildContext context) {
+    int position = int.tryParse(userPosition) ?? 0;
+    String positionSuffix = getSuffix(position);
 
-  return Scaffold(
-    body: Stack(
-      children: [
-        // Background image
-        Positioned.fill(
-          child: Image.asset(
-            'assets/images/backdrop.jpg',
-            fit: BoxFit.cover,
+    return Scaffold(
+      body: Stack(
+        children: [
+          // Background image
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/backdrop.jpg',
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        // Foreground content
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/app_logo.png',
-                height: 200,
-              ),
-              SizedBox(height: 10),
-              badgeData.isEmpty
-                  ? CircularProgressIndicator()
-                  : Expanded(
-                      child: ListView.builder(
-                        padding: EdgeInsets.zero,
-                        itemCount: badgeData[0].length,
-                        itemBuilder: (context, index) {
-                          final item = badgeData[0][index];
-                          return Container(
-                            padding: EdgeInsets.symmetric(vertical: 10.0),
-                            child: Opacity(
-                              opacity: item['badgeState'] == 'locked' ? 0.25 : 1.0,
-                              child: ListTile(
-                                contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 0),
-                                leading: SizedBox(
-                                  width: 50,
-                                  height: 50,
-                                  child: item['badgeGraphic'] != null
-                                      ? Image.asset(
-                                          '${item['badgeGraphic']}',
-                                          width: 50,
-                                          height: 50,
-                                          fit: BoxFit.cover,
-                                        )
-                                      : Container(
-                                          width: 50,
-                                          height: 50,
-                                          color: Colors.grey,
-                                        ),
-                                ),
-                                title: Text(
-                                  '${item['badgeName']}',
-                                  style: TextStyle(
-                                    fontSize: 16.0,
-                                    color: Colors.black,
+          // Foreground content
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/app_logo.png',
+                  height: 200,
+                ),
+                SizedBox(height: 10),
+                badgeData.isEmpty
+                    ? CircularProgressIndicator()
+                    : Expanded(
+                        child: ListView.builder(
+                          padding: EdgeInsets.zero,
+                          itemCount: badgeData[0].length,
+                          itemBuilder: (context, index) {
+                            final item = badgeData[0][index];
+                            return Container(
+                              padding: EdgeInsets.symmetric(vertical: 10.0),
+                              child: Opacity(
+                                opacity:
+                                    item['badgeState'] == 'locked' ? 0.25 : 1.0,
+                                child: ListTile(
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 16.0, vertical: 0),
+                                  leading: SizedBox(
+                                    width: 50,
+                                    height: 50,
+                                    child: item['badgeGraphic'] != null
+                                        ? Image.asset(
+                                            '${item['badgeGraphic']}',
+                                            width: 50,
+                                            height: 50,
+                                            fit: BoxFit.cover,
+                                          )
+                                        : Container(
+                                            width: 50,
+                                            height: 50,
+                                            color: Colors.grey,
+                                          ),
                                   ),
-                                ),
-                                subtitle: Text(
-                                  '${item['badgeDesc']}',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.grey[600],
+                                  title: Text(
+                                    '${item['badgeName']}',
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    '${item['badgeDesc']}',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.grey[600],
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          );
-                        },
+                            );
+                          },
+                        ),
                       ),
-                    ),
-            ],
+                SizedBox(height: 80),
+              ],
+            ),
           ),
-        ),
-        // Bottom Navigation Bar with blur effect
-        Positioned(
-          bottom: 0,
-          left: 0,
-          right: 0,
-          child: ClipRect(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-              child: Container(
-                color: Colors.black.withOpacity(0.2),
-                child: BottomNavigationBar(
-                  backgroundColor: Colors.transparent,
-                  items: const <BottomNavigationBarItem>[
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.home),
-                      label: 'Home',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.qr_code_scanner),
-                      label: 'Scan',
-                    ),
-                  ],
-                  currentIndex: _selectedIndex,
-                  selectedItemColor: Colors.white,
-                  unselectedItemColor: Colors.white,
-                  onTap: _onItemTapped,
+          // Bottom Navigation Bar with blur effect
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: ClipRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                child: Container(
+                  color: Colors.black.withOpacity(0.2),
+                  child: BottomNavigationBar(
+                    backgroundColor: Colors.transparent,
+                    items: const <BottomNavigationBarItem>[
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.home),
+                        label: 'Home',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.qr_code_scanner),
+                        label: 'Scan',
+                      ),
+                    ],
+                    currentIndex: _selectedIndex,
+                    selectedItemColor: Colors.white,
+                    unselectedItemColor: Colors.white,
+                    onTap: _onItemTapped,
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-      ],
-    ),
-  );
-}
+        ],
+      ),
+    );
+  }
 }

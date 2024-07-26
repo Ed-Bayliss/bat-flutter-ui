@@ -7,8 +7,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:http/io_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'package:burtonaletrail_app/Home.dart';  // Import for navigation
-import 'package:burtonaletrail_app/QRScanner.dart';  // Import for navigation
+import 'package:burtonaletrail_app/Home.dart'; // Import for navigation
+import 'package:burtonaletrail_app/QRScanner.dart'; // Import for navigation
 
 class PubProfileScreen extends StatefulWidget {
   final String pubId;
@@ -38,9 +38,9 @@ class _PubProfileScreenState extends State<PubProfileScreen> {
 
   List<dynamic> beerData = [];
 
-  int _selectedIndex = 0;  // Set initial index to Home
+  int _selectedIndex = 0; // Set initial index to Home
   bool isLoading = true;
- 
+
   @override
   void initState() {
     super.initState();
@@ -50,7 +50,6 @@ class _PubProfileScreenState extends State<PubProfileScreen> {
   Future<void> fetchData() async {
     await fetchPubData();
     await fetchBeerData();
-
   }
 
   Future<void> fetchPubData() async {
@@ -64,7 +63,11 @@ class _PubProfileScreenState extends State<PubProfileScreen> {
             (X509Certificate cert, String host, int port) => trustSelfSigned;
       IOClient ioClient = IOClient(httpClient);
 
-      final response = await ioClient.get(Uri.parse('https://burtonaletrail.pawtul.com/pub_data/'+ widget.pubId + "/" + uuid));
+      final response = await ioClient.get(Uri.parse(
+          'https://burtonaletrail.pawtul.com/pub_data/' +
+              widget.pubId +
+              "/" +
+              uuid));
 
       if (response.statusCode == 200) {
         setState(() {
@@ -100,7 +103,11 @@ class _PubProfileScreenState extends State<PubProfileScreen> {
             (X509Certificate cert, String host, int port) => trustSelfSigned;
       IOClient ioClient = IOClient(httpClient);
 
-      final response = await ioClient.get(Uri.parse('https://burtonaletrail.pawtul.com/pub_data_beer/' + widget.pubId + '/' + uuid));
+      final response = await ioClient.get(Uri.parse(
+          'https://burtonaletrail.pawtul.com/pub_data_beer/' +
+              widget.pubId +
+              '/' +
+              uuid));
 
       if (response.statusCode == 200) {
         setState(() {
@@ -149,7 +156,8 @@ class _PubProfileScreenState extends State<PubProfileScreen> {
                 Positioned.fill(
                   child: Image.asset(
                     'assets/images/backdrop.jpg', // Path to your background image
-                    fit: BoxFit.cover, // Makes the image cover the entire screen
+                    fit:
+                        BoxFit.cover, // Makes the image cover the entire screen
                   ),
                 ),
                 // Foreground content
@@ -194,14 +202,16 @@ class _PubProfileScreenState extends State<PubProfileScreen> {
                             Text(
                               "Landlord: ${pubLandlord ?? ''}",
                               style: TextStyle(
-                                fontSize: 18.0, // Set font size for landlord info
+                                fontSize:
+                                    18.0, // Set font size for landlord info
                                 color: Colors.black,
                               ),
                             ),
                             Text(
                               "Phone: ${landlordPhoneNumber ?? ''}",
                               style: TextStyle(
-                                fontSize: 18.0, // Set font size for phone number
+                                fontSize:
+                                    18.0, // Set font size for phone number
                                 color: Colors.black,
                               ),
                             ),
@@ -209,7 +219,8 @@ class _PubProfileScreenState extends State<PubProfileScreen> {
                             Text(
                               "Opening Times:",
                               style: TextStyle(
-                                fontSize: 18.0, // Set font size for opening times title
+                                fontSize:
+                                    18.0, // Set font size for opening times title
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -217,7 +228,8 @@ class _PubProfileScreenState extends State<PubProfileScreen> {
                             Text(
                               openingTimes ?? '',
                               style: TextStyle(
-                                fontSize: 16.0, // Set font size for opening times
+                                fontSize:
+                                    16.0, // Set font size for opening times
                                 color: Colors.black,
                               ),
                             ),
@@ -231,70 +243,80 @@ class _PubProfileScreenState extends State<PubProfileScreen> {
                               ),
                             ),
                             ListView.builder(
-  shrinkWrap: true,
-  physics: NeverScrollableScrollPhysics(),
-  itemCount: beerData[0].length,
-  itemBuilder: (context, index) {
-    final item = beerData[0][index];
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => BeerProfileScreen(beerId: '${item['beerId']}'),
-          ),
-        );
-      },
-      child: ListTile(
-        contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        leading: item['beerGraphic'] != null
-            ? Image.network(
-                '${item['beerGraphic']}',
-                width: 50,
-                height: 50,
-                fit: BoxFit.cover,
-              )
-            : Container(
-                width: 50,
-                height: 50,
-                color: Colors.grey,
-              ),
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '${item['beerName']}',
-              style: TextStyle(
-                fontSize: 16.0, // Set font size for beer name
-                color: Colors.black,
-              ),
-            ),
-            SizedBox(height: 4.0), // Space between name and details
-          ],
-        ),
-        subtitle: RatingBar.builder(
-          initialRating: double.parse(item['beerVotesSum']),
-          minRating: 1,
-          direction: Axis.horizontal,
-          allowHalfRating: true,
-          itemCount: 5,
-          itemSize: 20.0, // Change this value to make stars smaller
-          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-          itemBuilder: (context, _) => Icon(
-            Icons.star,
-            color: Colors.amber,
-          ),
-          onRatingUpdate: (rating) {
-            // You can handle the rating update here if needed
-          },
-        ),
-      ),
-    );
-  },
-),
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: beerData[0].length,
+                              itemBuilder: (context, index) {
+                                final item = beerData[0][index];
+                                return InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => BeerProfileScreen(
+                                            beerId: '${item['beerId']}'),
+                                      ),
+                                    );
+                                  },
+                                  child: ListTile(
+                                    contentPadding: EdgeInsets.symmetric(
+                                        horizontal: 16.0, vertical: 8.0),
+                                    leading: item['beerGraphic'] != null
+                                        ? Image.network(
+                                            '${item['beerGraphic']}',
+                                            width: 50,
+                                            height: 50,
+                                            fit: BoxFit.cover,
+                                          )
+                                        : Container(
+                                            width: 50,
+                                            height: 50,
+                                            color: Colors.grey,
+                                          ),
+                                    title: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          '${item['beerName']}',
+                                          style: TextStyle(
+                                            fontSize:
+                                                16.0, // Set font size for beer name
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                4.0), // Space between name and details
+                                      ],
+                                    ),
+                                    subtitle: RatingBar.builder(
+                                      initialRating:
+                                          double.parse(item['beerVotesSum']),
+                                      minRating: 1,
+                                      direction: Axis.horizontal,
+                                      allowHalfRating: true,
+                                      itemCount: 5,
+                                      itemSize:
+                                          20.0, // Change this value to make stars smaller
+                                      itemPadding:
+                                          EdgeInsets.symmetric(horizontal: 4.0),
+                                      itemBuilder: (context, _) => Icon(
+                                        Icons.star,
+                                        color: Colors.amber,
+                                      ),
+                                      onRatingUpdate: (rating) {
+                                        // You can handle the rating update here if needed
+                                      },
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
                           ],
                         ),
                       ),
+                      SizedBox(height: 40),
                     ],
                   ),
                 ),

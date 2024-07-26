@@ -15,6 +15,7 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   String uuid = '';
   int _selectedIndex = 1; // Set initial index to Settings
+  final TextEditingController usernameController = TextEditingController();
 
   @override
   void initState() {
@@ -49,6 +50,48 @@ class _SettingsScreenState extends State<SettingsScreen> {
         );
       } else {
         throw Exception('Failed to delete account');
+      }
+    }
+  }
+
+  Future<void> _saveUsername() async {
+    if (uuid.isNotEmpty) {
+      if (usernameController.text != '') {
+        bool trustSelfSigned = true;
+        HttpClient httpClient = HttpClient()
+          ..badCertificateCallback =
+              (X509Certificate cert, String host, int port) => trustSelfSigned;
+        IOClient ioClient = IOClient(httpClient);
+
+        final response = await ioClient.get(Uri.parse(
+            'http://192.168.1.90:8000/set_username/' + usernameController.text + '/' + uuid));
+        if (response.statusCode == 200) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => SettingsScreen()),
+          );
+        } else if (response.statusCode == 201){
+          ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content:
+                Text('Please don\'t be offensive.'),
+            backgroundColor: Colors.red,
+            duration: Duration(seconds: 3),
+          ),
+        );
+        } else if (response.statusCode == 202){
+          ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content:
+                Text('This username is already in use.'),
+            backgroundColor: Colors.red,
+            duration: Duration(seconds: 3),
+          ),
+        );
+        } else
+         {
+          throw Exception('Failed to delete account');
+        }
       }
     }
   }
@@ -250,6 +293,34 @@ If you do not agree to the revised terms, you must discontinue the use of the So
     );
   }
 
+void _changeUsername() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Change Username'),
+          content: SingleChildScrollView(
+            child: TextField(
+              controller: usernameController,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'Your new username',
+            ),
+          ),
+          ),
+          actions: [
+            TextButton(
+              child: Text('Save'),
+              onPressed: () {
+                _saveUsername();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -298,6 +369,11 @@ If you do not agree to the revised terms, you must discontinue the use of the So
                   child: ListView(
                     padding: EdgeInsets.all(16.0),
                     children: [
+                       ListTile(
+                        title: Text('Change Username'),
+                        trailing: Icon(Icons.arrow_forward),
+                        onTap: _changeUsername,
+                      ),
                       ListTile(
                         title: Text('Privacy Policy'),
                         trailing: Icon(Icons.arrow_forward),
