@@ -196,69 +196,72 @@ class _BeerProfileScreenState extends State<BeerProfileScreen> {
                         height: 200,
                       ),
                       Expanded(
-                        child: ListView(
-                          padding: EdgeInsets.zero, // Remove padding
-                          children: [
-                            beerGraphic != null
-                                ? Image.network(
-                                    beerGraphic!,
-                                    height: 200,
-                                    fit: BoxFit.contain,
-                                  )
-                                : Container(),
-                            SizedBox(height: 20),
-                            Center(
-                              child: Text(
-                                beerName ?? '',
-                                style: TextStyle(
-                                  fontSize: 24.0, // Set font size for title
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
+                        child: SingleChildScrollView(
+                          physics: const BouncingScrollPhysics(),
+                          child: ListView(
+                            padding: EdgeInsets.zero, // Remove padding
+                            children: [
+                              beerGraphic != null
+                                  ? Image.network(
+                                      beerGraphic!,
+                                      height: 200,
+                                      fit: BoxFit.contain,
+                                    )
+                                  : Container(),
+                              SizedBox(height: 20),
+                              Center(
+                                child: Text(
+                                  beerName ?? '',
+                                  style: TextStyle(
+                                    fontSize: 24.0, // Set font size for title
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
-                            ),
-                            SizedBox(height: 10),
-                            Center(
-                              child: Text(
-                                'Available At: ' + beerPubs!,
-                                style: TextStyle(
-                                  fontSize:
-                                      16.0, // Set font size for description
-                                  color: Colors.black,
+                              SizedBox(height: 10),
+                              Center(
+                                child: Text(
+                                  'Available At: ' + beerPubs!,
+                                  style: TextStyle(
+                                    fontSize:
+                                        16.0, // Set font size for description
+                                    color: Colors.black,
+                                  ),
                                 ),
                               ),
-                            ),
-                            SizedBox(height: 10),
-                            Center(
-                              child: Text(
-                                beerDesc ?? '',
-                                style: TextStyle(
-                                  fontSize:
-                                      16.0, // Set font size for description
-                                  color: Colors.black,
+                              SizedBox(height: 10),
+                              Center(
+                                child: Text(
+                                  beerDesc ?? '',
+                                  style: TextStyle(
+                                    fontSize:
+                                        16.0, // Set font size for description
+                                    color: Colors.black,
+                                  ),
                                 ),
                               ),
-                            ),
-                            SizedBox(height: 20),
-                            Center(
-                              child: RatingBar.builder(
-                                initialRating: double.parse(beerVotesSum!),
-                                minRating: 1,
-                                direction: Axis.horizontal,
-                                allowHalfRating: true,
-                                itemCount: 5,
-                                itemPadding:
-                                    EdgeInsets.symmetric(horizontal: 4.0),
-                                itemBuilder: (context, _) => Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
+                              SizedBox(height: 20),
+                              Center(
+                                child: RatingBar.builder(
+                                  initialRating: double.parse(beerVotesSum!),
+                                  minRating: 1,
+                                  direction: Axis.horizontal,
+                                  allowHalfRating: true,
+                                  itemCount: 5,
+                                  itemPadding:
+                                      EdgeInsets.symmetric(horizontal: 4.0),
+                                  itemBuilder: (context, _) => Icon(
+                                    Icons.star,
+                                    color: Colors.amber,
+                                  ),
+                                  onRatingUpdate: (rating) {
+                                    submitRating(rating);
+                                  },
                                 ),
-                                onRatingUpdate: (rating) {
-                                  submitRating(rating);
-                                },
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ],
