@@ -45,6 +45,7 @@ class _BeersScreenState extends State<BeersScreen> {
 
       final response = await ioClient.get(
           Uri.parse('https://burtonaletrail.pawtul.com/beer_data/' + uuid));
+      // Uri.parse('http://192.168.1.190:5000/beer_data/' + uuid));
 
       if (response.statusCode == 200) {
         setState(() {
@@ -128,6 +129,16 @@ class _BeersScreenState extends State<BeersScreen> {
                   ),
                 ),
                 SizedBox(height: 20),
+                Center(
+                  child: Text(
+                    'Beers will only climb the leaderboard once 10 votes have been received.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                ),
                 filteredBeerData.isEmpty
                     ? CircularProgressIndicator()
                     : Expanded(
@@ -137,31 +148,59 @@ class _BeersScreenState extends State<BeersScreen> {
                           itemBuilder: (context, index) {
                             final item = filteredBeerData[index];
                             return Container(
-                              padding: EdgeInsets.symmetric(
-                                  vertical:
-                                      10.0), // Adjust padding to make rows thinner
+                              padding: EdgeInsets.symmetric(vertical: 10.0),
                               child: InkWell(
                                 onTap: () {
-                                  // Handle the tap event here
-                                  // For example, you can navigate to a details page
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => BeerProfileScreen(
-                                          beerId: '${item['beerId']}'),
+                                        beerId: '${item['beerId']}',
+                                      ),
                                     ),
                                   );
                                 },
                                 child: ListTile(
                                   contentPadding: EdgeInsets.symmetric(
-                                      horizontal: 16.0,
-                                      vertical: 0), // Adjust content padding
+                                      horizontal: 16.0, vertical: 0),
                                   leading: item['beerGraphic'] != null
-                                      ? Image.network(
-                                          '${item['beerGraphic']}',
-                                          width: 50,
-                                          height: 50,
-                                          fit: BoxFit.cover,
+                                      ? Stack(
+                                          children: [
+                                            ClipRRect(
+                                              borderRadius: BorderRadius.circular(
+                                                  8.0), // Adjust the value to get the desired roundness
+                                              child:
+                                                  item['beerVoted'] == 'voted'
+                                                      ? ImageFiltered(
+                                                          imageFilter:
+                                                              ImageFilter.blur(
+                                                                  sigmaX: 2.0,
+                                                                  sigmaY: 2.0),
+                                                          child: Image.network(
+                                                            '${item['beerGraphic']}',
+                                                            width: 50,
+                                                            height: 50,
+                                                            fit: BoxFit.cover,
+                                                          ),
+                                                        )
+                                                      : Image.network(
+                                                          '${item['beerGraphic']}',
+                                                          width: 50,
+                                                          height: 50,
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                            ),
+                                            if (item['beerVoted'] == 'voted')
+                                              Positioned(
+                                                top: 0,
+                                                right: 0,
+                                                child: Icon(
+                                                  Icons.check_circle,
+                                                  color: Colors.green,
+                                                  size: 32.0,
+                                                ),
+                                              ),
+                                          ],
                                         )
                                       : Container(
                                           width: 50,
@@ -175,50 +214,113 @@ class _BeersScreenState extends State<BeersScreen> {
                                       Text(
                                         '${item['beerName']}',
                                         style: TextStyle(
-                                          fontSize:
-                                              16.0, // Set font size for title
+                                          fontSize: 16.0,
                                           color: item['beerVoted'] == 'voted'
                                               ? const Color.fromARGB(
                                                   255, 2, 119, 6)
-                                              : Colors
-                                                  .black, // Conditional text color
+                                              : Colors.black,
                                         ),
                                       ),
                                       SizedBox(height: 4),
-                                      Text(
-                                        'Total Stars Given: ${item['beerVotesSum']}',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.grey[600],
-                                        ),
-                                      ),
                                     ],
                                   ),
-                                  subtitle: RatingBar.builder(
-                                    initialRating:
-                                        double.parse(item['beerAvg']),
-                                    minRating: 1,
-                                    direction: Axis.horizontal,
-                                    allowHalfRating: true,
-                                    itemCount: 5,
-                                    itemSize:
-                                        20.0, // Change this value to make stars smaller
-                                    itemPadding:
-                                        EdgeInsets.symmetric(horizontal: 4.0),
-                                    itemBuilder: (context, _) => Icon(
-                                      Icons.star,
-                                      color: Colors.amber,
-                                    ),
-                                    onRatingUpdate: (rating) {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              BeerProfileScreen(
-                                                  beerId: '${item['beerId']}'),
+                                  subtitle: Stack(
+                                    children: [
+                                      RatingBar.builder(
+                                        initialRating: item['totalVotes'] >= 10
+                                            ? double.parse(item['beerAvg'])
+                                            : 0.0,
+                                        minRating: 1,
+                                        direction: Axis.horizontal,
+                                        allowHalfRating: true,
+                                        itemCount: 5,
+                                        itemSize: 20.0,
+                                        itemPadding: EdgeInsets.symmetric(
+                                            horizontal: 4.0),
+                                        itemBuilder: (context, _) => Icon(
+                                          Icons.star,
+                                          color: Colors.amber,
                                         ),
-                                      );
-                                    },
+                                        onRatingUpdate: (rating) {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  BeerProfileScreen(
+                                                      beerId:
+                                                          '${item['beerId']}'),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                      if (item['totalVotes'] >= 10)
+                                        Positioned(
+                                          top: 0,
+                                          right: 0,
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 8.0, vertical: 2.0),
+                                            decoration: BoxDecoration(
+                                              color: Colors.green,
+                                              borderRadius:
+                                                  BorderRadius.circular(12.0),
+                                            ),
+                                            child: Text(
+                                              '${item['beerAvg']} Stars',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12.0,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      if (item['totalVotes'] > 1 &&
+                                          item['totalVotes'] < 10)
+                                        Positioned(
+                                          top: 0,
+                                          right: 0,
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 8.0, vertical: 2.0),
+                                            decoration: BoxDecoration(
+                                              color: Colors.red,
+                                              borderRadius:
+                                                  BorderRadius.circular(12.0),
+                                            ),
+                                            child: Text(
+                                              '${(int.tryParse(item['totalVotes']?.toString() ?? '0') ?? 0).toString()} Votes',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12.0,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      if (item['totalVotes'] == 1)
+                                        Positioned(
+                                          top: 0,
+                                          right: 0,
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 8.0, vertical: 2.0),
+                                            decoration: BoxDecoration(
+                                              color: Colors.red,
+                                              borderRadius:
+                                                  BorderRadius.circular(12.0),
+                                            ),
+                                            child: Text(
+                                              '${(int.tryParse(item['totalVotes']?.toString() ?? '0') ?? 0).toString()} Vote',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12.0,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                    ],
                                   ),
                                 ),
                               ),

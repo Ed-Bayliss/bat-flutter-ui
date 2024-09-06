@@ -3,7 +3,10 @@ import 'dart:io';
 import 'package:burtonaletrail_app/Badges.dart';
 import 'package:burtonaletrail_app/Beers.dart';
 import 'package:burtonaletrail_app/Donate.dart';
+import 'package:burtonaletrail_app/DonateThankyou.dart';
+import 'package:burtonaletrail_app/DrunkTest.dart';
 import 'package:burtonaletrail_app/Leaderboard.dart';
+import 'package:burtonaletrail_app/MusicChallenge.dart';
 import 'package:burtonaletrail_app/Pubs.dart';
 import 'package:burtonaletrail_app/Settings.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +19,7 @@ import 'dart:ui';
 import 'dart:async'; // Add this import for the Timer class
 import 'QRScanner.dart';
 import 'WebViewPage.dart';
+import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -41,6 +45,32 @@ class _HomeScreenState extends State<HomeScreen> {
   Timer? _discoTimer; // Add this Timer variable to manage the periodic timer
   Timer?
       _hideOverlayTimer; // Add this Timer variable to manage the overlay visibility timer
+
+  bool _isBonusTime() {
+    final now = DateTime.now();
+    final timeFormat = DateFormat.Hm(); // Using 24-hour format
+
+    final currentTime = timeFormat.format(now);
+
+    final List<String> bonusTimeRanges = [
+      '13:00-13:15',
+      '15:45-16:00',
+      '18:15-19:00',
+      '21:00-21:15',
+    ];
+
+    for (var range in bonusTimeRanges) {
+      final startEnd = range.split('-');
+      final startTime = startEnd[0];
+      final endTime = startEnd[1];
+
+      if (currentTime.compareTo(startTime) >= 0 &&
+          currentTime.compareTo(endTime) <= 0) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   @override
   void initState() {
@@ -73,7 +103,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        print(data[0]);
         setState(() {
           userName = data[0]['userName'] ?? '';
           userPoints = data[0]['userPoints'] ?? '0';
@@ -204,10 +233,14 @@ class _HomeScreenState extends State<HomeScreen> {
       });
 
       // Start a timer to hide the overlay after 60 seconds
-      _hideOverlayTimer = Timer(Duration(seconds: 240), () {
+      _hideOverlayTimer = Timer(Duration(seconds: 280), () {
         setState(() {
           _showDiscoLights = false; // Hide the overlay
           _discoTimer?.cancel(); // Cancel the periodic timer
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => MusicChallengeScreen()),
+          );
         });
       });
     } else {
@@ -276,6 +309,23 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisSpacing: 12,
                     mainAxisSpacing: 12,
                     children: [
+                      if (_isBonusTime())
+                        _buildFeatureCard(
+                          'Bonus',
+                          '',
+                          '',
+                          gradients,
+                          6,
+                          Icons.gamepad,
+                          onTap: () async {
+                            await audioPlayer.stop();
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => TappingGamePage()),
+                            );
+                          },
+                        ),
                       _buildFeatureCard(
                         'Scores',
                         '',
@@ -423,7 +473,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                   builder: (context) => Donate(
                                       url:
                                           'https://donate.stripe.com/bIY4jE4D96714mI9AI')),
+                              // 'https://donate.stripe.com/test_cN201w5E38mA97G7sw')),
                             );
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //       builder: (context) => DonateThankyouScreen()),
+                            // );
                           },
                         ),
                       _buildFeatureCard(

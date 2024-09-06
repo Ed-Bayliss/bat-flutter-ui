@@ -16,6 +16,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   String uuid = '';
   int _selectedIndex = 1; // Set initial index to Settings
   final TextEditingController usernameController = TextEditingController();
+  final TextEditingController feedbackController = TextEditingController();
 
   @override
   void initState() {
@@ -64,32 +65,32 @@ class _SettingsScreenState extends State<SettingsScreen> {
         IOClient ioClient = IOClient(httpClient);
 
         final response = await ioClient.get(Uri.parse(
-            'http://192.168.1.90:8000/set_username/' + usernameController.text + '/' + uuid));
+            'https://burtonaletrail.pawtul.com/set_username/' +
+                usernameController.text +
+                '/' +
+                uuid));
         if (response.statusCode == 200) {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => SettingsScreen()),
           );
-        } else if (response.statusCode == 201){
+        } else if (response.statusCode == 201) {
           ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content:
-                Text('Please don\'t be offensive.'),
-            backgroundColor: Colors.red,
-            duration: Duration(seconds: 3),
-          ),
-        );
-        } else if (response.statusCode == 202){
+            SnackBar(
+              content: Text('Please don\'t be offensive.'),
+              backgroundColor: Colors.red,
+              duration: Duration(seconds: 3),
+            ),
+          );
+        } else if (response.statusCode == 202) {
           ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content:
-                Text('This username is already in use.'),
-            backgroundColor: Colors.red,
-            duration: Duration(seconds: 3),
-          ),
-        );
-        } else
-         {
+            SnackBar(
+              content: Text('This username is already in use.'),
+              backgroundColor: Colors.red,
+              duration: Duration(seconds: 3),
+            ),
+          );
+        } else {
           throw Exception('Failed to delete account');
         }
       }
@@ -293,7 +294,7 @@ If you do not agree to the revised terms, you must discontinue the use of the So
     );
   }
 
-void _changeUsername() {
+  void _changeUsername() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -302,25 +303,100 @@ void _changeUsername() {
           content: SingleChildScrollView(
             child: TextField(
               controller: usernameController,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Your new username',
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Your new username',
+              ),
             ),
           ),
-          ),
           actions: [
-            TextButton(
-              child: Text('Save'),
-              onPressed: () {
-                _saveUsername();
-                Navigator.of(context).pop();
-              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  child: Text('Cancel'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                TextButton(
+                  child: Text('Send'),
+                  onPressed: () {
+                    _saveUsername();
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
             ),
           ],
         );
       },
     );
   }
+
+  void _sendFeedback() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          child: Container(
+            padding: EdgeInsets.all(16.0),
+            constraints: BoxConstraints(maxHeight: 400, maxWidth: 600),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Send Feedback',
+                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 16.0),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: TextField(
+                      controller: feedbackController,
+                      maxLines: 10,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Your feedback',
+                        alignLabelWithHint: true,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 16.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      child: Text('Cancel'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    TextButton(
+                      child: Text('Send'),
+                      onPressed: () {
+                        _saveFeedback();
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _saveFeedback() {
+    // Implement the logic to save feedback
+  }
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -369,11 +445,18 @@ void _changeUsername() {
                   child: ListView(
                     padding: EdgeInsets.all(16.0),
                     children: [
-                       ListTile(
-                        title: Text('Change Username'),
+                      ListTile(
+                        title: Text('Set Username'),
                         trailing: Icon(Icons.arrow_forward),
                         onTap: _changeUsername,
                       ),
+                      Divider(),
+                      ListTile(
+                        title: Text('Give Feedback'),
+                        trailing: Icon(Icons.arrow_forward),
+                        onTap: _sendFeedback,
+                      ),
+                      Divider(),
                       ListTile(
                         title: Text('Privacy Policy'),
                         trailing: Icon(Icons.arrow_forward),

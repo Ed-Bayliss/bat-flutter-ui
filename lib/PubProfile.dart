@@ -81,8 +81,8 @@ class _PubProfileScreenState extends State<PubProfileScreen> {
             landlordPhoneNumber = pubData['pubPhone'];
             openingTimes = pubData['pubOpen'];
             pubLogo = pubData['pubLogo'];
-            isLoading = false;
           }
+          isLoading = false; // Update loading state here
         });
       } else {
         throw Exception('Failed to load pub data');
@@ -148,211 +148,253 @@ class _PubProfileScreenState extends State<PubProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: isLoading
-          ? Center(child: CircularProgressIndicator())
-          : Stack(
-              children: [
-                // Background image
-                Positioned.fill(
-                  child: Image.asset(
-                    'assets/images/backdrop.jpg', // Path to your background image
-                    fit:
-                        BoxFit.cover, // Makes the image cover the entire screen
+        body: isLoading
+            ? Center(child: CircularProgressIndicator())
+            : Stack(
+                children: [
+                  // Background image
+                  Positioned.fill(
+                    child: Image.asset(
+                      'assets/images/backdrop.jpg', // Path to your background image
+                      fit: BoxFit
+                          .cover, // Makes the image cover the entire screen
+                    ),
                   ),
-                ),
-                // Foreground content
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'assets/app_logo.png', // Path to your asset image
-                        height: 200,
-                      ),
-                      Expanded(
-                        child: ListView(
-                          padding: EdgeInsets.zero, // Remove padding
-                          children: [
-                            pubLogo != null
-                                ? Image.asset(
-                                    pubLogo!,
-                                    height: 200,
-                                    fit: BoxFit.cover,
-                                  )
-                                : Container(),
-                            SizedBox(height: 20),
-                            Text(
-                              pubName ?? '',
-                              style: TextStyle(
-                                fontSize: 24.0, // Set font size for title
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              pubDescription ?? '',
-                              style: TextStyle(
-                                fontSize: 16.0, // Set font size for description
-                                color: Colors.black,
-                              ),
-                            ),
-                            SizedBox(height: 20),
-                            Text(
-                              "Landlord: ${pubLandlord ?? ''}",
-                              style: TextStyle(
-                                fontSize:
-                                    18.0, // Set font size for landlord info
-                                color: Colors.black,
-                              ),
-                            ),
-                            Text(
-                              "Phone: ${landlordPhoneNumber ?? ''}",
-                              style: TextStyle(
-                                fontSize:
-                                    18.0, // Set font size for phone number
-                                color: Colors.black,
-                              ),
-                            ),
-                            SizedBox(height: 20),
-                            Text(
-                              "Opening Times:",
-                              style: TextStyle(
-                                fontSize:
-                                    18.0, // Set font size for opening times title
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              openingTimes ?? '',
-                              style: TextStyle(
-                                fontSize:
-                                    16.0, // Set font size for opening times
-                                color: Colors.black,
-                              ),
-                            ),
-                            SizedBox(height: 20),
-                            Text(
-                              "Beers Available:",
-                              style: TextStyle(
-                                fontSize: 18.0, // Set font size for beers title
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            ListView.builder(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount: beerData[0].length,
-                              itemBuilder: (context, index) {
-                                final item = beerData[0][index];
-                                return InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => BeerProfileScreen(
-                                            beerId: '${item['beerId']}'),
-                                      ),
-                                    );
-                                  },
-                                  child: ListTile(
-                                    contentPadding: EdgeInsets.symmetric(
-                                        horizontal: 16.0, vertical: 8.0),
-                                    leading: item['beerGraphic'] != null
-                                        ? Image.network(
-                                            '${item['beerGraphic']}',
-                                            width: 50,
-                                            height: 50,
-                                            fit: BoxFit.cover,
-                                          )
-                                        : Container(
-                                            width: 50,
-                                            height: 50,
-                                            color: Colors.grey,
-                                          ),
-                                    title: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          '${item['beerName']}',
-                                          style: TextStyle(
-                                            fontSize:
-                                                16.0, // Set font size for beer name
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                            height:
-                                                4.0), // Space between name and details
-                                      ],
-                                    ),
-                                    subtitle: RatingBar.builder(
-                                      initialRating:
-                                          double.parse(item['beerVotesSum']),
-                                      minRating: 1,
-                                      direction: Axis.horizontal,
-                                      allowHalfRating: true,
-                                      itemCount: 5,
-                                      itemSize:
-                                          20.0, // Change this value to make stars smaller
-                                      itemPadding:
-                                          EdgeInsets.symmetric(horizontal: 4.0),
-                                      itemBuilder: (context, _) => Icon(
-                                        Icons.star,
-                                        color: Colors.amber,
-                                      ),
-                                      onRatingUpdate: (rating) {
-                                        // You can handle the rating update here if needed
-                                      },
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ],
+                  // Foreground content
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/app_logo.png', // Path to your asset image
+                          height: 200,
                         ),
-                      ),
-                      SizedBox(height: 40),
-                    ],
+                        Expanded(
+                          child: ListView(
+                            padding: EdgeInsets.zero, // Remove padding
+                            children: [
+                              pubLogo != null
+                                  ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(
+                                          18.0), // Adjust the value to get the desired roundness
+                                      child: Image.asset(
+                                        pubLogo!,
+                                        height: 175,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    )
+                                  : Container(),
+                              SizedBox(height: 20),
+                              Text(
+                                pubName ?? '',
+                                style: TextStyle(
+                                  fontSize: 24.0, // Set font size for title
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                pubDescription ?? '',
+                                style: TextStyle(
+                                  fontSize:
+                                      12.5, // Set font size for description
+                                  color: Colors.black,
+                                ),
+                              ),
+                              SizedBox(height: 20),
+                              Text.rich(
+                                TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: "Landlord: ",
+                                      style: TextStyle(
+                                        fontSize:
+                                            16.0, // Set font size for the label
+                                        color: Colors.black,
+                                        fontWeight: FontWeight
+                                            .bold, // Make the label bold
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: pubLandlord ?? '',
+                                      style: TextStyle(
+                                        fontSize:
+                                            16.0, // Set font size for the variable
+                                        color: Colors.black,
+                                        fontWeight: FontWeight
+                                            .normal, // Make the variable text non-bold
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Text.rich(
+                                TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: "Phone: ",
+                                      style: TextStyle(
+                                        fontSize:
+                                            16.0, // Set font size for the label
+                                        color: Colors.black,
+                                        fontWeight: FontWeight
+                                            .bold, // Make the label bold
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: landlordPhoneNumber ?? '',
+                                      style: TextStyle(
+                                        fontSize:
+                                            16.0, // Set font size for the variable
+                                        color: Colors.black,
+                                        fontWeight: FontWeight
+                                            .normal, // Make the variable text non-bold
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: 20),
+                              Text(
+                                "Opening Times:",
+                                style: TextStyle(
+                                  fontSize:
+                                      16.0, // Set font size for opening times title
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                openingTimes ?? '',
+                                style: TextStyle(
+                                  fontSize:
+                                      16.0, // Set font size for opening times
+                                  color: Colors.black,
+                                ),
+                              ),
+                              SizedBox(height: 20),
+                              Text(
+                                "Beers Available:",
+                                style: TextStyle(
+                                  fontSize:
+                                      16.0, // Set font size for beers title
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: beerData[0].length,
+                                itemBuilder: (context, index) {
+                                  final item = beerData[0][index];
+                                  return InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              BeerProfileScreen(
+                                                  beerId: '${item['beerId']}'),
+                                        ),
+                                      );
+                                    },
+                                    child: ListTile(
+                                      contentPadding: EdgeInsets.symmetric(
+                                          horizontal: 0.0, vertical: 0.0),
+                                      leading: item['beerGraphic'] != null
+                                          ? Image.network(
+                                              '${item['beerGraphic']}',
+                                              width: 50,
+                                              height: 50,
+                                              fit: BoxFit.cover,
+                                            )
+                                          : Container(
+                                              width: 50,
+                                              height: 50,
+                                              color: Colors.grey,
+                                            ),
+                                      title: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            '${item['beerName']}',
+                                            style: TextStyle(
+                                              fontSize:
+                                                  16.0, // Set font size for beer name
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                              height:
+                                                  4.0), // Space between name and details
+                                        ],
+                                      ),
+                                      subtitle: RatingBar.builder(
+                                        initialRating:
+                                            double.parse(item['beerVotesSum']),
+                                        minRating: 1,
+                                        direction: Axis.horizontal,
+                                        allowHalfRating: true,
+                                        itemCount: 5,
+                                        itemSize:
+                                            20.0, // Change this value to make stars smaller
+                                        itemPadding: EdgeInsets.symmetric(
+                                            horizontal: 4.0),
+                                        itemBuilder: (context, _) => Icon(
+                                          Icons.star,
+                                          color: Colors.amber,
+                                        ),
+                                        onRatingUpdate: (rating) {
+                                          // You can handle the rating update here if needed
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 40),
+                      ],
+                    ),
                   ),
-                ),
-                // Bottom Navigation Bar with blur effect
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: ClipRect(
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-                      child: Container(
-                        color: Colors.black.withOpacity(0.2),
-                        child: BottomNavigationBar(
-                          backgroundColor: Colors.transparent,
-                          items: const <BottomNavigationBarItem>[
-                            BottomNavigationBarItem(
-                              icon: Icon(Icons.home),
-                              label: 'Home',
-                            ),
-                            BottomNavigationBarItem(
-                              icon: Icon(Icons.qr_code_scanner),
-                              label: 'Scan',
-                            ),
-                          ],
-                          currentIndex: _selectedIndex,
-                          selectedItemColor: Colors.white,
-                          unselectedItemColor: Colors.white,
-                          onTap: _onItemTapped,
+                  // Bottom Navigation Bar with blur effect
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: ClipRect(
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                        child: Container(
+                          color: Colors.black.withOpacity(0.2),
+                          child: BottomNavigationBar(
+                            backgroundColor: Colors.transparent,
+                            items: const <BottomNavigationBarItem>[
+                              BottomNavigationBarItem(
+                                icon: Icon(Icons.home),
+                                label: 'Home',
+                              ),
+                              BottomNavigationBarItem(
+                                icon: Icon(Icons.qr_code_scanner),
+                                label: 'Scan',
+                              ),
+                            ],
+                            currentIndex: _selectedIndex,
+                            selectedItemColor: Colors.white,
+                            unselectedItemColor: Colors.white,
+                            onTap: _onItemTapped,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-    );
+                ],
+              ));
   }
 }

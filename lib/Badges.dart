@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
+import 'package:burtonaletrail_app/ViewBadge.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
@@ -19,6 +20,9 @@ class _BadgesScreenState extends State<BadgesScreen> {
   String userName = '';
   String userPoints = '0';
   String userPosition = '0';
+  String badgeUuid = '';
+  String badgeState = 'locked';
+  String eventId = '';
   int _selectedIndex = 0; // Set initial index to Home
 
   @override
@@ -142,50 +146,100 @@ class _BadgesScreenState extends State<BadgesScreen> {
                     : Expanded(
                         child: ListView.builder(
                           padding: EdgeInsets.zero,
-                          itemCount: badgeData[0].length,
+                          itemCount: badgeData[0].length +
+                              2, // Extra items for group headers
                           itemBuilder: (context, index) {
-                            final item = badgeData[0][index];
-                            return Container(
-                              padding: EdgeInsets.symmetric(vertical: 10.0),
-                              child: Opacity(
-                                opacity:
-                                    item['badgeState'] == 'locked' ? 0.25 : 1.0,
-                                child: ListTile(
-                                  contentPadding: EdgeInsets.symmetric(
-                                      horizontal: 16.0, vertical: 0),
-                                  leading: SizedBox(
-                                    width: 50,
-                                    height: 50,
-                                    child: item['badgeGraphic'] != null
-                                        ? Image.asset(
-                                            '${item['badgeGraphic']}',
-                                            width: 50,
-                                            height: 50,
-                                            fit: BoxFit.cover,
-                                          )
-                                        : Container(
-                                            width: 50,
-                                            height: 50,
-                                            color: Colors.grey,
-                                          ),
-                                  ),
-                                  title: Text(
-                                    '${item['badgeName']}',
-                                    style: TextStyle(
-                                      fontSize: 16.0,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  subtitle: Text(
-                                    '${item['badgeDesc']}',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.grey[600],
-                                    ),
+                            if (index == 0) {
+                              // First header
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10.0),
+                                child: Text(
+                                  'September 2024',
+                                  style: TextStyle(
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                              ),
-                            );
+                              );
+                            } else if (index == 4) {
+                              // Second header
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10.0),
+                                child: Text(
+                                  'March 2024',
+                                  style: TextStyle(
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              );
+                            } else {
+                              // Adjust index to account for headers
+                              final adjustedIndex =
+                                  index > 4 ? index - 2 : index - 1;
+                              final item = badgeData[0][adjustedIndex];
+
+                              return Container(
+                                padding: EdgeInsets.symmetric(vertical: 10.0),
+                                child: Opacity(
+                                  opacity: item['badgeState'] == 'locked'
+                                      ? 0.25
+                                      : 1.0,
+                                  child: ListTile(
+                                    contentPadding: EdgeInsets.symmetric(
+                                        horizontal: 16.0, vertical: 0),
+                                    leading: SizedBox(
+                                      width: 50,
+                                      height: 50,
+                                      child: item['badgeGraphic'] != null
+                                          ? Image.asset(
+                                              '${item['badgeGraphic']}',
+                                              width: 50,
+                                              height: 50,
+                                              fit: BoxFit.cover,
+                                            )
+                                          : Container(
+                                              width: 50,
+                                              height: 50,
+                                              color: Colors.grey,
+                                            ),
+                                    ),
+                                    title: Text(
+                                      '${item['badgeName']}',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    subtitle: Text(
+                                      '${item['badgeDesc']}',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.grey[600],
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      // Add your onTap logic here.
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => ViewBadgeScreen(
+                                              badgeUuid: item['badgeId'],
+                                              badgeName: item['badgeName'],
+                                              badgeDesc: item['badgeDesc'],
+                                              badgeGraphic:
+                                                  item['badgeGraphic'],
+                                              badgeState: item['badgeState']),
+                                        ),
+                                      );
+                                      // For example, navigate to another screen or show a dialog with more details.
+                                    },
+                                  ),
+                                ),
+                              );
+                            }
                           },
                         ),
                       ),

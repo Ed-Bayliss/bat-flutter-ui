@@ -1,3 +1,4 @@
+import 'dart:async'; // Import for Timer
 import 'dart:io';
 import 'dart:ui';
 import 'package:burtonaletrail_app/QRScanner.dart';
@@ -18,11 +19,19 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
   List<dynamic> leaderboardData = [];
   String? uuid;
   int _selectedIndex = 0; // Set initial index to Home
+  bool showInstructionText = true; // Add this line
 
   @override
   void initState() {
     super.initState();
     fetchLeaderboardData();
+
+    // Set a timer to hide the text after 3 seconds
+    Timer(Duration(seconds: 3), () {
+      setState(() {
+        showInstructionText = false;
+      });
+    });
   }
 
   Future<void> fetchLeaderboardData() async {
@@ -109,13 +118,29 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                   : '🥉',
           style: TextStyle(fontSize: positionFontSize),
         ),
-        Text(
-          player != null ? player['userName'] : '',
-          style: TextStyle(color: positionColor),
-        ),
-        Text(
-          player != null ? '${player['userPoints']}' : '',
-        ),
+        player != null && player['userPoints'] > 0
+            ? Column(
+                children: [
+                  Text(
+                    player['userName'],
+                    style: TextStyle(color: positionColor),
+                  ),
+                  Text(
+                    '${player['userPoints']}',
+                  ),
+                ],
+              )
+            : Column(
+                children: [
+                  Text(
+                    '???',
+                    style: TextStyle(color: positionColor),
+                  ),
+                  Text(
+                    '${player['userPoints']}',
+                  ),
+                ],
+              )
       ],
     );
   }
@@ -142,10 +167,12 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                   'assets/app_logo.png', // Path to your asset image
                   height: 200,
                 ),
-                Text(
-                    'You can earn points by rating beers or scanning the QR codes at participating pubs to unlock badges.',
-                    textAlign: TextAlign.center,
-                  ),
+                showInstructionText // Conditionally show the text
+                    ? Text(
+                        'You can earn points by rating beers or scanning the QR codes at participating pubs to unlock badges.',
+                        textAlign: TextAlign.center,
+                      )
+                    : Container(), // Empty container when text is hidden
                 buildPodium(),
                 leaderboardData.isEmpty
                     ? CircularProgressIndicator()
@@ -155,36 +182,72 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                           itemCount: leaderboardData[0].length,
                           itemBuilder: (context, index) {
                             final item = leaderboardData[0][index];
+                            final isCurrentUser =
+                                item['userName'] == item['myUserName'];
+
                             return Container(
                               padding: EdgeInsets.symmetric(
-                                  vertical:
-                                      -0.0), // Adjust padding to make rows thinner
-                              child: ListTile(
-                                contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 16.0,
-                                    vertical: 0), // Adjust content padding
-                                leading: CircleAvatar(
-                                  radius:
-                                      16.0, // Adjust radius to make the avatar smaller
-                                  backgroundImage:
-                                      AssetImage('assets/images/discoball.gif'),
+                                  vertical: 4.0), // Adjust padding
+                              child: Card(
+                                color: isCurrentUser
+                                    ? Colors.green.withOpacity(0.3)
+                                    : Colors.white.withOpacity(0.1),
+                                elevation: 5,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
                                 ),
-                                title: Text(
-                                  '${item['userName']}',
-                                  style: TextStyle(
-                                    fontSize: 16.0, // Set font size for title
-                                    color:
-                                        item['userName'] == item['myUserName']
-                                            ? Colors.green
-                                            : Colors.black,
-                                  ),
-                                ),
-                                subtitle: Text(
-                                  '${item['userPoints']} points',
-                                  style: TextStyle(
-                                    fontSize:
-                                        14.0, // Set font size for subtitle
-                                  ),
+                                child: Stack(
+                                  children: [
+                                    ListTile(
+                                      contentPadding: EdgeInsets.symmetric(
+                                          horizontal: 16.0, vertical: 8.0),
+                                      leading: CircleAvatar(
+                                        radius: 20.0,
+                                        backgroundImage: AssetImage(
+                                            'assets/images/discoball.gif'),
+                                      ),
+                                      title: Text(
+                                        '${item['userName']}',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: isCurrentUser
+                                              ? Colors.black
+                                              : Colors.white,
+                                        ),
+                                      ),
+                                      subtitle: Text(
+                                        '${item['userPoints']} points',
+                                        style: TextStyle(
+                                          fontSize: 14.0,
+                                          color: isCurrentUser
+                                              ? Colors.black
+                                              : Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                    if (item['userSuppoter'] == 1)
+                                      Positioned(
+                                        top: 0,
+                                        right: 0,
+                                        child: Row(
+                                          children: [
+                                            Icon(
+                                              Icons.star,
+                                              color: Colors.yellow,
+                                              size: 16.0,
+                                            ),
+                                            Text(
+                                              'Donated',
+                                              style: TextStyle(
+                                                color: Colors.yellow,
+                                                fontSize: 12.0,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                  ],
                                 ),
                               ),
                             );

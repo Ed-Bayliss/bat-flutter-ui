@@ -53,6 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
       if (emailController.text != '' && passwordController.text != '') {
         await prefs.setString('email', emailController.text);
         await prefs.setString('password', passwordController.text);
+        await prefs.setString('points', 'false');
         LoginPost();
       }
     }
@@ -138,7 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     Image.asset(
                       'assets/images/marvin.png',
-                      height: 150,
+                      height: 100,
                     ),
                     SizedBox(width: 20),
                     // Container(

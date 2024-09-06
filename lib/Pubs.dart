@@ -144,57 +144,88 @@ class _PubsScreenState extends State<PubsScreen> {
                                   vertical:
                                       10.0), // Adjust padding to make rows thinner
                               child: InkWell(
-                                onTap: () {
-                                  // Handle the tap event here
-                                  // For example, you can navigate to a details page
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => PubProfileScreen(
-                                          pubId: '${item['pubId']}'),
+                                  onTap: () {
+                                    // Handle the tap event here
+                                    // For example, you can navigate to a details page
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => PubProfileScreen(
+                                            pubId: '${item['pubId']}'),
+                                      ),
+                                    );
+                                  },
+                                  child: ListTile(
+                                    contentPadding: EdgeInsets.symmetric(
+                                        horizontal: 16.0, vertical: 0),
+                                    leading: Stack(
+                                      children: [
+                                        Container(
+                                          width: 80.0,
+                                          height: 80.0,
+                                          child: ClipRect(
+                                            child:
+                                                item['pubAwarded'] == 'awarded'
+                                                    ? ImageFiltered(
+                                                        imageFilter:
+                                                            ImageFilter.blur(
+                                                                sigmaX: 2.0,
+                                                                sigmaY: 2.0),
+                                                        child: ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                  8.0), // Adjust the value to get the desired roundness
+                                                          child: Image.asset(
+                                                            '${item['pubLogo']}',
+                                                            fit: BoxFit.cover,
+                                                          ),
+                                                        ),
+                                                      )
+                                                    : ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                8.0), // Adjust the value to get the desired roundness
+                                                        child: Image.asset(
+                                                          '${item['pubLogo']}',
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                                      ),
+                                          ),
+                                        ),
+                                        if (item['pubAwarded'] == 'awarded')
+                                          Positioned(
+                                            top: 0,
+                                            right: 0,
+                                            child: Icon(
+                                              Icons.check_circle,
+                                              color: Colors.green,
+                                              size:
+                                                  32.0, // Adjust size as needed
+                                            ),
+                                          ),
+                                      ],
                                     ),
-                                  );
-                                },
-                                child: ListTile(
-                                  contentPadding: EdgeInsets.symmetric(
-                                      horizontal: 16.0,
-                                      vertical: 0), // Adjust content padding
-                                  leading: Container(
-                                    width: 80.0, // Set the width of the image
-                                    height: 80.0, // Set the height of the image
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape
-                                          .rectangle, // Set the shape to rectangle
-                                      image: DecorationImage(
-                                        image: AssetImage('${item['pubLogo']}'),
-                                        fit: BoxFit
-                                            .cover, // Ensure the image covers the container
+                                    title: Text(
+                                      item['pubName'],
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                        color: item['pubAwarded'] == 'awarded'
+                                            ? const Color.fromARGB(
+                                                255, 2, 119, 6)
+                                            : Colors.black,
                                       ),
                                     ),
-                                  ),
-                                  title: Text(
-                                    '${item['pubName']}',
-                                    style: TextStyle(
-                                      fontSize: 16.0, // Set font size for title
-                                      color: item['pubAwarded'] == 'awarded'
-                                          ? const Color.fromARGB(255, 2, 119, 6)
-                                          : Colors
-                                              .black, // Conditional text color
+                                    subtitle: Text(
+                                      '${item['pubCheckIn']} check-ins',
+                                      style: TextStyle(
+                                        fontSize: 14.0,
+                                        color: item['pubAwarded'] == 'awarded'
+                                            ? const Color.fromARGB(
+                                                255, 2, 119, 6)
+                                            : Colors.black,
+                                      ),
                                     ),
-                                  ),
-                                  subtitle: Text(
-                                    '${item['pubCheckIn']} check-ins',
-                                    style: TextStyle(
-                                      fontSize:
-                                          14.0, // Set font size for subtitle
-                                      color: item['pubAwarded'] == 'awarded'
-                                          ? const Color.fromARGB(255, 2, 119, 6)
-                                          : Colors
-                                              .black, // Conditional text color
-                                    ),
-                                  ),
-                                ),
-                              ),
+                                  )),
                             );
                           },
                         ),

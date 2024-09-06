@@ -68,8 +68,6 @@ class _BeerProfileScreenState extends State<BeerProfileScreen> {
               widget.beerId +
               "/" +
               uuid));
-      // final response = await ioClient.get(Uri.parse(
-      //     'http://192.168.1.90:8000/beer_data/' + widget.beerId + "/" + uuid));
 
       if (response.statusCode == 200) {
         setState(() {

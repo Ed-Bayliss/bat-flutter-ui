@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
+import 'package:burtonaletrail_app/DonateThankyou.dart';
 import 'package:burtonaletrail_app/Home.dart';
 import 'package:burtonaletrail_app/Login.dart';
 import 'package:burtonaletrail_app/QRScanner.dart';
@@ -178,11 +179,13 @@ class _WebViewPageState extends State<WebViewPage> {
                         );
                         return NavigationActionPolicy.CANCEL;
                       }
-                      if (url != null && url.contains('pawtul.com/scan')) {
+                      if (url != null &&
+                          url.contains('pawtul.com/thankyou_donate')) {
                         // Redirect to the LoginScreen
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => QRScanner()),
+                          MaterialPageRoute(
+                              builder: (context) => DonateThankyouScreen()),
                         );
                         return NavigationActionPolicy.CANCEL;
                       }
