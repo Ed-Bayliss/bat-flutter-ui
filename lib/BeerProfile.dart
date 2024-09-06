@@ -64,10 +64,7 @@ class _BeerProfileScreenState extends State<BeerProfileScreen> {
       IOClient ioClient = IOClient(httpClient);
 
       final response = await ioClient.get(Uri.parse(
-          'https://burtonaletrail.pawtul.com/beer_data/' +
-              widget.beerId +
-              "/" +
-              uuid));
+          'https://burtonaletrail.pawtul.com/beer_data/${widget.beerId}/$uuid'));
 
       if (response.statusCode == 200) {
         setState(() {
@@ -105,12 +102,8 @@ class _BeerProfileScreenState extends State<BeerProfileScreen> {
       IOClient ioClient = IOClient(httpClient);
 
       final response = await ioClient.get(
-        Uri.parse('https://burtonaletrail.pawtul.com/beer_vote/' +
-            widget.beerId +
-            '/' +
-            rating.toString() +
-            '/' +
-            uuid),
+        Uri.parse(
+            'https://burtonaletrail.pawtul.com/beer_vote/${widget.beerId}/$rating/$uuid'),
       );
 
       if (response.statusCode == 200) {
@@ -196,8 +189,7 @@ class _BeerProfileScreenState extends State<BeerProfileScreen> {
                       Expanded(
                         child: SingleChildScrollView(
                           physics: const BouncingScrollPhysics(),
-                          child: ListView(
-                            padding: EdgeInsets.zero, // Remove padding
+                          child: Column(
                             children: [
                               beerGraphic != null
                                   ? Image.network(
@@ -218,50 +210,62 @@ class _BeerProfileScreenState extends State<BeerProfileScreen> {
                                 ),
                               ),
                               SizedBox(height: 10),
-                              Center(
-                                child: Text(
-                                  'Available At: ' + beerPubs!,
-                                  style: TextStyle(
-                                    fontSize:
-                                        16.0, // Set font size for description
-                                    color: Colors.black,
+                              if (beerPubs != null)
+                                Center(
+                                  child: Text(
+                                    'Available At: $beerPubs',
+                                    style: TextStyle(
+                                      fontSize:
+                                          16.0, // Set font size for description
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ),
-                              ),
                               SizedBox(height: 10),
-                              Center(
-                                child: Text(
-                                  beerDesc ?? '',
-                                  style: TextStyle(
-                                    fontSize:
-                                        16.0, // Set font size for description
-                                    color: Colors.black,
+                              if (beerDesc != null)
+                                Center(
+                                  child: Text(
+                                    beerDesc!,
+                                    style: TextStyle(
+                                      fontSize:
+                                          16.0, // Set font size for description
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ),
-                              ),
                               SizedBox(height: 20),
-                              Center(
-                                child: RatingBar.builder(
-                                  initialRating: double.parse(beerVotesSum!),
-                                  minRating: 1,
-                                  direction: Axis.horizontal,
-                                  allowHalfRating: true,
-                                  itemCount: 5,
-                                  itemPadding:
-                                      EdgeInsets.symmetric(horizontal: 4.0),
-                                  itemBuilder: (context, _) => Icon(
-                                    Icons.star,
-                                    color: Colors.amber,
-                                  ),
-                                  onRatingUpdate: (rating) {
-                                    submitRating(rating);
-                                  },
+                              Text(
+                                'Add your vote by clicking the stars below',
+                                style: TextStyle(
+                                  fontSize:
+                                      16.0, // Set font size for description
+                                  color: Colors.black,
                                 ),
                               ),
+                              if (beerVotesSum != null)
+                                Center(
+                                  child: RatingBar.builder(
+                                    initialRating: double.parse(beerVotesSum!),
+                                    minRating: 1,
+                                    direction: Axis.horizontal,
+                                    allowHalfRating: true,
+                                    itemCount: 5,
+                                    itemPadding:
+                                        EdgeInsets.symmetric(horizontal: 4.0),
+                                    itemBuilder: (context, _) => Icon(
+                                      Icons.star,
+                                      color: Colors.amber,
+                                    ),
+                                    onRatingUpdate: (rating) {
+                                      submitRating(rating);
+                                    },
+                                  ),
+                                ),
                             ],
                           ),
                         ),
                       ),
+                      SizedBox(height: 120),
                     ],
                   ),
                 ),

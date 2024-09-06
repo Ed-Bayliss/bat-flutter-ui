@@ -5,6 +5,8 @@ import 'package:burtonaletrail_app/QRScanner.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'Leaderboard.dart';
+
 class MusicChallengeScreen extends StatefulWidget {
   @override
   _MusicChallengeScreenState createState() => _MusicChallengeScreenState();
@@ -144,7 +146,8 @@ class _MusicChallengeScreenState extends State<MusicChallengeScreen> {
                     onPressed: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => QRScanner()),
+                        MaterialPageRoute(
+                            builder: (context) => LeaderboardScreen()),
                       );
                     },
                     child: Text(
