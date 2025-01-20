@@ -11,7 +11,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:burtonaletrail_app/WebViewPage.dart';  // Import for navigation
+// import 'package:burtonaletrail_app/WebViewPage.dart';  // Import for navigation
 import 'package:burtonaletrail_app/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';  // Import for navigation
 

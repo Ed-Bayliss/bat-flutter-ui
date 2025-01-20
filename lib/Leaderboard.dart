@@ -8,7 +8,7 @@ import 'dart:convert';
 import 'package:http/io_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:burtonaletrail_app/Home.dart'; // Import for navigation
-import 'package:burtonaletrail_app/WebViewPage.dart'; // Import for navigation
+// import 'package:burtonaletrail_app/WebViewPage.dart'; // Import for navigation
 
 class LeaderboardScreen extends StatefulWidget {
   @override

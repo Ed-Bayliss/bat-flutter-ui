@@ -1,25 +1,17 @@
-import 'dart:io';
-
-import 'package:burtonaletrail_app/Badges.dart';
-import 'package:burtonaletrail_app/Beers.dart';
-import 'package:burtonaletrail_app/Donate.dart';
-import 'package:burtonaletrail_app/DonateThankyou.dart';
-import 'package:burtonaletrail_app/DrunkTest.dart';
-import 'package:burtonaletrail_app/Leaderboard.dart';
-import 'package:burtonaletrail_app/MusicChallenge.dart';
-import 'package:burtonaletrail_app/Pubs.dart';
-import 'package:burtonaletrail_app/Settings.dart';
-import 'package:flutter/material.dart';
-import 'package:http/io_client.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
-import 'package:audioplayers/audioplayers.dart';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:ui';
-import 'dart:async'; // Add this import for the Timer class
-import 'QRScanner.dart';
-import 'WebViewPage.dart';
-import 'package:intl/intl.dart';
+import 'package:burtonaletrail_app/AppApi.dart';
+import 'package:burtonaletrail_app/AppDrawer.dart';
+import 'package:burtonaletrail_app/AppMenuButton.dart';
+import 'package:burtonaletrail_app/LeaderboardWidget.dart';
+import 'package:burtonaletrail_app/NavBar.dart';
+import 'package:burtonaletrail_app/ProfilePage.dart';
+import 'package:burtonaletrail_app/Sponsers.dart';
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/io_client.dart';
+import 'package:rive/rive.dart' as rive;
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -27,559 +19,438 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String domain = "https://burtonaletrail.pawtul.com/";
-  String? email;
-  String? password;
-  String? uuid;
-  int _selectedIndex = 0;
   String userName = '';
-  String musicGrove = 'Off';
   String userPoints = '0';
   String userPosition = '0';
   String userSupport = 'off';
-  bool _showDiscoLights =
-      true; // Add this boolean flag to control the visibility of the overlay
-  final AudioPlayer audioPlayer = AudioPlayer();
-  bool isPlaying = false;
-
-  Timer? _discoTimer; // Add this Timer variable to manage the periodic timer
-  Timer?
-      _hideOverlayTimer; // Add this Timer variable to manage the overlay visibility timer
-
-  bool _isBonusTime() {
-    final now = DateTime.now();
-    final timeFormat = DateFormat.Hm(); // Using 24-hour format
-
-    final currentTime = timeFormat.format(now);
-
-    final List<String> bonusTimeRanges = [
-      '13:00-13:15',
-      '15:45-16:00',
-      '18:15-19:00',
-      '21:00-21:15',
-    ];
-
-    for (var range in bonusTimeRanges) {
-      final startEnd = range.split('-');
-      final startTime = startEnd[0];
-      final endTime = startEnd[1];
-
-      if (currentTime.compareTo(startTime) >= 0 &&
-          currentTime.compareTo(endTime) <= 0) {
-        return true;
-      }
-    }
-    return false;
-  }
+  String userImage = '';
 
   @override
   void initState() {
     super.initState();
-    _getCredentials();
     _fetchUserData();
-  }
-
-  void _getCredentials() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      email = prefs.getString('email');
-      password = prefs.getString('password');
-    });
   }
 
   void _fetchUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? uuid = prefs.getString('uuid');
 
-    if (uuid != null) {
+    // Load locally saved user data
+    setState(() {
+      userName = prefs.getString('userName') ?? '';
+      userPoints = prefs.getString('userPoints') ?? '0';
+      userPosition = prefs.getString('userPosition') ?? '0';
+      userSupport = prefs.getString('userSupport') ?? 'off';
+      userImage = prefs.getString('userImage') ?? '';
+    });
+
+    // Attempt to fetch updated data from the server
+    String? accessToken = prefs.getString('access_token');
+
+    if (accessToken != null) {
       bool trustSelfSigned = true;
       HttpClient httpClient = HttpClient()
         ..badCertificateCallback =
             (X509Certificate cert, String host, int port) => trustSelfSigned;
       IOClient ioClient = IOClient(httpClient);
 
-      final response = await ioClient.get(
-          Uri.parse('https://burtonaletrail.pawtul.com/home_screen/' + uuid));
+      try {
+        final response = await ioClient.post(
+          Uri.parse(apiServerProfile),
+          headers: {
+            'Content-Type': 'application/json', // Specify JSON content type
+          },
+          body: jsonEncode({
+            'access_token': accessToken, // Convert body to JSON string
+          }),
+        );
 
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        setState(() {
-          userName = data[0]['userName'] ?? '';
-          userPoints = data[0]['userPoints'] ?? '0';
-          userPosition = data[0]['userPosition'] ?? '0';
-          userSupport = data[0]['userSupport'] ?? 'off';
-        });
-      } else {
-        // Handle the error appropriately
-        print('Failed to load user data');
+        if (response.statusCode == 200) {
+          final data = jsonDecode(response.body);
+
+          // Safely retrieve user and leaderboard data
+          setState(() {
+            userName = data['userName']?.toString() ?? userName;
+            userPoints = data['userPoints']?.toString() ?? userPoints;
+            userPosition = data['userPosition']?.toString() ?? userPosition;
+            userSupport = data['userSupport']?.toString() ?? userSupport;
+            userImage = data['userImage']?.toString() ?? userImage;
+
+            // Save user data locally
+            prefs.setString('userName', userName);
+            prefs.setString('userPoints', userPoints);
+            prefs.setString('userPosition', userPosition);
+            prefs.setString('userSupport', userSupport);
+            prefs.setString('userImage', userImage);
+
+            // Save leaderboard data
+            if (data['soloLeaderboardData'] != null) {
+              prefs.setString('soloLeaderboardData',
+                  jsonEncode(data['soloLeaderboardData']));
+            }
+            if (data['teamLeaderboardData'] != null) {
+              prefs.setString('teamLeaderboardData',
+                  jsonEncode(data['teamLeaderboardData']));
+            }
+          });
+        } else {
+          print(
+              'Failed to load user data. Status code: ${response.statusCode}');
+        }
+      } catch (e) {
+        print('Error fetching user data: $e');
       }
     } else {
-      throw Exception('UUID not found');
+      throw Exception('Access token not found');
     }
   }
 
-  String getSuffix(int number) {
-    if (11 <= number % 100 && number % 100 <= 13) {
-      return 'th';
-    } else {
-      switch (number % 10) {
-        case 1:
-          return 'st';
-        case 2:
-          return 'nd';
-        case 3:
-          return 'rd';
-        default:
-          return 'th';
-      }
+  Future<List<Map<String, dynamic>>> _getsoloLeaderboardData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? leaderboardJson = prefs.getString('soloLeaderboardData');
+    if (leaderboardJson != null) {
+      return List<Map<String, dynamic>>.from(jsonDecode(leaderboardJson));
     }
+    return [];
   }
 
-  final List<Gradient> gradients = [
-    LinearGradient(
-      colors: [Colors.pink, Colors.orange, Colors.yellow],
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-    ),
-    LinearGradient(
-      colors: [Colors.blue, Colors.purple, Colors.red],
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-    ),
-    LinearGradient(
-      colors: [Colors.green, Colors.teal, Colors.blue],
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-    ),
-    LinearGradient(
-      colors: [Colors.red, Colors.yellow, Colors.green],
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-    ),
-    LinearGradient(
-      colors: [Colors.purple, Colors.pink, Colors.lightBlue],
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-    ),
-    LinearGradient(
-      colors: [Colors.orange, Colors.red, Colors.purple],
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-    ),
-    LinearGradient(
-      colors: [Colors.cyan, Colors.blue, Colors.indigo],
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-    ),
-    LinearGradient(
-      colors: [Colors.yellow, Colors.green, Colors.teal],
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-    ),
-    LinearGradient(
-      colors: [Colors.blue, Colors.purple, Colors.green],
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-    ),
-    LinearGradient(
-      colors: [Colors.yellow, Colors.green, Colors.red],
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-    ),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-
-    switch (index) {
-      case 0:
-        // Home
-        audioPlayer.stop();
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
-        );
-        break;
-      case 1:
-        audioPlayer.stop();
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => QRScanner()),
-        );
-        break;
+  Future<List<Map<String, dynamic>>> _getteamLeaderboardData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? leaderboardJson = prefs.getString('teamLeaderboardData');
+    if (leaderboardJson != null) {
+      return List<Map<String, dynamic>>.from(jsonDecode(leaderboardJson));
     }
+    return [];
   }
 
-  Color _color1 = Colors.transparent;
-  Color _color2 = Colors.transparent;
-  Color _color3 = Colors.transparent;
-  Color _color4 = Colors.transparent;
+  Future<List<List<Map<String, dynamic>>>> _getLeaderboardGroups() async {
+    try {
+      // Fetch solo leaderboard data
+      List<Map<String, dynamic>> soloLeaderboardData =
+          await _getsoloLeaderboardData();
 
-  void _startStopDiscoLights(bool start) {
-    setState(() {
-      _showDiscoLights = start;
-    });
+      // Fetch team leaderboard data
+      List<Map<String, dynamic>> teamLeaderboardData =
+          await _getteamLeaderboardData();
 
-    if (start) {
-      _discoTimer = Timer.periodic(Duration(milliseconds: 500), (Timer timer) {
-        setState(() {
-          _color1 = _getRandomColor();
-          _color2 = _getRandomColor();
-          _color3 = _getRandomColor();
-          _color4 = _getRandomColor();
-        });
-      });
-
-      // Start a timer to hide the overlay after 60 seconds
-      _hideOverlayTimer = Timer(Duration(seconds: 280), () {
-        setState(() {
-          _showDiscoLights = false; // Hide the overlay
-          _discoTimer?.cancel(); // Cancel the periodic timer
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => MusicChallengeScreen()),
-          );
-        });
-      });
-    } else {
-      _discoTimer?.cancel(); // Cancel the periodic timer
-      _hideOverlayTimer?.cancel(); // Cancel the hide overlay timer
-      setState(() {
-        _showDiscoLights = false; // Hide the overlay
-      });
+      // Combine into groups
+      return [
+        soloLeaderboardData, // Group 1: Solo leaderboard
+        teamLeaderboardData, // Group 2: Team leaderboard
+      ];
+    } catch (e) {
+      throw Exception('Failed to fetch leaderboard groups: $e');
     }
-  }
-
-  Color _getRandomColor() {
-    final colors = [
-      Colors.red.withOpacity(0.5),
-      Colors.green.withOpacity(0.5),
-      Colors.blue.withOpacity(0.5),
-      Colors.yellow.withOpacity(0.5),
-      Colors.purple.withOpacity(0.5),
-      Colors.orange.withOpacity(0.5),
-    ];
-    colors.shuffle();
-    return colors.first;
   }
 
   @override
   Widget build(BuildContext context) {
-    int position = int.tryParse(userPosition) ?? 0;
-    String positionSuffix = getSuffix(position);
-
     return Scaffold(
+      extendBody: true,
       body: Stack(
         children: [
-          // Background image
+          // Background image positioned and scaled
+          Positioned(
+            width: MediaQuery.of(context).size.width * 1.7,
+            bottom: 100,
+            left: 100,
+            child: Image.asset('assets/Backgrounds/Spline.png'),
+          ),
+          // Blurred background filter
           Positioned.fill(
-            child: Image.asset(
-              'assets/images/backdrop.jpg', // Path to your background image
-              fit: BoxFit.cover, // Makes the image cover the entire screen
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 20, sigmaY: 10),
             ),
           ),
-          // Foreground content
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 10),
-                Center(
-                  child: Image.asset(
-                    'assets/app_logo.png', // Path to your asset image
-                    height: 200,
-                  ),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  'HEY $userName 👋',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 1),
-                Text(
-                  'You have $userPoints points\nYou are $position$positionSuffix on the scoreboard',
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                ),
-                Expanded(
-                  child: GridView.count(
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 12,
-                    mainAxisSpacing: 12,
-                    children: [
-                      if (_isBonusTime())
-                        _buildFeatureCard(
-                          'Bonus',
-                          '',
-                          '',
-                          gradients,
-                          6,
-                          Icons.gamepad,
-                          onTap: () async {
-                            await audioPlayer.stop();
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => TappingGamePage()),
-                            );
-                          },
-                        ),
-                      _buildFeatureCard(
-                        'Scores',
-                        '',
-                        '',
-                        gradients,
-                        1,
-                        Icons.leaderboard,
-                        onTap: () async {
-                          await audioPlayer.stop();
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LeaderboardScreen()),
-                          );
-                        },
-                      ),
-                      _buildFeatureCard(
-                        'Check In',
-                        '',
-                        '',
-                        gradients,
-                        2,
-                        Icons.qr_code_scanner,
-                        onTap: () async {
-                          await audioPlayer.stop();
-
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => QRScanner()),
-                          );
-                        },
-                      ),
-                      _buildFeatureCard(
-                        'Pubs',
-                        '',
-                        '',
-                        gradients,
-                        3,
-                        Icons.roofing,
-                        onTap: () async {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(builder: (context) => WebViewPage(
-                          //       url: domain + 'redirect',
-                          //       email: email ?? '',
-                          //       password: password ?? '',
-                          //       new_url: 'pubs'
-                          //   )),
-                          // );
-                          await audioPlayer.stop();
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PubsScreen()),
-                          );
-                        },
-                      ),
-                      _buildFeatureCard(
-                        'Beers',
-                        '',
-                        '',
-                        gradients,
-                        4,
-                        Icons.sports_bar,
-                        onTap: () async {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(builder: (context) => WebViewPage(
-                          //       url: domain + 'redirect',
-                          //       email: email ?? '',
-                          //       password: password ?? '',
-                          //       new_url: 'ratings'
-                          //   )),
-                          // );
-                          await audioPlayer.stop();
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => BeersScreen()),
-                          );
-                        },
-                      ),
-                      _buildFeatureCard(
-                        'Badges',
-                        '',
-                        '',
-                        gradients,
-                        5,
-                        Icons.star,
-                        onTap: () async {
-                          await audioPlayer.stop();
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => BadgesScreen()),
-                          );
-                        },
-                      ),
-                      _buildFeatureCard(
-                        '${musicGrove}',
-                        '',
-                        '',
-                        gradients,
-                        8,
-                        Icons.speaker,
-                        onTap: () async {
-                          if (isPlaying) {
-                            // Stop the music
-                            musicGrove = 'Off';
-                            await audioPlayer.stop();
-                            _startStopDiscoLights(false);
-                          } else {
-                            // URL of the audio file you want to stream
-                            musicGrove = 'On';
-                            String url =
-                                "https://s3.amazonaws.com/teampizza/music/Chemical+Brothers+-+Galaxy+Bounce.mp3";
-
-                            // Play the music using UrlSource
-                            await audioPlayer.play(UrlSource(url));
-                            _startStopDiscoLights(
-                                true); // Start the disco lights animation
-                          }
-
-                          // Toggle the playing state
-                          setState(() {
-                            isPlaying = !isPlaying;
-                          });
-                        },
-                      ),
-                      if (userSupport == 'on')
-                        _buildFeatureCard(
-                          'Support',
-                          '',
-                          '',
-                          gradients,
-                          9,
-                          Icons.currency_pound,
-                          onTap: () async {
-                            await audioPlayer.stop();
-
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Donate(
-                                      url:
-                                          'https://donate.stripe.com/bIY4jE4D96714mI9AI')),
-                              // 'https://donate.stripe.com/test_cN201w5E38mA97G7sw')),
-                            );
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //       builder: (context) => DonateThankyouScreen()),
-                            // );
-                          },
-                        ),
-                      _buildFeatureCard(
-                        'Settings',
-                        '',
-                        '',
-                        gradients,
-                        6,
-                        Icons.settings,
-                        onTap: () async {
-                          await audioPlayer.stop();
-
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SettingsScreen()),
-                          );
-                        },
-                      ),
-                      _buildFeatureCard(
-                        'Logout',
-                        '',
-                        '',
-                        gradients,
-                        7,
-                        Icons.logout,
-                        onTap: () async {
-                          await audioPlayer.stop();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => WebViewPage(
-                                    url: domain + 'redirect',
-                                    email: email ?? '',
-                                    password: password ?? '',
-                                    new_url: 'logout')),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+          // Rive animation
+          const rive.RiveAnimation.asset('assets/RiveAssets/shapes.riv'),
+          // Another layer of blur
+          Positioned.fill(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 20, sigmaY: 10),
+              child: const SizedBox(),
             ),
           ),
-// Disco Lights Animation
-          if (_showDiscoLights)
-            Positioned.fill(
-              child: IgnorePointer(
-                ignoring: true, // This makes the overlay non-interactive
+          // Main content
+          SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: MediaQuery.of(context).size.height,
+                ),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: Row(
-                        children: [
-                          Expanded(child: Container(color: _color1)),
-                          Expanded(child: Container(color: _color2)),
-                        ],
-                      ),
+                    _buildGreeting(),
+                    const SpecialOfferCarousel(),
+                    FutureBuilder<List<List<Map<String, dynamic>>>>(
+                      future:
+                          _getLeaderboardGroups(), // Fetch leaderboard groups
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const CircularProgressIndicator(); // Loading state
+                        } else if (snapshot.hasError) {
+                          return Text(
+                              'Error: ${snapshot.error}'); // Error state
+                        } else if (snapshot.hasData) {
+                          // Pass the fetched leaderboard groups to the LeaderboardCarousel
+                          return LeaderboardCarousel(
+                            leaderboardGroups: snapshot.data!,
+                            currentUserName: userName,
+                            currentUserImage: userImage,
+                            currentUserPoints: int.parse(userPoints),
+                          );
+                        } else {
+                          return const Text('No leaderboard data available');
+                        }
+                      },
                     ),
-                    Expanded(
-                      child: Row(
-                        children: [
-                          Expanded(child: Container(color: _color3)),
-                          Expanded(child: Container(color: _color4)),
-                        ],
-                      ),
-                    ),
+                    const SizedBox(height: 16),
+                    _buildFavouritesSection(),
+                    const SizedBox(height: 16),
+                    _buildFindPubsSection(),
+                    const SizedBox(height: 60),
                   ],
                 ),
               ),
             ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: ClipRect(
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-                child: Container(
-                  color: Colors.black.withOpacity(0.2),
-                  child: BottomNavigationBar(
-                    backgroundColor: Colors.transparent,
-                    items: const [
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.home),
-                        label: 'Home',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.qr_code_scanner),
-                        label: 'Scan',
-                      ),
-                    ],
-                    currentIndex: _selectedIndex,
-                    selectedItemColor: Color.fromARGB(255, 255, 225, 0),
-                    unselectedItemColor: Colors.white,
-                    onTap: _onItemTapped,
-                  ),
+          ),
+        ],
+      ),
+      drawer: const AppDrawer(activeItem: 1),
+      bottomNavigationBar: CustomBottomNavigationBar(),
+    );
+  }
+
+  String getGreeting() {
+    var hour = DateTime.now().hour;
+
+    if (hour < 12) {
+      return 'Good Morning 👋';
+    } else if (hour < 17) {
+      return 'Good Afternoon 👋';
+    } else {
+      return 'Good Evening 👋';
+    }
+  }
+
+  Widget _buildGreeting() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 16), // Adjust vertical spacing as needed
+        Row(
+          children: [
+            // AppMenuButton (burger menu)
+            Builder(
+              builder: (context) {
+                return AppMenuButton(
+                  onTap: () => Scaffold.of(context).openDrawer(),
+                );
+              },
+            ),
+            const SizedBox(width: 10),
+            // Greeting texts (Good Morning and user name)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  getGreeting(),
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.normal),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  userName.isNotEmpty ? userName : 'Loading...',
+                  style: const TextStyle(
+                      fontSize: 24, fontWeight: FontWeight.bold),
+                )
+              ],
+            ),
+            const Spacer(),
+            // User profile image
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfileScreen()),
+                );
+              },
+              child: CircleAvatar(
+                backgroundImage: (userImage != null && isValidBase64(userImage))
+                    ? MemoryImage(
+                        base64Decode(userImage)) // Decode Base64 to bytes
+                    : null, // Default to null if no valid image is available
+                child: (userImage == null || !isValidBase64(userImage))
+                    ? Icon(Icons
+                        .person) // Fallback icon if userImage is null or invalid
+                    : null,
+              ),
+            ),
+            const SizedBox(width: 20),
+          ],
+        ),
+      ],
+    );
+  }
+
+  bool isValidBase64(String? base64String) {
+    if (base64String == null || base64String.isEmpty) {
+      return false;
+    }
+
+    try {
+      final decodedBytes = base64Decode(base64String);
+      return decodedBytes.isNotEmpty; // Check if decoding produces valid data
+    } catch (e) {
+      return false; // If decoding fails, it's not a valid Base64 string
+    }
+  }
+
+  Widget _buildLeaderboards({
+    required String userName,
+    required String userImage,
+    required int userPoints,
+    required List<Map<String, dynamic>> soloLeaderboardData,
+  }) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(blurRadius: 10, color: Colors.grey.shade200),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Title
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                "Leaderboards",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              Text(
+                'Solo Players',
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          // Leaderboard List
+          Column(
+            children: soloLeaderboardData.map((entry) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // Rank and Avatar
+                    Row(
+                      children: [
+                        Text(
+                          entry['rank'].toString().padLeft(2, '0'),
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        CircleAvatar(
+                          backgroundImage: entry['avatar'] != null &&
+                                  entry['avatar'].isNotEmpty
+                              ? MemoryImage(base64Decode(entry['avatar']))
+                              : null,
+                          child:
+                              entry['avatar'] == null || entry['avatar'].isEmpty
+                                  ? const Icon(Icons.person) // Fallback icon
+                                  : null,
+                          radius: 20,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          entry['name'],
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                      ],
+                    ),
+                    // Points and Change Indicator
+                    Row(
+                      children: [
+                        Text(
+                          '${entry['points']} pts',
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          entry['change'] > 0
+                              ? '+${entry['change']}'
+                              : '${entry['change']}',
+                          style: TextStyle(
+                            color:
+                                entry['change'] > 0 ? Colors.green : Colors.red,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              );
+            }).toList(),
+          ),
+          const SizedBox(height: 8),
+          // Current User Highlight
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            decoration: BoxDecoration(
+              color: Colors.grey.shade100,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: Colors.brown, width: 2),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      "Your Rank:",
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    // CircleAvatar(
+                    //   backgroundImage: userImage.isNotEmpty
+                    //       ? MemoryImage(base64Decode(userImage))
+                    //       : null,
+                    //   child: userImage.isEmpty
+                    //       ? const Icon(Icons.person) // Fallback icon
+                    //       : null,
+                    //   radius: 20,
+                    // ),
+                    const SizedBox(width: 8),
+                    Text(
+                      userPosition,
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                  ],
+                ),
+                Text(
+                  '$userPoints pts',
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              ],
             ),
           ),
         ],
@@ -587,73 +458,143 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildFeatureCard(String title, String subtitle, String? description,
-      List gradients, int index, IconData icon, // Added icon parameter
-      {VoidCallback? onTap}) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Card(
+  Widget _buildLeaderboardButton(String text) {
+    return ElevatedButton(
+      onPressed: () {
+        // Get.to(() => const Start3DMeasurement());
+      },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: const Color(0xFFEEEEEE),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(12),
         ),
-        elevation: 5,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(15),
-          child: Container(
-            decoration: BoxDecoration(
-              gradient: gradients[index % gradients.length],
-              borderRadius: BorderRadius.circular(15),
+        elevation: 0,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+      ),
+      child: Text(
+        text,
+        style:
+            const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  Widget _buildFavouritesSection() {
+    return Row(
+      children: [
+        Expanded(
+          child: _buildFeatureCard(
+            title: 'My Favourite Beers',
+            icon: Icons.favorite,
+            color: Colors.red,
+            isActive: false,
+          ),
+        ),
+        const SizedBox(width: 16),
+        Expanded(
+          child: _buildFeatureCard(
+            title: 'View All Beers',
+            icon: Icons.shopping_bag,
+            color: Colors.pink,
+            isActive: true,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildFeatureCard({
+    required String title,
+    required IconData icon,
+    required Color color,
+    bool isActive = true,
+  }) {
+    return GestureDetector(
+      onTap: isActive ? () {} : null,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: isActive ? Colors.white : Colors.grey.shade300,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: isActive
+              ? [BoxShadow(blurRadius: 10, color: Colors.grey.shade200)]
+              : [BoxShadow(blurRadius: 2, color: Colors.grey.shade400)],
+        ),
+        child: Column(
+          children: [
+            Icon(
+              icon,
+              size: 40,
+              color: isActive ? color : Colors.grey,
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      fontFamily: 'FunkyFont', // Use a funky 70's font here
-                    ),
-                  ),
-                  if (subtitle.isNotEmpty)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 5.0),
-                      child: Text(
-                        subtitle,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.white70,
-                          fontFamily: 'FunkyFont',
-                        ),
-                      ),
-                    ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: Center(
-                      child: Icon(
-                        icon, // Use the passed icon
-                        size: 40,
-                        color:
-                            Colors.white, // Set color to white for visibility
-                      ),
-                    ),
-                  ),
-                ],
+            const SizedBox(height: 16),
+            Text(
+              title,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: isActive ? Colors.black : Colors.grey,
               ),
             ),
-          ),
+          ],
         ),
       ),
     );
   }
 
-  @override
-  void dispose() {
-    _discoTimer?.cancel();
-    _hideOverlayTimer?.cancel();
-    super.dispose();
+  Widget _buildFindPubsSection() {
+    return GestureDetector(
+      onTap: () {
+        // Get.to(() => MapPage());
+      },
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: const Color(0xFF061237),
+              borderRadius: BorderRadius.circular(20),
+              image: DecorationImage(
+                image: AssetImage('assets/images/map.png'),
+                fit: BoxFit.cover,
+                colorFilter: ColorFilter.mode(
+                  Colors.black.withOpacity(0.5),
+                  BlendMode.darken,
+                ),
+              ),
+            ),
+            child: const Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Find Your Nearest Pub →",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  "Locate ales near you",
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.white,
+                  ),
+                ),
+                Text(
+                  "Quick and easy",
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

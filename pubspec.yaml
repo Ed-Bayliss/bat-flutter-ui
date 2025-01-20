@@ -33,19 +33,21 @@ dependencies:
   flutter_svg: ^2.0.5
   path_provider: ^2.0.15
   webview_flutter: ^4.2.1
-  flutter_inappwebview: ^5.8.0
+  google_fonts: ^6.2.1
   permission_handler: ^10.2.0
   url_launcher: ^6.1.11
   http: ^1.2.1
-  shared_preferences: ^2.2.3
+  shared_preferences: ^2.3.0
   flutter_secure_storage: ^9.2.2
   qr_code_scanner: 1.0.1
+  get: ^4.6.6
   flutter_rating_bar: ^4.0.0
   confetti: ^0.6.0
   audioplayers: ^6.0.0
   cupertino_icons: ^1.0.8
   camera: ^0.11.0+1
   intl: ^0.19.0
+  rive: ^0.13.20
 
 # platforms:
 #   android:
@@ -75,5 +77,10 @@ flutter:
     - assets/images/backdrop.jpg
     - assets/images/discoball.gif
     - assets/images/marvin.png
+    - assets/images/map.png
     - assets/images/pubs/
     - assets/images/badges/
+    - assets/avaters/
+    - assets/Backgrounds/
+    - assets/icons/
+    - assets/RiveAssets/
