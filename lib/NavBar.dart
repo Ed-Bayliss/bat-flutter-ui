@@ -1,5 +1,6 @@
 import 'package:burtonaletrail_app/AppColors.dart';
 import 'package:burtonaletrail_app/Home.dart';
+import 'package:burtonaletrail_app/Leaderboard.dart';
 import 'package:flutter/material.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
@@ -30,7 +31,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
             break;
           case 1:
             Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => HomeScreen()),
+                MaterialPageRoute(builder: (context) => LeaderboardScreen()),
                 (Route<dynamic> route) => false);
             break;
           case 2:
@@ -56,7 +57,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.leaderboard, size: 24),
-          label: 'Votes',
+          label: 'Leaderboards',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.business_outlined, size: 24), // Icon for 3D Scans

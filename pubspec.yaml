@@ -48,6 +48,11 @@ dependencies:
   camera: ^0.11.0+1
   intl: ^0.19.0
   rive: ^0.13.20
+  onesignal_flutter: 5.0.4
+  image_picker: ^1.1.2
+  image_cropper: ^8.1.0
+  image: ^4.0.17
+
 
 # platforms:
 #   android:
@@ -80,7 +85,6 @@ flutter:
     - assets/images/map.png
     - assets/images/pubs/
     - assets/images/badges/
-    - assets/avaters/
     - assets/Backgrounds/
     - assets/icons/
     - assets/RiveAssets/

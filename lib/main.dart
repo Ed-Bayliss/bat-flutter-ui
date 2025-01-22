@@ -2,13 +2,25 @@ import 'dart:convert';
 
 import 'package:burtonaletrail_app/AppApi.dart';
 import 'package:burtonaletrail_app/Home.dart';
+import 'package:burtonaletrail_app/LoadingScreen.dart';
 import 'package:burtonaletrail_app/Login.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
+
 import 'package:http/http.dart' as http;
 
 void main() async {
+  // Ensure all Flutter bindings are initialized
   WidgetsFlutterBinding.ensureInitialized();
+
+  OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
+  OneSignal.initialize(
+    "3002aa80-35a6-465d-a7dc-6172f15fe72d",
+  );
+  OneSignal.Notifications.requestPermission(true);
+
+  // Start your Flutter app
   runApp(MyApp());
 }
 
@@ -40,12 +52,14 @@ class MyApp extends StatelessWidget {
         },
         body: jsonEncode({
           'access_token': access_token,
-          'refresh_token': refresh_token
+          'refresh_token': refresh_token,
+          'push_token': OneSignal.User.pushSubscription.id.toString()
         }), // Adjust based on your server's expected payload
       );
 
       if (response.statusCode == 200) {
         final jsonResponse = jsonDecode(response.body);
+        OneSignal.login(jsonResponse['user_id']);
 
         if (jsonResponse['access_token'] != null) {
           final accessToken = jsonResponse['access_token'];
@@ -83,7 +97,9 @@ class MyApp extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Scaffold(
               body: Center(
-                child: CircularProgressIndicator(),
+                child: LoadingScreen(
+                  loadingText: "Authenticating",
+                ),
               ),
             );
           }

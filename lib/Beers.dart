@@ -1,369 +1,333 @@
 import 'dart:io';
 import 'dart:ui';
+import 'package:burtonaletrail_app/AppApi.dart';
+import 'package:burtonaletrail_app/AppDrawer.dart';
 import 'package:burtonaletrail_app/BeerProfile.dart';
-import 'package:burtonaletrail_app/QRScanner.dart';
+import 'package:burtonaletrail_app/NavBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:burtonaletrail_app/Home.dart'; // Import for navigation
+import 'package:rive/rive.dart' as rive;
 
 class BeersScreen extends StatefulWidget {
+  final int startTabIndex;
+
+  // Accept a parameter for the starting tab index (default is 0).
+  BeersScreen({this.startTabIndex = 0});
+
   @override
   _BeersScreenState createState() => _BeersScreenState();
 }
 
-class _BeersScreenState extends State<BeersScreen> {
-  List<dynamic> beerData = [];
-  List<dynamic> filteredBeerData = [];
-  String? uuid;
-  int _selectedIndex = 0; // Set initial index to Home
-  TextEditingController searchController = TextEditingController();
+class _BeersScreenState extends State<BeersScreen>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+  List<dynamic> allBeers = [];
+  List<dynamic> favoriteBeers = [];
+  List<dynamic> filteredBeers = [];
+  List<dynamic> currentList = [];
+  String searchText = "";
+  bool _isLoading = false;
+  String _loadingString = 'Loading, please wait...';
+  String? selectedFilter;
 
   @override
   void initState() {
     super.initState();
-    fetchBeerData();
-    searchController.addListener(() {
-      filterBeers(searchController.text);
+    _tabController = TabController(
+      length: 2,
+      vsync: this,
+      initialIndex:
+          widget.startTabIndex, // Use the passed-in starting tab index
+    );
+    _tabController.addListener(_handleTabSelection);
+    _loadBeers();
+
+    // Set the initial beer list based on the starting tab.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        if (_tabController.index == 1) {
+          currentList =
+              allBeers.where((beer) => beer['isfavourite'] == true).toList();
+        } else {
+          currentList = allBeers;
+        }
+        _filterBeers();
+      });
     });
   }
 
-  Future<void> fetchBeerData() async {
+  void _handleTabSelection() {
+    setState(() {
+      currentList = _tabController.index == 0
+          ? allBeers
+          : allBeers.where((beer) => beer['isfavourite'] == true).toList();
+      _filterBeers();
+    });
+  }
+
+  Future<void> _loadBeers() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? uuid = prefs.getString('uuid');
+    String? accessToken = prefs.getString('access_token');
+    final HttpClient httpClient = HttpClient()
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+    final IOClient ioClient = IOClient(httpClient);
 
-    if (uuid != null) {
-      bool trustSelfSigned = true;
-      HttpClient httpClient = HttpClient()
-        ..badCertificateCallback =
-            (X509Certificate cert, String host, int port) => trustSelfSigned;
-      IOClient ioClient = IOClient(httpClient);
+    setState(() {
+      _isLoading = true;
+    });
 
-      final response = await ioClient.get(
-          Uri.parse('https://burtonaletrail.pawtul.com/beer_data/' + uuid));
-      // Uri.parse('http://192.168.1.190:5000/beer_data/' + uuid));
+    try {
+      final response = await ioClient.post(
+        Uri.parse(apiServerBeerList),
+        headers: {
+          'Authorization': 'Bearer $accessToken',
+          'Content-Type': 'application/json',
+        },
+        body: json.encode({'access_token': accessToken}),
+      );
 
       if (response.statusCode == 200) {
-        setState(() {
-          beerData = json.decode(response.body);
-          filteredBeerData = beerData[0];
-          print(filteredBeerData[1]['beerAvg']);
-        });
+        final data = json.decode(response.body);
+        if (data is List) {
+          setState(() {
+            allBeers = data
+                .map((beer) => {
+                      ...beer,
+                      'isfavourite': beer['isfavourite'] ?? false,
+                      'votes_avg':
+                          double.tryParse(beer['votes_avg'].toString()) ?? 0.0,
+                      'votes_sum': beer['votes_sum'] ?? 0,
+                    })
+                .toList();
+            currentList = _tabController.index == 1
+                ? allBeers.where((beer) => beer['isfavourite'] == true).toList()
+                : allBeers;
+            _filterBeers();
+          });
+        } else {
+          throw Exception('Unexpected data structure: Expected a list');
+        }
       } else {
         throw Exception('Failed to load beer data');
       }
-    } else {
-      throw Exception('UUID not found');
+    } catch (e) {
+      print('Error loading beers: $e');
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
-  void _onItemTapped(int index) {
+  void _filterBeers() {
     setState(() {
-      _selectedIndex = index;
-    });
+      filteredBeers = currentList.where((beer) {
+        final nameMatches = beer['beer_name']
+                ?.toLowerCase()
+                .contains(searchText.toLowerCase()) ??
+            false;
+        return nameMatches;
+      }).toList();
 
-    switch (index) {
-      case 0:
-        // Home
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
+      if (selectedFilter == 'average_rating') {
+        filteredBeers.sort((a, b) => b['votes_avg'].compareTo(a['votes_avg']));
+      } else if (selectedFilter == 'total_votes') {
+        filteredBeers.sort((a, b) => b['votes_sum'].compareTo(a['votes_sum']));
+      } else if (selectedFilter == 'most_favourited') {
+        filteredBeers.sort((a, b) =>
+            (b['isfavourite'] ? 1 : 0).compareTo(a['isfavourite'] ? 1 : 0));
+      }
+    });
+  }
+
+  Future<void> _toggleFavourite(String beerId, bool isfavourite) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? accessToken = prefs.getString('access_token');
+    if (accessToken != null) {
+      try {
+        final response = await http.post(
+          Uri.parse(apiServerToggleFavourite),
+          body: json.encode({
+            'beerId': beerId,
+            'favourite': !isfavourite,
+            'access_token': accessToken
+          }),
+          headers: {'Content-Type': 'application/json'},
         );
-        break;
-      case 1:
-        // Scan
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => QRScanner()),
-        );
-        break;
+
+        if (response.statusCode == 200) {
+          setState(() {
+            final index =
+                allBeers.indexWhere((beer) => beer['beer_id'] == beerId);
+            if (index != -1) {
+              allBeers[index]['isfavourite'] = !isfavourite;
+              if (_tabController.index == 1) {
+                currentList = allBeers
+                    .where((beer) => beer['isfavourite'] == true)
+                    .toList();
+                _filterBeers();
+              }
+            }
+          });
+        } else {
+          throw Exception('Failed to toggle favourite status');
+        }
+      } catch (e) {
+        print('Error toggling favourite: $e');
+      }
     }
   }
 
-  void filterBeers(String query) {
-    final filtered = beerData[0].where((beer) {
-      final beerName = beer['beerName'].toString().toLowerCase();
-      final input = query.toLowerCase();
-      return beerName.contains(input);
-    }).toList();
+  Widget _buildBeerList() {
+    return filteredBeers.isEmpty
+        ? const Center(child: Text('No beers found'))
+        : ListView.separated(
+            itemCount: filteredBeers.length,
+            separatorBuilder: (context, index) => Divider(
+              color: Colors.grey.shade300,
+              thickness: 0.5,
+              height: 1.0,
+            ),
+            itemBuilder: (context, index) {
+              final beer = filteredBeers[index];
+              final votesSum = beer['votes_sum'];
+              final votesAvg = beer['votes_avg'];
+              final isFavourited = beer['isfavourite'];
 
-    setState(() {
-      filteredBeerData = filtered;
-    });
+              return ListTile(
+                leading: CircleAvatar(
+                  backgroundImage: NetworkImage(beer['graphic'] ?? ''),
+                  backgroundColor: Colors.grey.shade200,
+                ),
+                title: Text(
+                  beer['beer_name'] ?? '',
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontSize: 16),
+                ),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                        '${votesAvg.toStringAsFixed(2)} Average Rating ($votesSum votes)'),
+                    Text(beer['tasting_notes'] ?? ''),
+                  ],
+                ),
+                trailing: IconButton(
+                  icon: Icon(
+                    isFavourited ? Icons.favorite : Icons.favorite_border,
+                    color: isFavourited ? Colors.red : Colors.grey,
+                  ),
+                  onPressed: () =>
+                      _toggleFavourite(beer['beer_id'], isFavourited),
+                ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BeerProfileScreen(
+                        beerId: beer['beer_id'],
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+          );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
+      appBar: AppBar(
+        title: const Text('Beers'),
+        bottom: TabBar(
+          controller: _tabController,
+          tabs: const [
+            Tab(text: 'All Beers'),
+            Tab(text: 'Favourites'),
+          ],
+        ),
+      ),
+      body: Column(
         children: [
-          // Background image
-          Positioned.fill(
-            child: Image.asset(
-              'assets/images/backdrop.jpg', // Path to your background image
-              fit: BoxFit.cover, // Makes the image cover the entire screen
-            ),
-          ),
-          // Foreground content
           Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+            child: Row(
               children: [
-                Image.asset(
-                  'assets/app_logo.png', // Path to your asset image
-                  height: 200,
-                ),
-                TextField(
-                  controller: searchController,
-                  decoration: InputDecoration(
-                    labelText: 'Search Beers',
-                    prefixIcon: Icon(Icons.search),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
-                Center(
-                  child: Text(
-                    'Beers will only climb the leaderboard once 10 votes have been received.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey[600],
-                    ),
-                  ),
-                ),
-                filteredBeerData.isEmpty
-                    ? CircularProgressIndicator()
-                    : Expanded(
-                        child: ListView.builder(
-                          padding: EdgeInsets.zero, // Remove padding
-                          itemCount: filteredBeerData.length,
-                          itemBuilder: (context, index) {
-                            final item = filteredBeerData[index];
-                            return Container(
-                              padding: EdgeInsets.symmetric(vertical: 10.0),
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => BeerProfileScreen(
-                                        beerId: '${item['beerId']}',
-                                      ),
-                                    ),
-                                  );
-                                },
-                                child: ListTile(
-                                  contentPadding: EdgeInsets.symmetric(
-                                      horizontal: 16.0, vertical: 0),
-                                  leading: item['beerGraphic'] != null
-                                      ? Stack(
-                                          children: [
-                                            ClipRRect(
-                                              borderRadius: BorderRadius.circular(
-                                                  8.0), // Adjust the value to get the desired roundness
-                                              child:
-                                                  item['beerVoted'] == 'voted'
-                                                      ? ImageFiltered(
-                                                          imageFilter:
-                                                              ImageFilter.blur(
-                                                                  sigmaX: 2.0,
-                                                                  sigmaY: 2.0),
-                                                          child: Image.network(
-                                                            '${item['beerGraphic']}',
-                                                            width: 50,
-                                                            height: 50,
-                                                            fit: BoxFit.cover,
-                                                          ),
-                                                        )
-                                                      : Image.network(
-                                                          '${item['beerGraphic']}',
-                                                          width: 50,
-                                                          height: 50,
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                            ),
-                                            if (item['beerVoted'] == 'voted')
-                                              Positioned(
-                                                top: 0,
-                                                right: 0,
-                                                child: Icon(
-                                                  Icons.check_circle,
-                                                  color: Colors.green,
-                                                  size: 32.0,
-                                                ),
-                                              ),
-                                          ],
-                                        )
-                                      : Container(
-                                          width: 50,
-                                          height: 50,
-                                          color: Colors.grey,
-                                        ),
-                                  title: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        '${item['beerName']}',
-                                        style: TextStyle(
-                                          fontSize: 16.0,
-                                          color: item['beerVoted'] == 'voted'
-                                              ? const Color.fromARGB(
-                                                  255, 2, 119, 6)
-                                              : Colors.black,
-                                        ),
-                                      ),
-                                      SizedBox(height: 4),
-                                    ],
-                                  ),
-                                  subtitle: Stack(
-                                    children: [
-                                      RatingBar.builder(
-                                        initialRating: item['totalVotes'] >= 10
-                                            ? double.parse(item['beerAvg'])
-                                            : 0.0,
-                                        minRating: 1,
-                                        direction: Axis.horizontal,
-                                        allowHalfRating: true,
-                                        itemCount: 5,
-                                        itemSize: 20.0,
-                                        itemPadding: EdgeInsets.symmetric(
-                                            horizontal: 4.0),
-                                        itemBuilder: (context, _) => Icon(
-                                          Icons.star,
-                                          color: Colors.amber,
-                                        ),
-                                        onRatingUpdate: (rating) {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  BeerProfileScreen(
-                                                      beerId:
-                                                          '${item['beerId']}'),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                      if (item['totalVotes'] >= 10)
-                                        Positioned(
-                                          top: 0,
-                                          right: 0,
-                                          child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 8.0, vertical: 2.0),
-                                            decoration: BoxDecoration(
-                                              color: Colors.green,
-                                              borderRadius:
-                                                  BorderRadius.circular(12.0),
-                                            ),
-                                            child: Text(
-                                              '${item['beerAvg']} Stars',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 12.0,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      if (item['totalVotes'] > 1 &&
-                                          item['totalVotes'] < 10)
-                                        Positioned(
-                                          top: 0,
-                                          right: 0,
-                                          child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 8.0, vertical: 2.0),
-                                            decoration: BoxDecoration(
-                                              color: Colors.red,
-                                              borderRadius:
-                                                  BorderRadius.circular(12.0),
-                                            ),
-                                            child: Text(
-                                              '${(int.tryParse(item['totalVotes']?.toString() ?? '0') ?? 0).toString()} Votes',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 12.0,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      if (item['totalVotes'] == 1)
-                                        Positioned(
-                                          top: 0,
-                                          right: 0,
-                                          child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 8.0, vertical: 2.0),
-                                            decoration: BoxDecoration(
-                                              color: Colors.red,
-                                              borderRadius:
-                                                  BorderRadius.circular(12.0),
-                                            ),
-                                            child: Text(
-                                              '${(int.tryParse(item['totalVotes']?.toString() ?? '0') ?? 0).toString()} Vote',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 12.0,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
+                Expanded(
+                  child: Material(
+                    elevation: 2,
+                    borderRadius: BorderRadius.circular(25.0),
+                    child: TextField(
+                      onChanged: (value) {
+                        setState(() {
+                          searchText = value;
+                          _filterBeers();
+                        });
+                      },
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 15.0),
+                        hintText: 'Search Beers',
+                        prefixIcon: const Icon(Icons.search),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                          borderSide: BorderSide.none,
                         ),
+                        filled: true,
+                        fillColor: Colors.white,
                       ),
-                SizedBox(height: 60),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12.0),
+                Material(
+                  elevation: 2,
+                  borderRadius: BorderRadius.circular(20.0),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: DropdownButton<String>(
+                      value: selectedFilter,
+                      hint: const Text('Filter'),
+                      onChanged: (value) {
+                        setState(() {
+                          selectedFilter = value;
+                          _filterBeers();
+                        });
+                      },
+                      items: [
+                        DropdownMenuItem(
+                          value: 'average_rating',
+                          child: Text('Average Rating'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'total_votes',
+                          child: Text('Total Votes'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'most_favourited',
+                          child: Text('Most Favourited'),
+                        ),
+                      ],
+                      icon: const Icon(Icons.filter_list),
+                      underline: Container(),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
-          // Bottom Navigation Bar with blur effect
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: ClipRect(
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-                child: Container(
-                  color: Colors.black.withOpacity(0.2),
-                  child: BottomNavigationBar(
-                    backgroundColor: Colors.transparent,
-                    items: const <BottomNavigationBarItem>[
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.home),
-                        label: 'Home',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.qr_code_scanner),
-                        label: 'Scan',
-                      ),
-                    ],
-                    currentIndex: _selectedIndex,
-                    selectedItemColor: Colors.white,
-                    unselectedItemColor: Colors.white,
-                    onTap: _onItemTapped,
-                  ),
-                ),
-              ),
-            ),
-          ),
+          Expanded(child: _buildBeerList()),
         ],
       ),
+      drawer: const AppDrawer(activeItem: 1),
+      bottomNavigationBar: CustomBottomNavigationBar(),
     );
   }
 }

@@ -1,10 +1,14 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
 import 'package:burtonaletrail_app/AppApi.dart';
 import 'package:burtonaletrail_app/AppDrawer.dart';
 import 'package:burtonaletrail_app/AppMenuButton.dart';
+import 'package:burtonaletrail_app/Beers.dart';
+import 'package:burtonaletrail_app/Leaderboard.dart';
 import 'package:burtonaletrail_app/LeaderboardWidget.dart';
+import 'package:burtonaletrail_app/LoadingScreen.dart';
 import 'package:burtonaletrail_app/NavBar.dart';
 import 'package:burtonaletrail_app/ProfilePage.dart';
 import 'package:burtonaletrail_app/Sponsers.dart';
@@ -19,16 +23,50 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String userFirstname = '';
+  String userSurname = '';
+  String userMobile = '';
+  String userEmail = '';
   String userName = '';
   String userPoints = '0';
   String userPosition = '0';
   String userSupport = 'off';
   String userImage = '';
+  String userTeam = '';
+  String userTeamImage = '';
+  String userTeamMembers = '';
+  String userTeamPoints = '';
+
+  late PageController _pageController;
+  late Timer _autoSlideTimer;
 
   @override
   void initState() {
     super.initState();
+    // _testNotification();
     _fetchUserData();
+
+    // Initialize PageController
+    _pageController = PageController();
+
+    // Start automatic sliding
+    _autoSlideTimer = Timer.periodic(const Duration(seconds: 3), (timer) {
+      if (_pageController.hasClients) {
+        final nextPage = (_pageController.page?.toInt() ?? 0) + 1;
+        _pageController.animateToPage(
+          nextPage % 2, // Cycle between 0 and 1 for the two leaderboards
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _autoSlideTimer.cancel();
+    _pageController.dispose();
+    super.dispose();
   }
 
   void _fetchUserData() async {
@@ -41,6 +79,10 @@ class _HomeScreenState extends State<HomeScreen> {
       userPosition = prefs.getString('userPosition') ?? '0';
       userSupport = prefs.getString('userSupport') ?? 'off';
       userImage = prefs.getString('userImage') ?? '';
+      userTeam = prefs.getString('userTeam') ?? '';
+      userTeamImage = prefs.getString('userTeamImage') ?? '';
+      userTeamMembers = prefs.getString('userTeamMembers') ?? '';
+      userTeamPoints = prefs.getString('userTeamPoints') ?? '';
     });
 
     // Attempt to fetch updated data from the server
@@ -57,10 +99,10 @@ class _HomeScreenState extends State<HomeScreen> {
         final response = await ioClient.post(
           Uri.parse(apiServerProfile),
           headers: {
-            'Content-Type': 'application/json', // Specify JSON content type
+            'Content-Type': 'application/json',
           },
           body: jsonEncode({
-            'access_token': accessToken, // Convert body to JSON string
+            'access_token': accessToken,
           }),
         );
 
@@ -69,19 +111,37 @@ class _HomeScreenState extends State<HomeScreen> {
 
           // Safely retrieve user and leaderboard data
           setState(() {
+            userFirstname = data['userFirstname']?.toString() ?? userFirstname;
+            userSurname = data['userSurname']?.toString() ?? userSurname;
+            userMobile = data['userMobile']?.toString() ?? userMobile;
+            userEmail = data['userEmail']?.toString() ?? userEmail;
             userName = data['userName']?.toString() ?? userName;
             userPoints = data['userPoints']?.toString() ?? userPoints;
             userPosition = data['userPosition']?.toString() ?? userPosition;
             userSupport = data['userSupport']?.toString() ?? userSupport;
             userImage = data['userImage']?.toString() ?? userImage;
+            userTeam = data['userTeam']?.toString() ?? userTeam;
+            userTeamImage = data['userTeamImage']?.toString() ?? userTeamImage;
+            userTeamMembers =
+                data['userTeamMembers']?.toString() ?? userTeamMembers;
+            userTeamPoints =
+                data['userTeamPoints']?.toString() ?? userTeamPoints;
 
             // Save user data locally
             prefs.setString('userName', userName);
+            prefs.setString('userFirstname', userFirstname);
+            prefs.setString('userSurname', userSurname);
+            prefs.setString('userMobile', userMobile);
+            prefs.setString('userEmail', userEmail);
             prefs.setString('userPoints', userPoints);
             prefs.setString('userPosition', userPosition);
             prefs.setString('userSupport', userSupport);
             prefs.setString('userImage', userImage);
-
+            prefs.setString('userTeam', userTeam);
+            prefs.setString('userTeamImage', userTeamImage);
+            prefs.setString('userTeamMembers', userTeamMembers);
+            prefs.setString('userTeamPoints', userTeamPoints);
+            ;
             // Save leaderboard data
             if (data['soloLeaderboardData'] != null) {
               prefs.setString('soloLeaderboardData',
@@ -92,6 +152,50 @@ class _HomeScreenState extends State<HomeScreen> {
                   jsonEncode(data['teamLeaderboardData']));
             }
           });
+        } else {
+          print(
+              'Failed to load user data. Status code: ${response.statusCode}');
+        }
+      } catch (e) {
+        print('Error fetching user data: $e');
+      }
+    } else {
+      throw Exception('Access token not found');
+    }
+  }
+
+  void _testNotification() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // Attempt to fetch updated data from the server
+    String? accessToken = prefs.getString('access_token');
+    print(accessToken);
+
+    if (accessToken != null) {
+      bool trustSelfSigned = true;
+      HttpClient httpClient = HttpClient()
+        ..badCertificateCallback =
+            (X509Certificate cert, String host, int port) => trustSelfSigned;
+      IOClient ioClient = IOClient(httpClient);
+
+      try {
+        final response = await ioClient.post(
+          Uri.parse(apiServerNotification),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: jsonEncode({
+            'access_token': accessToken,
+            'body': "Test Body",
+            'heading': 'Test Heading'
+          }),
+        );
+
+        if (response.statusCode == 200) {
+          final data = jsonDecode(response.body);
+          print(data);
+          // Safely retrieve user and leaderboard data
+          setState(() {});
         } else {
           print(
               'Failed to load user data. Status code: ${response.statusCode}');
@@ -148,71 +252,97 @@ class _HomeScreenState extends State<HomeScreen> {
       extendBody: true,
       body: Stack(
         children: [
-          // Background image positioned and scaled
           Positioned(
             width: MediaQuery.of(context).size.width * 1.7,
             bottom: 100,
             left: 100,
             child: Image.asset('assets/Backgrounds/Spline.png'),
           ),
-          // Blurred background filter
           Positioned.fill(
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 20, sigmaY: 10),
             ),
           ),
-          // Rive animation
           const rive.RiveAnimation.asset('assets/RiveAssets/shapes.riv'),
-          // Another layer of blur
           Positioned.fill(
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 20, sigmaY: 10),
               child: const SizedBox(),
             ),
           ),
-          // Main content
           SafeArea(
             child: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: MediaQuery.of(context).size.height,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildGreeting(),
-                    const SpecialOfferCarousel(),
-                    FutureBuilder<List<List<Map<String, dynamic>>>>(
-                      future:
-                          _getLeaderboardGroups(), // Fetch leaderboard groups
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const CircularProgressIndicator(); // Loading state
-                        } else if (snapshot.hasError) {
-                          return Text(
-                              'Error: ${snapshot.error}'); // Error state
-                        } else if (snapshot.hasData) {
-                          // Pass the fetched leaderboard groups to the LeaderboardCarousel
-                          return LeaderboardCarousel(
-                            leaderboardGroups: snapshot.data!,
-                            currentUserName: userName,
-                            currentUserImage: userImage,
-                            currentUserPoints: int.parse(userPoints),
-                          );
-                        } else {
-                          return const Text('No leaderboard data available');
-                        }
-                      },
-                    ),
-                    const SizedBox(height: 16),
-                    _buildFavouritesSection(),
-                    const SizedBox(height: 16),
-                    _buildFindPubsSection(),
-                    const SizedBox(height: 60),
-                  ],
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildGreeting(),
+                  const SpecialOfferCarousel(),
+                  FutureBuilder<List<List<Map<String, dynamic>>>>(
+                    future: _getLeaderboardGroups(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const LoadingScreen(
+                          loadingText: "",
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else if (snapshot.hasData) {
+                        return SizedBox(
+                          height: 250,
+                          child: PageView(
+                            controller: _pageController,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => LeaderboardScreen(),
+                                    ),
+                                  );
+                                },
+                                child: LeaderboardCarousel(
+                                  leaderboardGroups: [snapshot.data![0]],
+                                  titles: ["Solo Leaderboard"],
+                                  currentTeamName: userTeam,
+                                  currentUserName: userName,
+                                  currentUserImage: userImage,
+                                  currentUserPoints: int.parse(userPoints),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => LeaderboardScreen(),
+                                    ),
+                                  );
+                                },
+                                child: LeaderboardCarousel(
+                                  leaderboardGroups: [snapshot.data![1]],
+                                  titles: ["Team Leaderboard"],
+                                  currentTeamName: userTeam,
+                                  currentUserName: userName,
+                                  currentUserImage: userImage,
+                                  currentUserPoints: int.parse(userPoints),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      } else {
+                        return const Text('No leaderboard data available');
+                      }
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  _buildFavouritesSection(),
+                  const SizedBox(height: 16),
+                  _buildFindPubsSection(),
+                  const SizedBox(height: 60),
+                ],
               ),
             ),
           ),
@@ -239,10 +369,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 16), // Adjust vertical spacing as needed
+        const SizedBox(height: 16),
         Row(
           children: [
-            // AppMenuButton (burger menu)
             Builder(
               builder: (context) {
                 return AppMenuButton(
@@ -251,7 +380,6 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             const SizedBox(width: 10),
-            // Greeting texts (Good Morning and user name)
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -269,7 +397,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             const Spacer(),
-            // User profile image
             InkWell(
               onTap: () {
                 Navigator.push(
@@ -279,12 +406,10 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               child: CircleAvatar(
                 backgroundImage: (userImage != null && isValidBase64(userImage))
-                    ? MemoryImage(
-                        base64Decode(userImage)) // Decode Base64 to bytes
-                    : null, // Default to null if no valid image is available
+                    ? MemoryImage(base64Decode(userImage))
+                    : null,
                 child: (userImage == null || !isValidBase64(userImage))
-                    ? Icon(Icons
-                        .person) // Fallback icon if userImage is null or invalid
+                    ? Icon(Icons.person)
                     : null,
               ),
             ),
@@ -302,181 +427,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
     try {
       final decodedBytes = base64Decode(base64String);
-      return decodedBytes.isNotEmpty; // Check if decoding produces valid data
+      return decodedBytes.isNotEmpty;
     } catch (e) {
-      return false; // If decoding fails, it's not a valid Base64 string
+      return false;
     }
-  }
-
-  Widget _buildLeaderboards({
-    required String userName,
-    required String userImage,
-    required int userPoints,
-    required List<Map<String, dynamic>> soloLeaderboardData,
-  }) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(blurRadius: 10, color: Colors.grey.shade200),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Title
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                "Leaderboards",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              Text(
-                'Solo Players',
-                style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          // Leaderboard List
-          Column(
-            children: soloLeaderboardData.map((entry) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // Rank and Avatar
-                    Row(
-                      children: [
-                        Text(
-                          entry['rank'].toString().padLeft(2, '0'),
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        CircleAvatar(
-                          backgroundImage: entry['avatar'] != null &&
-                                  entry['avatar'].isNotEmpty
-                              ? MemoryImage(base64Decode(entry['avatar']))
-                              : null,
-                          child:
-                              entry['avatar'] == null || entry['avatar'].isEmpty
-                                  ? const Icon(Icons.person) // Fallback icon
-                                  : null,
-                          radius: 20,
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          entry['name'],
-                          style: const TextStyle(fontSize: 16),
-                        ),
-                      ],
-                    ),
-                    // Points and Change Indicator
-                    Row(
-                      children: [
-                        Text(
-                          '${entry['points']} pts',
-                          style: const TextStyle(fontSize: 16),
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          entry['change'] > 0
-                              ? '+${entry['change']}'
-                              : '${entry['change']}',
-                          style: TextStyle(
-                            color:
-                                entry['change'] > 0 ? Colors.green : Colors.red,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              );
-            }).toList(),
-          ),
-          const SizedBox(height: 8),
-          // Current User Highlight
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-            decoration: BoxDecoration(
-              color: Colors.grey.shade100,
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: Colors.brown, width: 2),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      "Your Rank:",
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    // CircleAvatar(
-                    //   backgroundImage: userImage.isNotEmpty
-                    //       ? MemoryImage(base64Decode(userImage))
-                    //       : null,
-                    //   child: userImage.isEmpty
-                    //       ? const Icon(Icons.person) // Fallback icon
-                    //       : null,
-                    //   radius: 20,
-                    // ),
-                    const SizedBox(width: 8),
-                    Text(
-                      userPosition,
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                  ],
-                ),
-                Text(
-                  '$userPoints pts',
-                  style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildLeaderboardButton(String text) {
-    return ElevatedButton(
-      onPressed: () {
-        // Get.to(() => const Start3DMeasurement());
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xFFEEEEEE),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        elevation: 0,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-      ),
-      child: Text(
-        text,
-        style:
-            const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-      ),
-    );
   }
 
   Widget _buildFavouritesSection() {
@@ -484,18 +438,20 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         Expanded(
           child: _buildFeatureCard(
-            title: 'My Favourite Beers',
-            icon: Icons.favorite,
-            color: Colors.red,
-            isActive: false,
+            title: 'All Beers',
+            icon: Icons.shopping_bag,
+            color: Colors.pink,
+            page: BeersScreen(),
+            isActive: true,
           ),
         ),
         const SizedBox(width: 16),
         Expanded(
           child: _buildFeatureCard(
-            title: 'View All Beers',
-            icon: Icons.shopping_bag,
-            color: Colors.pink,
+            title: 'Favourite Beers',
+            icon: Icons.favorite,
+            color: Colors.red,
+            page: BeersScreen(startTabIndex: 1),
             isActive: true,
           ),
         ),
@@ -507,10 +463,18 @@ class _HomeScreenState extends State<HomeScreen> {
     required String title,
     required IconData icon,
     required Color color,
+    required Widget page,
     bool isActive = true,
   }) {
     return GestureDetector(
-      onTap: isActive ? () {} : null,
+      onTap: isActive
+          ? () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => page),
+              );
+            }
+          : null,
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
@@ -543,9 +507,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildFindPubsSection() {
     return GestureDetector(
-      onTap: () {
-        // Get.to(() => MapPage());
-      },
+      onTap: () {},
       child: Stack(
         clipBehavior: Clip.none,
         children: [

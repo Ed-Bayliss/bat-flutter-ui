@@ -90,7 +90,7 @@ class _AppDrawerState extends State<AppDrawer> {
                   (route) => false, // Remove all previous routes
                 );
               },
-              tileIcon: 'assets/svgs/signouticon.svg',
+              tileIcon: '',
               tileText: 'Sign Out',
               isActive: false,
             ),
@@ -174,20 +174,10 @@ class _AppDrawerState extends State<AppDrawer> {
             (Route<dynamic> route) => false,
           ),
           tileIcon: 'assets/svgs/profileicon.svg',
-          tileText: 'Solo Leaderboard',
+          tileText: 'Leaderboards',
           isActive: widget.activeItem == 2,
         ),
-        _verticalSpace(size.height * 0.016),
-        DrawerListItem(
-          onTap: () => Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => HomeScreen()),
-            (Route<dynamic> route) => false,
-          ),
-          tileIcon: 'assets/svgs/arrow_forward.svg',
-          tileText: 'Team Leaderboard',
-          isActive: widget.activeItem == 7,
-        ),
-        _verticalSpace(size.height * 0.016),
+        // _verticalSpace(size.height * 0.016),
         DrawerListItem(
           onTap: () => Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => BadgesScreen()),
@@ -197,7 +187,7 @@ class _AppDrawerState extends State<AppDrawer> {
           tileText: 'Trophy Cabinet',
           isActive: widget.activeItem == 7,
         ),
-        _verticalSpace(size.height * 0.016),
+        // _verticalSpace(size.height * 0.016),
         DrawerListItem(
           onTap: () => Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => PubsScreen()),
@@ -207,7 +197,7 @@ class _AppDrawerState extends State<AppDrawer> {
           tileText: 'Pubs',
           isActive: widget.activeItem == 3,
         ),
-        _verticalSpace(size.height * 0.016),
+        // _verticalSpace(size.height * 0.016),
         DrawerListItem(
           onTap: () => Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => BeersScreen()),
@@ -217,7 +207,7 @@ class _AppDrawerState extends State<AppDrawer> {
           tileText: 'Beers',
           isActive: widget.activeItem == 4,
         ),
-        _verticalSpace(size.height * 0.016),
+        // _verticalSpace(size.height * 0.016),
         DrawerListItem(
           onTap: () => Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => SettingsScreen()),

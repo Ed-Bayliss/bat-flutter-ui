@@ -3,23 +3,27 @@ import 'package:flutter/material.dart';
 
 class LeaderboardCarousel extends StatelessWidget {
   final List<List<Map<String, dynamic>>> leaderboardGroups;
+  final List<String> titles;
   final String currentUserName;
   final String currentUserImage;
   final int currentUserPoints;
+  final String currentTeamName;
 
   const LeaderboardCarousel({
     Key? key,
     required this.leaderboardGroups,
+    required this.titles,
     required this.currentUserName,
     required this.currentUserImage,
     required this.currentUserPoints,
+    required this.currentTeamName,
   }) : super(key: key);
 
-  Widget _buildLeaderboardSection(
-      String title, List<Map<String, dynamic>> leaderboardData) {
+  Widget _buildLeaderboardSection(double screenWidth, String title,
+      List<Map<String, dynamic>> leaderboardData) {
     return Container(
-      width: 350,
-      height: 220, // Set a fixed width for horizontal scrolling
+      width: screenWidth - 45,
+      height: 220,
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -42,7 +46,7 @@ class LeaderboardCarousel extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           SizedBox(
-            height: 140, // Limit the height of the leaderboard list
+            height: 140,
             child: ListView.builder(
               itemCount: leaderboardData.length,
               itemBuilder: (context, index) {
@@ -69,7 +73,7 @@ class LeaderboardCarousel extends StatelessWidget {
                                 : null,
                             child: entry['avatar'] == null ||
                                     entry['avatar'].isEmpty
-                                ? const Icon(Icons.person) // Fallback icon
+                                ? const Icon(Icons.person)
                                 : null,
                             radius: 20,
                           ),
@@ -95,19 +99,53 @@ class LeaderboardCarousel extends StatelessWidget {
     );
   }
 
+  Widget _buildNoTeamSection(double screenWidth) {
+    return Container(
+      width: screenWidth - 45,
+      height: 220,
+      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.2),
+            blurRadius: 5,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Center(
+        child: Text(
+          "You are not in a team.",
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final List<String> titles = ["Solo Leaderboard", "Team Leaderboard"];
+    double screenWidth = MediaQuery.of(context).size.width;
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
         children: List.generate(
           leaderboardGroups.length,
-          (index) => _buildLeaderboardSection(
-            titles[index],
-            leaderboardGroups[index],
-          ),
+          (index) {
+            if (titles[index] == "Team Leaderboard" &&
+                currentTeamName == "No Team") {
+              return _buildNoTeamSection(screenWidth);
+            }
+            return _buildLeaderboardSection(
+              screenWidth,
+              titles[index],
+              leaderboardGroups[index],
+            );
+          },
         ),
       ),
     );
