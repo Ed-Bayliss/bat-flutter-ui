@@ -23,6 +23,8 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image/image.dart' as img;
 
 class EditProfileScreen extends StatefulWidget {
+  const EditProfileScreen({super.key});
+
   @override
   State<EditProfileScreen> createState() => _EditProfileScreenState();
 }
@@ -81,7 +83,7 @@ class _EditProfileScreenState extends State<EditProfileScreen>
           userSurnameController.text.isEmpty ||
           userMobileController.text.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Please fill in all fields before saving.')),
+          const SnackBar(content: Text('Please fill in all fields before saving.')),
         );
         return;
       }
@@ -114,22 +116,20 @@ class _EditProfileScreenState extends State<EditProfileScreen>
           await prefs.setString('userSurname', userSurnameController.text);
           await prefs.setString('userMobile', userMobileController.text);
           // await prefs.setString('userEmail', userEmailController.text);
-          if (profileImageBase64 != null) {
-            await prefs.setString('userImage', profileImageBase64!);
-          }
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Profile updated sucessfully')),
+          await prefs.setString('userImage', profileImageBase64!);
+                  ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Profile updated sucessfully')),
           );
 
           // Safely retrieve user and leaderboard data
           setState(() {});
         } else if (response.statusCode == 101) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('This username is too rude.')),
+            const SnackBar(content: Text('This username is too rude.')),
           );
         } else if (response.statusCode == 102) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('This username is already taken.')),
+            const SnackBar(content: Text('This username is already taken.')),
           );
         } else {
           print(
@@ -259,9 +259,8 @@ class _EditProfileScreenState extends State<EditProfileScreen>
         children: [
           CircleAvatar(
             radius: 60,
-            backgroundImage: profileImageBase64 != null &&
-                    profileImageBase64!.isNotEmpty
-                ? MemoryImage(base64Decode(profileImageBase64!))
+            backgroundImage: profileImageBase64.isNotEmpty
+                ? MemoryImage(base64Decode(profileImageBase64))
                 : const AssetImage('assets/images/marvin.png') as ImageProvider,
           ),
           Positioned(
@@ -270,7 +269,7 @@ class _EditProfileScreenState extends State<EditProfileScreen>
             child: GestureDetector(
               onTap: _pickImage,
               child: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.blue,
                 ),
@@ -340,6 +339,7 @@ class _EditProfileScreenState extends State<EditProfileScreen>
 
   Widget _editProfileForm() {
     return Card(
+      color: Colors.white,
       elevation: 5,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),

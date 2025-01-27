@@ -5,12 +5,27 @@ import 'package:burtonaletrail_app/AppApi.dart';
 import 'package:burtonaletrail_app/LoadingScreen.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SpecialOffer {
   final Uint8List imageBytes;
   final String actionUrl;
 
   SpecialOffer({required this.imageBytes, required this.actionUrl});
+
+  Map<String, dynamic> toJson() {
+    return {
+      'imageBytes': base64Encode(imageBytes),
+      'actionUrl': actionUrl,
+    };
+  }
+
+  static SpecialOffer fromJson(Map<String, dynamic> json) {
+    return SpecialOffer(
+      imageBytes: base64Decode(json['imageBytes']),
+      actionUrl: json['actionUrl'] ?? '',
+    );
+  }
 }
 
 class SpecialOfferCarousel extends StatefulWidget {
@@ -31,6 +46,7 @@ class _SpecialOfferCarouselState extends State<SpecialOfferCarousel> {
   @override
   void initState() {
     super.initState();
+    _loadCachedOffers();
     _fetchImagesFromApi();
   }
 
@@ -39,6 +55,30 @@ class _SpecialOfferCarouselState extends State<SpecialOfferCarousel> {
     _pageController.dispose();
     _autoScrollTimer?.cancel();
     super.dispose();
+  }
+
+  Future<void> _loadCachedOffers() async {
+    final prefs = await SharedPreferences.getInstance();
+    final cachedData = prefs.getString('cached_offers');
+
+    if (cachedData != null) {
+      try {
+        final List<dynamic> decodedData = jsonDecode(cachedData);
+        final cachedOffers = decodedData
+            .map((item) => SpecialOffer.fromJson(item as Map<String, dynamic>))
+            .toList();
+        setState(() {
+          _offers = cachedOffers;
+          _isLoading = false;
+        });
+
+        if (_offers.length > 1) {
+          _startAutoScroll();
+        }
+      } catch (e) {
+        debugPrint("Error loading cached offers: $e");
+      }
+    }
   }
 
   Future<void> _fetchImagesFromApi() async {
@@ -74,11 +114,13 @@ class _SpecialOfferCarouselState extends State<SpecialOfferCarousel> {
 
           setState(() {
             _offers = tempOffers;
-            _isLoading = false;
           });
 
-          if (_offers.length > 1) {
-            _startAutoScroll();
+          if (_offers.isNotEmpty) {
+            _cacheOffers(_offers);
+            if (_offers.length > 1) {
+              _startAutoScroll();
+            }
           }
         } else {
           setState(() {
@@ -99,6 +141,13 @@ class _SpecialOfferCarouselState extends State<SpecialOfferCarousel> {
         _isLoading = false;
       });
     }
+  }
+
+  Future<void> _cacheOffers(List<SpecialOffer> offers) async {
+    final prefs = await SharedPreferences.getInstance();
+    final encodedData =
+        jsonEncode(offers.map((offer) => offer.toJson()).toList());
+    await prefs.setString('cached_offers', encodedData);
   }
 
   void _startAutoScroll() {

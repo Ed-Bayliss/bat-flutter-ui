@@ -15,7 +15,7 @@ class AppMenuButton extends StatelessWidget {
     var width = size.width;
     return InkWell(
       onTap: onTap,
-      overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
+      overlayColor: WidgetStateProperty.all<Color>(Colors.transparent),
       child: Container(
         alignment: Alignment.center,
         clipBehavior: Clip.hardEdge,

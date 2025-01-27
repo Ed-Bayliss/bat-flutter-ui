@@ -19,6 +19,8 @@ import 'package:http/http.dart' as http;
 import 'package:rive/rive.dart' as rive;
 
 class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({super.key});
+
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
@@ -165,11 +167,11 @@ class _ProfileScreenState extends State<ProfileScreen>
                 );
               },
               child: CircleAvatar(
-                backgroundImage: (userImage != null && isValidBase64(userImage))
+                backgroundImage: (isValidBase64(userImage))
                     ? MemoryImage(base64Decode(userImage))
                     : null,
-                child: (userImage == null || !isValidBase64(userImage))
-                    ? Icon(Icons.person)
+                child: (!isValidBase64(userImage))
+                    ? const Icon(Icons.person)
                     : null,
               ),
             ),
@@ -200,6 +202,7 @@ class _ProfileScreenState extends State<ProfileScreen>
       child: SizedBox(
         width: size.width * 0.9, // Set width relative to the screen size
         child: Card(
+          color: Colors.white,
           elevation: 5,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
@@ -223,7 +226,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                     radius: size.width * 0.2,
                     backgroundImage: userImage.isNotEmpty
                         ? MemoryImage(base64Decode(userImage))
-                        : AssetImage('assets/images/marvin.png')
+                        : const AssetImage('assets/images/marvin.png')
                             as ImageProvider,
                   ),
                 ),
@@ -267,8 +270,9 @@ class _ProfileScreenState extends State<ProfileScreen>
     return Center(
       child: SizedBox(
         width: size.width * 0.9,
-        child: userTeam == null || userTeam.isEmpty || userTeam == "No Team"
+        child: userTeam.isEmpty || userTeam == "No Team"
             ? Card(
+                color: Colors.white,
                 elevation: 5,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
@@ -307,6 +311,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                 ),
               )
             : Card(
+                color: Colors.white,
                 elevation: 5,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
@@ -330,7 +335,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                           radius: size.width * 0.2,
                           backgroundImage: userTeamImage.isNotEmpty
                               ? MemoryImage(base64Decode(userTeamImage))
-                              : AssetImage('assets/images/marvin.png')
+                              : const AssetImage('assets/images/marvin.png')
                                   as ImageProvider,
                         ),
                       ),

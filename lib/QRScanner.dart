@@ -1,19 +1,17 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'dart:ui';  // Add this import for blur effect
-import 'package:burtonaletrail_app/Home.dart';
-import 'package:burtonaletrail_app/UnlockedBadge.dart';
-import 'package:flutter/foundation.dart';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:http/io_client.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:http/http.dart' as http;
-
-// import 'package:burtonaletrail_app/WebViewPage.dart';  // Import for navigation
-import 'package:burtonaletrail_app/main.dart';
-import 'package:shared_preferences/shared_preferences.dart';  // Import for navigation
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:burtonaletrail_app/AppDrawer.dart';
+import 'package:burtonaletrail_app/Home.dart';
+import 'package:burtonaletrail_app/AppMenuButton.dart';
+import 'package:burtonaletrail_app/UnlockedBadge.dart';
+import 'package:burtonaletrail_app/NavBar.dart';
 
 class QRScanner extends StatefulWidget {
   const QRScanner({Key? key}) : super(key: key);
@@ -26,15 +24,16 @@ class _QRScannerState extends State<QRScanner> {
   Barcode? result;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  int _selectedIndex = 1;  // Set initial index to Scan
-  String? uuid;
-  int scanCount = 0;
-  DateTime? lastScanTime;  // Add this to store the last scan time
+  DateTime? lastScanTime;
+  String userName = '';
+  String userImage = '';
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
     _checkPermissions();
+    _initializeState();
   }
 
   Future<void> _checkPermissions() async {
@@ -53,27 +52,13 @@ class _QRScannerState extends State<QRScanner> {
     controller?.resumeCamera();
   }
 
-  void _onItemTapped(int index) {
+  Future<void> _initializeState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      _selectedIndex = index;
+      userName = prefs.getString('userName') ?? '';
+      userImage = prefs.getString('userImage') ?? '';
+      _isLoading = false;
     });
-
-    switch (index) {
-      case 0:
-        // Home
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
-        );
-        break;
-      case 1:
-        // Scan
-        // Already on Scan, do nothing
-        break;
-      case 2:
-        // Add any additional case here if needed
-        break;
-    }
   }
 
   Future<void> checkIn(String url) async {
@@ -81,22 +66,22 @@ class _QRScannerState extends State<QRScanner> {
     String? uuid = prefs.getString('uuid');
 
     if (uuid == null) {
-      throw Exception('UUID is null');
+      _showSnackBar('User UUID is missing.');
+      return;
     }
 
-    bool trustSelfSigned = true;
-    HttpClient httpClient = HttpClient()
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => trustSelfSigned;
-    IOClient ioClient = IOClient(httpClient);
+    try {
+      HttpClient httpClient = HttpClient()
+        ..badCertificateCallback =
+            (X509Certificate cert, String host, int port) => true;
+      IOClient ioClient = IOClient(httpClient);
 
-    final response = await ioClient.get(Uri.parse(url + '/' + uuid));
-    final data = jsonDecode(response.body);
+      final response = await ioClient.get(Uri.parse('$url/$uuid'));
 
-    if (response.statusCode == 200) {
-      if (mounted) { // Ensure the widget is still mounted before calling setState
-        setState(() {
-          Navigator.pushReplacement(
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        if (mounted) {
+          Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => UnlockedBadgeScreen(
@@ -107,142 +92,82 @@ class _QRScannerState extends State<QRScanner> {
               ),
             ),
           );
-        });
+        }
+      } else if (response.statusCode == 700) {
+        _showSnackBar('The event has not yet started.', isError: true);
+      } else {
+        throw Exception('Failed to check in');
       }
-    } else if (response.statusCode == 700) {
-      if (mounted) {
-        setState(() {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('The event has not yet started'),
-              duration: Duration(seconds: 1),
-              backgroundColor: Colors.red,
-            ),
-          );
-        });
-      }
-    } else {
-      throw Exception('Failed to check in');
+    } catch (e) {
+      _showSnackBar('Error checking in: $e', isError: true);
     }
+  }
+
+  void _showSnackBar(String message, {bool isError = false}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: isError ? Colors.red : Colors.green,
+        duration: const Duration(seconds: 2),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       body: Stack(
         children: [
-          // Background image
           Positioned.fill(
-            child: Image.asset(
-              'assets/images/backdrop.jpg', // Path to your background image
-              fit: BoxFit.cover, // Makes the image cover the entire screen
+            child: SafeArea(
+              child: Column(
+                children: [
+                  _buildHeader(),
+                  Expanded(child: _buildQrView(context)),
+                ],
+              ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
+        ],
+      ),
+      drawer: const AppDrawer(activeItem: 1),
+      bottomNavigationBar: const CustomBottomNavigationBar(),
+    );
+  }
+
+  Widget _buildHeader() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Row(
+        children: [
+          Builder(
+            builder: (context) => AppMenuButton(
+              onTap: () => Scaffold.of(context).openDrawer(),
+            ),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(height: 40),
-                Image.asset(
-                  'assets/app_logo.png', // Path to your asset image
-                  height: 200,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                Text(
+                  'Check In',
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 20),
-                Expanded(flex: 4, child: _buildQrView(context)),
-                Expanded(
-                  flex: 1,
-                  child: FittedBox(
-                    fit: BoxFit.contain,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        if (result != null)
-                          Text(
-                            'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}'
-                          )
-                        else
-                          const Text(' ',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 10,
-                          ),),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            // Container(
-                            //   margin: const EdgeInsets.all(8),
-                            //   child: ElevatedButton(
-                            //       onPressed: () async {
-                            //         await controller?.toggleFlash();
-                            //         setState(() {});
-                            //       },
-                            //       child: FutureBuilder(
-                            //         future: controller?.getFlashStatus(),
-                            //         builder: (context, snapshot) {
-                            //           return Text('Flash: ${snapshot.data}');
-                            //         },
-                            //       )),
-                            // ),
-                            // Container(
-                            //   margin: const EdgeInsets.all(8),
-                            //   child: ElevatedButton(
-                            //       onPressed: () async {
-                            //         await controller?.flipCamera();
-                            //         setState(() {});
-                            //       },
-                            //       child: FutureBuilder(
-                            //         future: controller?.getCameraInfo(),
-                            //         builder: (context, snapshot) {
-                            //           if (snapshot.data != null) {
-                            //             return Text(
-                            //                 'Camera: ${snapshot.data!.toString().toUpperCase()}');
-                            //           } else {
-                            //             return const Text('loading');
-                            //           }
-                            //         },
-                            //       )),
-                            // )
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                )
+                SizedBox(height: 4),
+                Text(
+                  'Scan the QR code at each pub',
+                  style: TextStyle(fontSize: 16, color: Colors.grey),
+                ),
               ],
             ),
           ),
-          // Bottom Navigation Bar with blur effect
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: ClipRect(
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-                child: Container(
-                  color: Colors.black.withOpacity(0.2),
-                  child: BottomNavigationBar(
-                    backgroundColor: Colors.transparent,
-                    items: const <BottomNavigationBarItem>[
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.home),
-                        label: 'Home',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.qr_code_scanner),
-                        label: 'Scan',
-                      ),
-                    ],
-                    currentIndex: _selectedIndex,
-                    selectedItemColor: Color.fromARGB(255, 255, 225, 0),
-                    unselectedItemColor: Colors.white,
-                    onTap: _onItemTapped,
-                  ),
-                ),
-              ),
-            ),
+          CircleAvatar(
+            backgroundImage: (userImage.isNotEmpty)
+                ? MemoryImage(base64Decode(userImage))
+                : null,
+            child: userImage.isEmpty ? const Icon(Icons.person) : null,
           ),
         ],
       ),
@@ -254,16 +179,18 @@ class _QRScannerState extends State<QRScanner> {
             MediaQuery.of(context).size.height < 400)
         ? 150.0
         : 300.0;
+
     return QRView(
       key: qrKey,
       onQRViewCreated: _onQRViewCreated,
       overlay: QrScannerOverlayShape(
-          borderColor: Colors.red,
-          borderRadius: 10,
-          borderLength: 30,
-          borderWidth: 10,
-          cutOutSize: scanArea),
-      onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
+        borderColor: Colors.red,
+        borderRadius: 10,
+        borderLength: 30,
+        borderWidth: 10,
+        cutOutSize: scanArea,
+      ),
+      onPermissionSet: (ctrl, p) => _onPermissionSet(ctrl, p),
     );
   }
 
@@ -273,24 +200,23 @@ class _QRScannerState extends State<QRScanner> {
     });
     controller.scannedDataStream.listen((scanData) async {
       DateTime now = DateTime.now();
-      if (lastScanTime == null || now.difference(lastScanTime!) >= Duration(seconds: 1)) {
+      if (lastScanTime == null ||
+          now.difference(lastScanTime!) >= const Duration(seconds: 1)) {
         setState(() {
           result = scanData;
           lastScanTime = now;
         });
-        if (result != null) {
+        if (result?.code != null) {
           await checkIn(result!.code!);
         }
       }
     });
   }
 
-  void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
-    log('${DateTime.now().toIso8601String()}_onPermissionSet $p');
-    if (!p) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('No Permission')),
-      );
+  void _onPermissionSet(QRViewController ctrl, bool hasPermission) {
+    log('Permission status: $hasPermission');
+    if (!hasPermission) {
+      _showSnackBar('Camera permission is required.', isError: true);
     }
   }
 

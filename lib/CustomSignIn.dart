@@ -10,7 +10,7 @@ Future<Object?> customSigninDialog(BuildContext context,
       context: context,
       transitionDuration: const Duration(milliseconds: 400),
       transitionBuilder: (context, animation, secondaryAnimation, child) {
-        Tween<Offset> tween = Tween(begin: Offset(0, -1), end: Offset.zero);
+        Tween<Offset> tween = Tween(begin: const Offset(0, -1), end: Offset.zero);
         return SlideTransition(
             position: tween.animate(
                 CurvedAnimation(parent: animation, curve: Curves.easeInOut)),
@@ -24,7 +24,7 @@ Future<Object?> customSigninDialog(BuildContext context,
               decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.95),
                   borderRadius: const BorderRadius.all(Radius.circular(40))),
-              child: Scaffold(
+              child: const Scaffold(
                 backgroundColor: Colors.transparent,
                 resizeToAvoidBottomInset:
                     false, // avoid overflow error when keyboard shows up
@@ -32,18 +32,18 @@ Future<Object?> customSigninDialog(BuildContext context,
                   clipBehavior: Clip.none,
                   children: [
                     Column(children: [
-                      const Text(
+                      Text(
                         "Sign In",
                         style: TextStyle(fontSize: 34, fontFamily: "Poppins"),
                       ),
-                      const Padding(
+                      Padding(
                         padding: EdgeInsets.symmetric(vertical: 16),
                         child: Text(
                           "We will text you a secure code, if you already have an account you will be logged in, if not we will create you a new one.",
                           textAlign: TextAlign.center,
                         ),
                       ),
-                      const SignInForm(),
+                      SignInForm(),
                       // const Row(
                       //   children: [
                       //     Expanded(
@@ -96,7 +96,7 @@ Future<Object?> customSigninDialog(BuildContext context,
                       //   ],
                       // )
                     ]),
-                    const Positioned(
+                    Positioned(
                       left: 0,
                       right: 0,
                       bottom: -48,

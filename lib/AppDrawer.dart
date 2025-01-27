@@ -6,7 +6,9 @@ import 'package:burtonaletrail_app/Home.dart';
 import 'package:burtonaletrail_app/Leaderboard.dart';
 import 'package:burtonaletrail_app/Login.dart';
 import 'package:burtonaletrail_app/Pubs.dart';
+import 'package:burtonaletrail_app/QRScanner.dart';
 import 'package:burtonaletrail_app/Settings.dart';
+import 'package:burtonaletrail_app/TrophyCabinet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -86,7 +88,7 @@ class _AppDrawerState extends State<AppDrawer> {
 
                 // Navigate to the LoginScreen
                 Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => LoginScreen()),
+                  MaterialPageRoute(builder: (context) => const LoginScreen()),
                   (route) => false, // Remove all previous routes
                 );
               },
@@ -138,7 +140,7 @@ class _AppDrawerState extends State<AppDrawer> {
                             base64Decode(userImage)) // Decode Base64 to bytes
                         : null, // Use null if no image is available
                     child: userImage == null
-                        ? Icon(Icons.person, size: 60) // Fallback icon
+                        ? const Icon(Icons.person, size: 60) // Fallback icon
                         : null,
                   ),
                 ),
@@ -170,7 +172,7 @@ class _AppDrawerState extends State<AppDrawer> {
         ),
         DrawerListItem(
           onTap: () => Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => LeaderboardScreen()),
+            MaterialPageRoute(builder: (context) => const LeaderboardScreen()),
             (Route<dynamic> route) => false,
           ),
           tileIcon: 'assets/svgs/profileicon.svg',
@@ -180,7 +182,8 @@ class _AppDrawerState extends State<AppDrawer> {
         // _verticalSpace(size.height * 0.016),
         DrawerListItem(
           onTap: () => Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => BadgesScreen()),
+            MaterialPageRoute(
+                builder: (context) => const TrophyCabinetScreen()),
             (Route<dynamic> route) => false,
           ),
           tileIcon: 'assets/svgs/arrow_forward.svg',
@@ -188,6 +191,15 @@ class _AppDrawerState extends State<AppDrawer> {
           isActive: widget.activeItem == 7,
         ),
         // _verticalSpace(size.height * 0.016),
+        DrawerListItem(
+          onTap: () => Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => QRScanner()),
+            (Route<dynamic> route) => false,
+          ),
+          tileIcon: 'assets/svgs/membersicon.svg',
+          tileText: 'Scan/Check In',
+          isActive: widget.activeItem == 3,
+        ),
         DrawerListItem(
           onTap: () => Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => PubsScreen()),

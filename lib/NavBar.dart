@@ -1,10 +1,13 @@
 import 'package:burtonaletrail_app/AppColors.dart';
+import 'package:burtonaletrail_app/Beers.dart';
 import 'package:burtonaletrail_app/Home.dart';
 import 'package:burtonaletrail_app/Leaderboard.dart';
+import 'package:burtonaletrail_app/Pubs.dart';
+import 'package:burtonaletrail_app/Settings.dart';
 import 'package:flutter/material.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
-  CustomBottomNavigationBar();
+  const CustomBottomNavigationBar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,11 +16,11 @@ class CustomBottomNavigationBar extends StatelessWidget {
       selectedItemColor: AppColors.primaryColor,
       unselectedItemColor: AppColors.secondaryColor,
 
-      selectedLabelStyle: TextStyle(
+      selectedLabelStyle: const TextStyle(
         fontSize: 12, // Consistent font size
         color: Colors.grey, // Explicit grey color
       ),
-      unselectedLabelStyle: TextStyle(
+      unselectedLabelStyle: const TextStyle(
         fontSize: 12, // Consistent font size
         color: Colors.grey, // Explicit grey color
       ),
@@ -31,26 +34,27 @@ class CustomBottomNavigationBar extends StatelessWidget {
             break;
           case 1:
             Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => LeaderboardScreen()),
+                MaterialPageRoute(
+                    builder: (context) => const LeaderboardScreen()),
                 (Route<dynamic> route) => false);
             break;
           case 2:
             Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => HomeScreen()),
+                MaterialPageRoute(builder: (context) => PubsScreen()),
                 (Route<dynamic> route) => false);
             break;
           case 3:
             Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => HomeScreen()),
+                MaterialPageRoute(builder: (context) => BeersScreen()),
                 (Route<dynamic> route) => false);
             break;
           case 4:
             Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => HomeScreen()),
+                MaterialPageRoute(builder: (context) => SettingsScreen()),
                 (Route<dynamic> route) => false);
         }
       },
-      items: [
+      items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.home, size: 24),
           label: 'Home',

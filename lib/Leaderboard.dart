@@ -42,11 +42,8 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
   List<Map<String, dynamic>> teamLeaderboard = [];
   List<Map<String, dynamic>> _oldTeamLeaderboard = [];
 
-  // We store each player's arrow/diff across refreshes here
-  // Key = player name, Value = {'positionChange': x, 'pointsDiff': y}
+  // Arrows/diffs across refreshes
   Map<String, Map<String, int>> _soloArrows = {};
-
-  // For teams as well
   Map<String, Map<String, int>> _teamArrows = {};
 
   // User info
@@ -61,6 +58,9 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
   String userTeamPoints = '';
   bool _isLoading = true;
 
+  // Team members for bottom sheet
+  List<Map<String, dynamic>> members = [];
+
   @override
   void initState() {
     super.initState();
@@ -70,9 +70,9 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
     _soloListKey = GlobalKey<AnimatedListState>();
     _teamListKey = GlobalKey<AnimatedListState>();
 
+    // Load old saved data first, then render
     _loadOldLeaderboardsFromPrefs().then((_) {
-      // Now do your normal calls
-      _forceRender(); // or directly _fetchLeaderboardFromCache() etc.
+      _forceRender();
     });
 
     // Start periodic updates
@@ -86,21 +86,18 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
   }
 
   Future<void> _forceRender() async {
-    setState(() {
-      _isLoading = true;
-    });
+    setState(() => _isLoading = true);
 
     await _fetchLeaderboardFromCache();
-    await _fetchUserData();
+    await _initializeState();
+    await _updateLeaderboard();
 
+    // A little visual tab switch effect
     _tabController.animateTo(1);
-    await Future.delayed(
-        const Duration(milliseconds: 500)); // Wait for 0.5 seconds
-    _tabController.animateTo(0); // Switch back to "Solo Leaderboard"
+    await Future.delayed(const Duration(milliseconds: 500));
+    _tabController.animateTo(0);
 
-    setState(() {
-      _isLoading = false;
-    });
+    setState(() => _isLoading = false);
   }
 
   @override
@@ -110,33 +107,37 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
     super.dispose();
   }
 
-  Future<void> _fetchUserData() async {
-    try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
+  Future<void> _initializeState() async {
+    // Create an instance of the Token class
+    final token = Token();
 
-      // <-- IMPORTANT: Check if still mounted after the await
-      if (!mounted) return;
+    // Call the refresh method
+    bool tokenRefreshed = await token.refresh();
 
-      setState(() {
-        userName = prefs.getString('userName') ?? '';
-        userPoints = prefs.getString('userPoints') ?? '0';
-        userPosition = prefs.getString('userPosition') ?? '0';
-        userSupport = prefs.getString('userSupport') ?? 'off';
-        userImage = prefs.getString('userImage') ?? '';
-        userTeam = prefs.getString('userTeam') ?? '';
-        userTeamImage = prefs.getString('userTeamImage') ?? '';
-        userTeamMembers = prefs.getString('userTeamMembers') ?? '';
-        userTeamPoints = prefs.getString('userTeamPoints') ?? '';
-      });
-    } catch (e) {
-      // You can check mounted here if you want to do setState,
-      // but a simple print/log doesn’t require setState anyway:
-      debugPrint('Error fetching user data: $e');
+    if (tokenRefreshed) {
+      print('JWT token refreshed successfully');
+      // Continue with additional initialization logic if necessary
+    } else {
+      print('Failed to refresh JWT token');
+      // Handle the failure case, e.g., navigate to login or show an alert
     }
+
+    // Fetch other user data or perform additional initialization here
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      userName = prefs.getString('userName') ?? '';
+      userPoints = prefs.getString('userPoints') ?? '0';
+      userPosition = prefs.getString('userPosition') ?? '0';
+      userSupport = prefs.getString('userSupport') ?? 'off';
+      userImage = prefs.getString('userImage') ?? '';
+      userTeam = prefs.getString('userTeam') ?? '';
+      userTeamImage = prefs.getString('userTeamImage') ?? '';
+      userTeamMembers = prefs.getString('userTeamMembers') ?? '';
+      userTeamPoints = prefs.getString('userTeamPoints') ?? '';
+    });
   }
 
-  /// Returns true if oldList and newList are the same ignoring
-  /// ephemeral fields (positionChange, pointsDiff).
   bool _leaderboardListsAreSame(
     List<Map<String, dynamic>> oldList,
     List<Map<String, dynamic>> newList,
@@ -177,7 +178,8 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
           _oldTeamLeaderboard =
               List<Map<String, dynamic>>.from(teamLeaderboard);
         }
-        print("updated from cache");
+
+        // Re-apply any stored arrow info
         _applyStoredArrowsToLeaderboard();
       });
     }
@@ -185,7 +187,6 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
 
   Future<void> _fetchLeaderboardFromNetwork() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
     String? accessToken = prefs.getString('access_token');
     if (accessToken == null) {
       throw Exception('Access token not found');
@@ -212,8 +213,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
       setState(() {
         soloLeaderboard = List<Map<String, dynamic>>.from(data['solo']);
         teamLeaderboard = List<Map<String, dynamic>>.from(data['team']);
-
-        // If old arrays are still empty, initialize them
+        // Initialize old arrays if empty
         if (_oldSoloLeaderboard.isEmpty) {
           _oldSoloLeaderboard =
               List<Map<String, dynamic>>.from(soloLeaderboard);
@@ -222,7 +222,6 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
           _oldTeamLeaderboard =
               List<Map<String, dynamic>>.from(teamLeaderboard);
         }
-        print("updated from api");
       });
     } else {
       debugPrint('Failed to load leaderboard. Status: ${response.statusCode}');
@@ -231,8 +230,6 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
 
   Future<void> _saveOldLeaderboardsToPrefs() async {
     final prefs = await SharedPreferences.getInstance();
-
-    // Already saving old_solo_leaderboard and old_team_leaderboard
     await prefs.setString(
       'old_solo_leaderboard',
       jsonEncode(_oldSoloLeaderboard),
@@ -241,44 +238,9 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
       'old_team_leaderboard',
       jsonEncode(_oldTeamLeaderboard),
     );
-
-    // NEW: Also save the arrow maps
+    // Also save arrow maps
     await prefs.setString('solo_arrows', jsonEncode(_soloArrows));
     await prefs.setString('team_arrows', jsonEncode(_teamArrows));
-  }
-
-  /// Compare old/new lists for both SOLO and TEAM, apply arrow/diff logic,
-  /// then animate changes in the two AnimatedLists.
-  Future<void> _updateLeaderboard() async {
-    await _fetchLeaderboardFromNetwork();
-
-    try {
-      // Keep old copies
-      var oldSolo = List<Map<String, dynamic>>.from(_oldSoloLeaderboard);
-      var oldTeam = List<Map<String, dynamic>>.from(_oldTeamLeaderboard);
-
-      // Fetch updated data from cache (which sets soloLeaderboard, teamLeaderboard)
-      await _fetchLeaderboardFromCache();
-
-      var newSolo = List<Map<String, dynamic>>.from(soloLeaderboard);
-      var newTeam = List<Map<String, dynamic>>.from(teamLeaderboard);
-
-      var soloSame = _leaderboardListsAreSame(oldSolo, newSolo);
-      var teamSame = _leaderboardListsAreSame(oldTeam, newTeam);
-
-      if (!soloSame) {
-        _applyArrowsAndAnimateSolo(oldSolo, newSolo);
-      }
-      if (!teamSame) {
-        _applyArrowsAndAnimateTeam(oldTeam, newTeam);
-      }
-
-      // ======= SAVE the updated _oldSoloLeaderboard & _oldTeamLeaderboard =======
-      // (which now reflect the new data + arrow updates).
-      await _saveOldLeaderboardsToPrefs();
-    } catch (e) {
-      debugPrint('Error updating leaderboard: $e');
-    }
   }
 
   Future<void> _loadOldLeaderboardsFromPrefs() async {
@@ -297,7 +259,6 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
           List<Map<String, dynamic>>.from(jsonDecode(oldTeamJson));
     }
 
-    // NEW: Decode arrow maps (if they exist)
     if (soloArrowsJson != null) {
       final Map<String, dynamic> map =
           jsonDecode(soloArrowsJson) as Map<String, dynamic>;
@@ -331,7 +292,6 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
         player['pointsDiff'] = _soloArrows[name]!['pointsDiff'];
       }
     }
-
     // Re-apply TEAM arrows
     for (final team in teamLeaderboard) {
       final name = team['name'];
@@ -342,14 +302,41 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
     }
   }
 
-  // ------------------ SOLO Logic ------------------
+  Future<void> _updateLeaderboard() async {
+    await _fetchLeaderboardFromNetwork();
+    try {
+      // Keep old copies
+      var oldSolo = List<Map<String, dynamic>>.from(_oldSoloLeaderboard);
+      var oldTeam = List<Map<String, dynamic>>.from(_oldTeamLeaderboard);
 
+      // Then fetch updated data from cache
+      await _fetchLeaderboardFromCache();
+
+      var newSolo = List<Map<String, dynamic>>.from(soloLeaderboard);
+      var newTeam = List<Map<String, dynamic>>.from(teamLeaderboard);
+
+      bool soloSame = _leaderboardListsAreSame(oldSolo, newSolo);
+      bool teamSame = _leaderboardListsAreSame(oldTeam, newTeam);
+
+      if (!soloSame) {
+        _applyArrowsAndAnimateSolo(oldSolo, newSolo);
+      }
+      if (!teamSame) {
+        _applyArrowsAndAnimateTeam(oldTeam, newTeam);
+      }
+
+      // Save updated old data
+      await _saveOldLeaderboardsToPrefs();
+    } catch (e) {
+      debugPrint('Error updating leaderboard: $e');
+    }
+  }
+
+  // ------------------ SOLO Logic ------------------
   void _applyArrowsAndAnimateSolo(
     List<Map<String, dynamic>> oldSolo,
     List<Map<String, dynamic>> newSolo,
   ) {
-    // Step A: For each new item, compute or reuse arrow/diff
-    // We build a helper map from old data to get old rank & old points
     final oldMap = <String, Map<String, dynamic>>{};
     for (int i = 0; i < oldSolo.length; i++) {
       final p = oldSolo[i];
@@ -359,14 +346,12 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
       };
     }
 
-    // For each new user in newSolo:
     for (int i = 0; i < newSolo.length; i++) {
       final p = newSolo[i];
       final name = p['name'];
       final newPoints = p['credits'] ?? 0;
       final newRank = i;
 
-      // If user not in oldMap, brand new => set arrow/diff = 0
       if (!oldMap.containsKey(name)) {
         // brand new user
         _soloArrows[name] = {
@@ -381,35 +366,31 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
       final oldRank = oldMap[name]!['rank'] as int;
       final oldPoints = oldMap[name]!['points'] as int;
 
-      final rankDiff = oldRank - newRank; // +ve => moved up, -ve => moved down
+      final rankDiff = oldRank - newRank;
       final ptsDiff = newPoints - oldPoints;
 
-      // If there's an existing arrow record for this name
       final oldArrow =
           _soloArrows[name] ?? {'positionChange': 0, 'pointsDiff': 0};
 
-      // If rank and points are unchanged, keep the old arrow/diff
       if (rankDiff == 0 && ptsDiff == 0) {
         p['positionChange'] = oldArrow['positionChange'] ?? 0;
         p['pointsDiff'] = oldArrow['pointsDiff'] ?? 0;
       } else {
-        // Fresh arrow/diff
         p['positionChange'] = rankDiff;
         p['pointsDiff'] = ptsDiff;
       }
 
-      // Update the stored arrow info
+      // Update stored arrow
       _soloArrows[name] = {
         'positionChange': p['positionChange'],
         'pointsDiff': p['pointsDiff'],
       };
     }
 
-    // Step B: Animate changes in the AnimatedList
+    // Animate changes in AnimatedList
 
     // 1) Remove items that differ or no longer exist
     for (int i = _oldSoloLeaderboard.length - 1; i >= 0; i--) {
-      // If new list is shorter, or if name/credits/image are different
       if (i >= newSolo.length ||
           !_itemsAreSameIgnoringArrows(_oldSoloLeaderboard[i], newSolo[i])) {
         final removedItem = _oldSoloLeaderboard[i];
@@ -422,15 +403,13 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
       }
     }
 
-    // 2) Insert or re-insert
+    // 2) Insert / re-insert
     for (int i = 0; i < newSolo.length; i++) {
       if (i >= _oldSoloLeaderboard.length) {
-        // Need to insert
         _oldSoloLeaderboard.insert(i, newSolo[i]);
         _soloListKey.currentState?.insertItem(i);
       } else if (!_itemsAreSameIgnoringArrows(
           _oldSoloLeaderboard[i], newSolo[i])) {
-        // Remove old, then insert new
         final removedItem = _oldSoloLeaderboard[i];
         _soloListKey.currentState?.removeItem(
           i,
@@ -442,19 +421,17 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
         _oldSoloLeaderboard.insert(i, newSolo[i]);
         _soloListKey.currentState?.insertItem(i);
       } else {
-        // They match ignoring arrow fields, but let's update arrow fields
+        // identical ignoring arrow fields => just update arrow fields
         _oldSoloLeaderboard[i] = newSolo[i];
       }
     }
   }
 
   // ------------------ TEAM Logic ------------------
-
   void _applyArrowsAndAnimateTeam(
     List<Map<String, dynamic>> oldTeam,
     List<Map<String, dynamic>> newTeam,
   ) {
-    // A: Compute or reuse arrow/diff
     final oldMap = <String, Map<String, dynamic>>{};
     for (int i = 0; i < oldTeam.length; i++) {
       final t = oldTeam[i];
@@ -484,30 +461,27 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
       final oldRank = oldMap[name]!['rank'] as int;
       final oldPoints = oldMap[name]!['points'] as int;
 
-      final rankDiff = oldRank - newRank; // +ve => up, -ve => down
+      final rankDiff = oldRank - newRank;
       final ptsDiff = newPoints - oldPoints;
 
       final oldArrow =
           _teamArrows[name] ?? {'positionChange': 0, 'pointsDiff': 0};
 
       if (rankDiff == 0 && ptsDiff == 0) {
-        // Keep old arrow/diff
         t['positionChange'] = oldArrow['positionChange'] ?? 0;
         t['pointsDiff'] = oldArrow['pointsDiff'] ?? 0;
       } else {
-        // new arrow/diff
         t['positionChange'] = rankDiff;
         t['pointsDiff'] = ptsDiff;
       }
 
-      // Update store
       _teamArrows[name] = {
         'positionChange': t['positionChange'],
         'pointsDiff': t['pointsDiff'],
       };
     }
 
-    // B: Animate changes
+    // Animate changes
     for (int i = _oldTeamLeaderboard.length - 1; i >= 0; i--) {
       if (i >= newTeam.length ||
           !_itemsAreSameIgnoringArrows(_oldTeamLeaderboard[i], newTeam[i])) {
@@ -521,7 +495,6 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
       }
     }
 
-    // Insert or re-insert
     for (int i = 0; i < newTeam.length; i++) {
       if (i >= _oldTeamLeaderboard.length) {
         _oldTeamLeaderboard.insert(i, newTeam[i]);
@@ -544,7 +517,6 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
     }
   }
 
-  /// Compare ignoring 'positionChange' and 'pointsDiff'.
   bool _itemsAreSameIgnoringArrows(
     Map<String, dynamic> a,
     Map<String, dynamic> b,
@@ -558,6 +530,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
     return jsonEncode(copyA) == jsonEncode(copyB);
   }
 
+  // ------------------ BUILD ------------------
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -602,10 +575,8 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
                             Tab(text: 'Team Leaderboard'),
                           ],
                         ),
-                        Center(
-                          child: LoadingScreen(
-                            loadingText: "",
-                          ),
+                        const Center(
+                          child: LoadingScreen(loadingText: ""),
                         ),
                       ],
                     ),
@@ -626,14 +597,38 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
                             Tab(text: 'Team Leaderboard'),
                           ],
                         ),
-                        SizedBox(
-                          height: size.height * 0.8,
-                          child: TabBarView(
-                            controller: _tabController,
-                            children: [
-                              _soloLeaderboardWidget(),
-                              _teamLeaderboardWidget(),
-                            ],
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 20.0),
+                            child: SizedBox(
+                              height: size.height * 0.65,
+                              width: size.width * 0.9,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(20),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.1),
+                                      spreadRadius: 2,
+                                      blurRadius: 10,
+                                      offset: const Offset(0, 5),
+                                    ),
+                                  ],
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16.0),
+                                  child: TabBarView(
+                                    controller: _tabController,
+                                    children: [
+                                      _soloLeaderboardWidget(),
+                                      _teamLeaderboardWidget(),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ],
@@ -662,9 +657,9 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
               },
             ),
             const SizedBox(width: 10),
-            Column(
+            const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Text(
                   'Leaderboards',
                   style: TextStyle(
@@ -701,15 +696,18 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
     );
   }
 
-  /// Check if base64 is valid
   bool isValidBase64(String? base64String) {
     if (base64String == null || base64String.isEmpty) {
+      return false;
+    }
+    // Treat the literal string "None" as no image
+    if (base64String.toLowerCase() == "none") {
       return false;
     }
     try {
       base64Decode(base64String);
       return true;
-    } catch (e) {
+    } catch (_) {
       return false;
     }
   }
@@ -723,6 +721,72 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
       itemBuilder: (context, index, animation) {
         final player = soloLeaderboard[index];
         return _buildAnimatedSoloItem(player, animation, index);
+      },
+    );
+  }
+
+  void _showPlayerDetails(BuildContext context, Map<String, dynamic> player) {
+    Uint8List? imageBytes;
+    if (player['image'] != null &&
+        player['image'] is String &&
+        isValidBase64(player['image'])) {
+      imageBytes = base64Decode(player['image']);
+    }
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (BuildContext context) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (imageBytes != null)
+                CircleAvatar(
+                  radius: 100,
+                  backgroundImage: MemoryImage(imageBytes),
+                )
+              else
+                const CircleAvatar(
+                  radius: 100,
+                  child: Icon(Icons.person, size: 50),
+                ),
+              const SizedBox(height: 16),
+              Text(
+                player['name'] ?? 'Unknown',
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                '${player['credits']} pts',
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              ),
+              Text(
+                ' ' * 1000,
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(height: 16),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text(
+                  'Close',
+                  style: TextStyle(fontSize: 16, color: AppColors.primaryColor),
+                ),
+              ),
+            ],
+          ),
+        );
       },
     );
   }
@@ -746,74 +810,80 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
       sizeFactor: animation,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 4),
-        child: Row(
-          children: [
-            // Position
-            Text(
-              '${index + 1}',
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-            ),
-            const SizedBox(width: 16),
-            // Player Avatar
-            CircleAvatar(
-              backgroundImage:
-                  imageBytes != null ? MemoryImage(imageBytes) : null,
-              child: imageBytes == null ? const Icon(Icons.person) : null,
-            ),
-            const SizedBox(width: 16),
-            // Player Details
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Name + arrow
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          player['name'],
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                          overflow: TextOverflow.ellipsis,
+        child: GestureDetector(
+          onTap: () => _showPlayerDetails(context, player),
+          child: Row(
+            children: [
+              // Rank display
+              Text(
+                '${index + 1}',
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
+              const SizedBox(width: 16),
+
+              // Avatar
+              CircleAvatar(
+                radius: 28,
+                backgroundImage:
+                    (imageBytes != null) ? MemoryImage(imageBytes) : null,
+                child: (imageBytes == null) ? const Icon(Icons.person) : null,
+              ),
+              const SizedBox(width: 16),
+
+              // Player details
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Name + position change arrow
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            player['name'] ??
+                                'Unknown', // Fallback for null names
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
-                      ),
-                      if (posChange > 0) ...[
-                        const Icon(Icons.arrow_drop_up, color: Colors.green),
-                        Text(
-                          '+$posChange',
-                          style: const TextStyle(color: Colors.green),
-                        ),
-                        if (ptsDiff != 0) ...[
-                          const SizedBox(width: 4),
+                        if (posChange > 0) ...[
+                          const Icon(Icons.arrow_drop_up, color: Colors.green),
                           Text(
-                            '(+${ptsDiff} pts)',
+                            '+$posChange',
                             style: const TextStyle(color: Colors.green),
                           ),
-                        ],
-                      ] else if (posChange < 0) ...[
-                        const Icon(Icons.arrow_drop_down, color: Colors.red),
-                        Text(
-                          '$posChange',
-                          style: const TextStyle(color: Colors.red),
-                        ),
-                        if (ptsDiff != 0) ...[
-                          const SizedBox(width: 4),
+                          if (ptsDiff != 0) ...[
+                            const SizedBox(width: 4),
+                            Text(
+                              '(+$ptsDiff pts)',
+                              style: const TextStyle(color: Colors.green),
+                            ),
+                          ],
+                        ] else if (posChange < 0) ...[
+                          const Icon(Icons.arrow_drop_down, color: Colors.red),
                           Text(
-                            '${ptsDiff > 0 ? '+' : ''}$ptsDiff pts',
+                            '$posChange',
                             style: const TextStyle(color: Colors.red),
                           ),
+                          if (ptsDiff != 0) ...[
+                            const SizedBox(width: 4),
+                            Text(
+                              '${ptsDiff > 0 ? '+' : ''}$ptsDiff pts',
+                              style: const TextStyle(color: Colors.red),
+                            ),
+                          ],
                         ],
                       ],
-                    ],
-                  ),
-                  // Points
-                  Text(
-                    '${player['credits']} pts',
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
+                    ),
+
+                    // Player points
+                    Text('${player['credits']} pts'),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -828,6 +898,167 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
       itemBuilder: (context, index, animation) {
         final team = teamLeaderboard[index];
         return _buildAnimatedTeamItem(team, animation, index);
+      },
+    );
+  }
+
+  Future<void> _showTeamDetails(
+      BuildContext context, Map<String, dynamic> team) async {
+    // Clear old members each time before fetch
+    members = [];
+
+    Uint8List? imageBytes;
+    if (team['image'] != null &&
+        team['image'] is String &&
+        isValidBase64(team['image'])) {
+      imageBytes = base64Decode(team['image']);
+    }
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? accessToken = prefs.getString('access_token');
+    if (accessToken == null) {
+      throw Exception('Access token not found');
+    }
+
+    bool trustSelfSigned = true;
+    HttpClient httpClient = HttpClient()
+      ..badCertificateCallback = (cert, host, port) => trustSelfSigned;
+    IOClient ioClient = IOClient(httpClient);
+
+    final response = await ioClient.post(
+      Uri.parse(apiServerLeaderboardsTeamQuery),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'access_token': accessToken, 'team': team['name']}),
+    );
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      // Make sure it’s actually a List before casting.
+      if (data['members'] is List) {
+        // Convert to List<Map<String, dynamic>>
+        setState(() {
+          members = List<Map<String, dynamic>>.from(data['members']);
+        });
+      } else {
+        // If it's anything else (like a String, null, etc.),
+        // handle gracefully by clearing or showing an error.
+        setState(() {
+          members = [];
+        });
+        debugPrint('Warning: data["members"] was not a list!');
+      }
+    } else {
+      debugPrint(
+          'Failed to get team information. Status: ${response.statusCode}');
+    }
+
+    // Now show the bottom sheet after we've (attempted) to load members
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (_) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (imageBytes != null)
+                CircleAvatar(
+                  radius: 100,
+                  backgroundImage: MemoryImage(imageBytes),
+                )
+              else
+                const CircleAvatar(
+                  radius: 100,
+                  child: Icon(Icons.group, size: 50),
+                ),
+              const SizedBox(height: 16),
+              Text(
+                team['name'] ?? 'Unknown Team',
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                '${team['credits']} pts',
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(height: 16),
+              // const Text(
+              //   'Members:',
+              //   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              // ),
+              const SizedBox(height: 16),
+              // Display members list
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: members.length,
+                itemBuilder: (context, index) {
+                  // We know index < members.length here, so no out-of-range
+                  final member = members[index];
+                  final memberName = member['name'] ?? 'Unknown';
+                  final memberCredits = member['credits'] ?? 0;
+
+                  Uint8List? memberImageBytes;
+                  if (member['image'] != null &&
+                      member['image'] is String &&
+                      isValidBase64(member['image'])) {
+                    memberImageBytes = base64Decode(member['image']);
+                  }
+
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CircleAvatar(
+                          radius: 20,
+                          backgroundImage: (memberImageBytes != null)
+                              ? MemoryImage(memberImageBytes)
+                              : null,
+                          child: (memberImageBytes == null)
+                              ? const Icon(Icons.person, size: 20)
+                              : null,
+                        ),
+                        Text(
+                          memberName,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        Text(
+                          '$memberCredits pts',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(height: 16),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text(
+                  'Close',
+                  style: TextStyle(fontSize: 16, color: Colors.blue),
+                ),
+              ),
+            ],
+          ),
+        );
       },
     );
   }
@@ -851,74 +1082,65 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
       sizeFactor: animation,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 4),
-        child: Row(
-          children: [
-            // Position
-            Text(
-              '${index + 1}',
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-            ),
-            const SizedBox(width: 16),
-            // Team Avatar
-            CircleAvatar(
-              backgroundImage:
-                  imageBytes != null ? MemoryImage(imageBytes) : null,
-              child: imageBytes == null ? const Icon(Icons.group) : null,
-            ),
-            const SizedBox(width: 16),
-            // Team Details
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Team name + arrow
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          team['name'],
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      if (posChange > 0) ...[
-                        const Icon(Icons.arrow_drop_up, color: Colors.green),
-                        Text(
-                          '+$posChange',
-                          style: const TextStyle(color: Colors.green),
-                        ),
-                        if (ptsDiff != 0) ...[
-                          const SizedBox(width: 4),
-                          Text(
-                            '(+${ptsDiff} pts)',
-                            style: const TextStyle(color: Colors.green),
+        child: GestureDetector(
+          onTap: () => _showTeamDetails(context, team),
+          child: Row(
+            children: [
+              Text(
+                '${index + 1}',
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
+              const SizedBox(width: 16),
+              CircleAvatar(
+                radius: 28,
+                backgroundImage:
+                    (imageBytes != null) ? MemoryImage(imageBytes) : null,
+                child: (imageBytes == null) ? const Icon(Icons.group) : null,
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            team['name'] ?? '',
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                            overflow: TextOverflow.ellipsis,
                           ),
-                        ],
-                      ] else if (posChange < 0) ...[
-                        const Icon(Icons.arrow_drop_down, color: Colors.red),
-                        Text(
-                          '$posChange',
-                          style: const TextStyle(color: Colors.red),
                         ),
-                        if (ptsDiff != 0) ...[
-                          const SizedBox(width: 4),
-                          Text(
-                            '${ptsDiff > 0 ? '+' : ''}$ptsDiff pts',
-                            style: const TextStyle(color: Colors.red),
-                          ),
+                        if (posChange > 0) ...[
+                          const Icon(Icons.arrow_drop_up, color: Colors.green),
+                          Text('+$posChange',
+                              style: const TextStyle(color: Colors.green)),
+                          if (ptsDiff != 0) ...[
+                            const SizedBox(width: 4),
+                            Text('(+$ptsDiff pts)',
+                                style: const TextStyle(color: Colors.green)),
+                          ],
+                        ] else if (posChange < 0) ...[
+                          const Icon(Icons.arrow_drop_down, color: Colors.red),
+                          Text('$posChange',
+                              style: const TextStyle(color: Colors.red)),
+                          if (ptsDiff != 0) ...[
+                            const SizedBox(width: 4),
+                            Text(
+                              '${ptsDiff > 0 ? '+' : ''}$ptsDiff pts',
+                              style: const TextStyle(color: Colors.red),
+                            ),
+                          ],
                         ],
                       ],
-                    ],
-                  ),
-                  // Points
-                  Text(
-                    '${team['credits']} pts',
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
+                    ),
+                    Text('${team['credits']} pts'),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

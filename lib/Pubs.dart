@@ -1,274 +1,614 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'dart:ui';
-import 'package:burtonaletrail_app/PubProfile.dart';
-import 'package:burtonaletrail_app/QRScanner.dart';
+
+import 'package:burtonaletrail_app/AppApi.dart';
+import 'package:burtonaletrail_app/AppColors.dart';
+import 'package:burtonaletrail_app/AppDrawer.dart';
+import 'package:burtonaletrail_app/AppMenuButton.dart';
+import 'package:burtonaletrail_app/LoadingScreen.dart';
+import 'package:burtonaletrail_app/NavBar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
-import 'dart:convert';
+import 'package:rive/rive.dart' as rive;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:burtonaletrail_app/Home.dart'; // Import for navigation
-// import 'package:burtonaletrail_app/WebViewPage.dart'; // Import for navigation
 
 class PubsScreen extends StatefulWidget {
+  const PubsScreen({super.key});
+
   @override
   _PubsScreenState createState() => _PubsScreenState();
 }
 
 class _PubsScreenState extends State<PubsScreen> {
-  List<dynamic> pubData = [];
-  List<dynamic> filteredPubData = [];
-  String? uuid;
-  int _selectedIndex = 0; // Set initial index to Home
-  TextEditingController searchController = TextEditingController();
+  List<dynamic> allPubs = [];
+  List<dynamic> filteredPubs = [];
+
+  bool _isLoading = false;
+  String searchText = "";
+
+  // User Info
+  String userName = '';
+  String userPoints = '0';
+  String userPosition = '0';
+  String userSupport = 'off';
+  String userImage = '';
+  String userTeam = '';
+  String userTeamImage = '';
+  String userTeamMembers = '';
+  String userTeamPoints = '';
+
+  // Beers to display in bottom sheet for a selected pub
+  List<Map<String, dynamic>> beers = [];
 
   @override
   void initState() {
     super.initState();
-    fetchPubData();
-    searchController.addListener(() {
-      filterPubs(searchController.text);
+    _initializeState();
+    _fetchPubs();
+  }
+
+  /// Fetch all pubs from the backend
+  Future<void> _fetchPubs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? accessToken = prefs.getString('access_token');
+    final HttpClient httpClient = HttpClient()
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+    final IOClient ioClient = IOClient(httpClient);
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final response = await ioClient.post(
+        Uri.parse(apiServerPubList),
+        headers: {
+          'Authorization': 'Bearer $accessToken',
+          'Content-Type': 'application/json',
+        },
+        body: json.encode({'access_token': accessToken}),
+      );
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        if (data is List) {
+          setState(() {
+            allPubs = data;
+            filteredPubs = allPubs;
+          });
+        } else {
+          throw Exception('Unexpected data structure: Expected a list');
+        }
+      } else {
+        throw Exception('Failed to load pub data');
+      }
+    } catch (e) {
+      debugPrint('Error loading pubs: $e');
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  /// Filter pubs by name if you want to add a search bar
+  void _filterPubs() {
+    setState(() {
+      filteredPubs = allPubs.where((pub) {
+        final nameMatches =
+            pub['pub_name']?.toLowerCase().contains(searchText.toLowerCase()) ??
+                false;
+        return nameMatches;
+      }).toList();
     });
   }
 
-  Future<void> fetchPubData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? uuid = prefs.getString('uuid');
+  /// Build the ListView of pubs
+  Widget _buildPubList() {
+    if (filteredPubs.isEmpty) {
+      return const Center(child: Text('No pubs found'));
+    }
+    return ListView.separated(
+      itemCount: filteredPubs.length,
+      separatorBuilder: (context, index) => Divider(
+        color: Colors.grey.shade300,
+        thickness: 0.5,
+        height: 1.0,
+      ),
+      itemBuilder: (context, index) {
+        final pub = filteredPubs[index];
 
-    if (uuid == null) {
-      throw Exception('UUID is null');
+        return GestureDetector(
+          onTap: () => _showPubDetails(context, pub),
+          child: ListTile(
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            leading: SizedBox(
+              width: 60,
+              height: 60,
+              child: CircleAvatar(
+                radius: 30,
+                backgroundColor: pub['user_has_badge'] == true
+                    ? AppColors.primaryColor
+                    : Colors.grey.shade200,
+                child: pub['user_has_badge'] == true
+                    ? const Icon(
+                        Icons.check,
+                        color: Colors.white,
+                        size: 30,
+                      )
+                    : CircleAvatar(
+                        radius: 30,
+                        backgroundImage: AssetImage(pub['logo'] ?? ''),
+                        backgroundColor: Colors.transparent,
+                      ),
+              ),
+            ),
+            title: Text(
+              pub['name'] ?? '',
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            subtitle: Text(
+              pub['description'] ?? '',
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(fontSize: 14, color: Colors.grey),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  /// Build a list of beers for the selected pub
+  Widget _buildBeerList() {
+    if (beers.isEmpty) {
+      return const Center(child: Text('No beers found'));
+    }
+    return ListView.separated(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: beers.length,
+      separatorBuilder: (context, index) => Divider(
+        color: Colors.grey.shade300,
+        thickness: 0.5,
+        height: 1.0,
+      ),
+      itemBuilder: (context, index) {
+        final beer = beers[index];
+        // final votesSum = beer['votes_sum'];
+        // final votesAvg = beer['votes_avg'];
+
+        return GestureDetector(
+          onTap: () => _showBeerDetails(context, beer),
+          child: ListTile(
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            leading: SizedBox(
+              width: 60,
+              height: 60,
+              child: CircleAvatar(
+                radius: 30,
+                backgroundImage: NetworkImage(beer['graphic'] ?? ''),
+                backgroundColor: Colors.grey.shade200,
+              ),
+            ),
+            title: Padding(
+              padding: const EdgeInsets.only(bottom: 4.0),
+              child: Text(
+                beer['name'] ?? '',
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            // subtitle: Text(
+            //   '${votesAvg.toStringAsFixed(2)} Average Rating ($votesSum votes)',
+            //   style: const TextStyle(
+            //     fontSize: 14,
+            //     color: Colors.grey,
+            //   ),
+            // ),
+            // Removed the favorite icon
+            trailing: null,
+          ),
+        );
+      },
+    );
+  }
+
+  /// Show pub details in a bottom sheet, plus the beer list
+  Future<void> _showPubDetails(BuildContext context, dynamic pub) async {
+    beers = [];
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? accessToken = prefs.getString('access_token');
+    if (accessToken == null) {
+      throw Exception('Access token not found');
     }
 
     bool trustSelfSigned = true;
     HttpClient httpClient = HttpClient()
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => trustSelfSigned;
+      ..badCertificateCallback = (cert, host, port) => trustSelfSigned;
     IOClient ioClient = IOClient(httpClient);
 
-    final response = await ioClient
-        .get(Uri.parse('https://burtonaletrail.pawtul.com/pub_data/' + uuid));
+    final response = await ioClient.post(
+      Uri.parse(apiServerPubBeerList),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'access_token': accessToken,
+        // If 'pub['id']' is an integer, use it directly.
+        // If it's a string, parse it:
+        // 'pub_id': int.parse(pub['id']),
+        'pub_id': pub['id'],
+      }),
+    );
 
     if (response.statusCode == 200) {
-      setState(() {
-        pubData = json.decode(response.body);
-        print(pubData);
-        filteredPubData = pubData[0];
-      });
+      final data = jsonDecode(response.body);
+
+      // If it’s a List, parse into List<Map<String, dynamic>>
+      if (data is List) {
+        setState(() {
+          beers = List<Map<String, dynamic>>.from(data);
+        });
+      } else {
+        debugPrint('Expected a list at top-level, but got ${data.runtimeType}');
+        beers = [];
+      }
     } else {
-      throw Exception('Failed to load pub data');
+      debugPrint(
+        'Failed to get beer information. Status: ${response.statusCode}',
+      );
+    }
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (BuildContext context) {
+        return DraggableScrollableSheet(
+          initialChildSize: 0.9, // Opens at 70% of the screen height
+          minChildSize: 0.3, // Minimum height is 30% of the screen
+          maxChildSize: 0.9, // Maximum height is 90% of the screen
+          expand: false,
+          builder: (_, scrollController) {
+            return SingleChildScrollView(
+              controller: scrollController,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Large circle avatar for pub image
+                    SizedBox(
+                      width: 120,
+                      height: 120,
+                      child: CircleAvatar(
+                        radius: 100,
+                        backgroundImage: AssetImage(pub['logo'] ?? ''),
+                        backgroundColor: Colors.transparent,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      pub['name'] ?? 'Pub Name',
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      pub['description'] ?? 'No description available.',
+                      style: const TextStyle(fontSize: 16, color: Colors.grey),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 20),
+                    // Beer list
+                    _buildBeerList(),
+                    const SizedBox(height: 20),
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: const Text(
+                        'Close',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: AppColors.primaryColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  /// Example "show beer details" method.
+  /// Adjust this as needed (currently just shows a placeholder dialog).
+  void _showBeerDetails(BuildContext context, dynamic beer) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (BuildContext context) {
+        double currentRating = beer['userRating']?.toDouble() ?? 0.0;
+
+        return Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                    width: 200,
+                    height: 200,
+                    child: CircleAvatar(
+                      radius: 30,
+                      backgroundImage: NetworkImage(beer['graphic'] ?? ''),
+                      backgroundColor: Colors.grey.shade200,
+                    )),
+                Text(
+                  beer['beer_name'] ?? 'Beer Name',
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  beer['tasting_notes'] ?? 'No description available.',
+                  style: const TextStyle(fontSize: 16, color: Colors.grey),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 16),
+                // Text(
+                //   'Rating: ${beer['votes_avg'].toStringAsFixed(2)} (${beer['votes_sum']} votes)',
+                //   style:
+                //       const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                // ),
+                const SizedBox(height: 16),
+                const Text(
+                  'Rate this beer:',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 8),
+                RatingBar.builder(
+                  initialRating: currentRating,
+                  minRating: 1,
+                  direction: Axis.horizontal,
+                  allowHalfRating: true,
+                  itemCount: 5,
+                  itemBuilder: (context, _) => const Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                  ),
+                  onRatingUpdate: (rating) async {
+                    // Save the new rating
+                    // await _rateBeer(beer['beer_id'], rating);
+                    setState(() {
+                      beer['userRating'] = rating;
+                    });
+                  },
+                ),
+                const SizedBox(height: 16),
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text(
+                    'Close',
+                    style:
+                        TextStyle(fontSize: 16, color: AppColors.primaryColor),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  /// Initialize user data and refresh token
+  Future<void> _initializeState() async {
+    // Create an instance of the Token class
+    final token = Token();
+
+    // Call the refresh method
+    bool tokenRefreshed = await token.refresh();
+
+    if (tokenRefreshed) {
+      debugPrint('JWT token refreshed successfully');
+    } else {
+      debugPrint('Failed to refresh JWT token');
+    }
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userName = prefs.getString('userName') ?? '';
+      userPoints = prefs.getString('userPoints') ?? '0';
+      userPosition = prefs.getString('userPosition') ?? '0';
+      userSupport = prefs.getString('userSupport') ?? 'off';
+      userImage = prefs.getString('userImage') ?? '';
+      userTeam = prefs.getString('userTeam') ?? '';
+      userTeamImage = prefs.getString('userTeamImage') ?? '';
+      userTeamMembers = prefs.getString('userTeamMembers') ?? '';
+      userTeamPoints = prefs.getString('userTeamPoints') ?? '';
+    });
+  }
+
+  /// Helper to check if a string is valid base64
+  bool isValidBase64(String? base64String) {
+    if (base64String == null || base64String.isEmpty) {
+      return false;
+    }
+    try {
+      base64Decode(base64String);
+      return true;
+    } catch (_) {
+      return false;
     }
   }
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-
-    switch (index) {
-      case 0:
-        // Home
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
-        );
-        break;
-      case 1:
-        // Scan
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => QRScanner()),
-        );
-        break;
-    }
-  }
-
-  void filterPubs(String query) {
-    final filtered = pubData[0].where((pub) {
-      final pubName = pub['pubName'].toString().toLowerCase();
-      final input = query.toLowerCase();
-      return pubName.contains(input);
-    }).toList();
-
-    setState(() {
-      filteredPubData = filtered;
-    });
+  /// Build a greeting & top row with menu and user avatar
+  Widget _buildGreeting() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 16),
+        Row(
+          children: [
+            Builder(
+              builder: (context) {
+                return AppMenuButton(
+                  onTap: () => Scaffold.of(context).openDrawer(),
+                );
+              },
+            ),
+            const SizedBox(width: 10),
+            const Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'The Pubs',
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  'There is something for everyone',
+                  style: TextStyle(fontSize: 16, color: Colors.grey),
+                ),
+              ],
+            ),
+            const Spacer(),
+            InkWell(
+              onTap: () {
+                // Navigate to profile screen if needed
+              },
+              child: CircleAvatar(
+                backgroundImage:
+                    (userImage.isNotEmpty && isValidBase64(userImage))
+                        ? MemoryImage(base64Decode(userImage))
+                        : null,
+                child: (userImage.isEmpty || !isValidBase64(userImage))
+                    ? const Icon(Icons.person)
+                    : null,
+              ),
+            ),
+            const SizedBox(width: 20),
+          ],
+        ),
+      ],
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final bottomPadding = MediaQuery.of(context).padding.bottom;
+    final size = MediaQuery.of(context).size;
 
     return Scaffold(
+      extendBody: true,
+      drawer: const AppDrawer(activeItem: 1),
       body: Stack(
         children: [
-          // Background image
-          Positioned.fill(
-            child: Image.asset(
-              'assets/images/backdrop.jpg', // Path to your background image
-              fit: BoxFit.cover, // Makes the image cover the entire screen
-            ),
-          ),
-          // Foreground content
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  'assets/app_logo.png', // Path to your asset image
-                  height: 200,
-                ),
-                TextField(
-                  controller: searchController,
-                  decoration: InputDecoration(
-                    labelText: 'Search Pubs',
-                    prefixIcon: Icon(Icons.search),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
-                filteredPubData.isEmpty
-                    ? CircularProgressIndicator()
-                    : Expanded(
-                        child: ListView.builder(
-                          padding: EdgeInsets.only(
-                              bottom:
-                                  bottomPadding), // Add padding to the bottom
-                          itemCount: filteredPubData.length,
-                          itemBuilder: (context, index) {
-                            final item = filteredPubData[index];
-                            return Container(
-                              padding: EdgeInsets.symmetric(
-                                  vertical:
-                                      10.0), // Adjust padding to make rows thinner
-                              child: InkWell(
-                                  onTap: () {
-                                    // Handle the tap event here
-                                    // For example, you can navigate to a details page
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => PubProfileScreen(
-                                            pubId: '${item['pubId']}'),
-                                      ),
-                                    );
-                                  },
-                                  child: ListTile(
-                                    contentPadding: EdgeInsets.symmetric(
-                                        horizontal: 16.0, vertical: 0),
-                                    leading: Stack(
-                                      children: [
-                                        Container(
-                                          width: 80.0,
-                                          height: 80.0,
-                                          child: ClipRect(
-                                            child:
-                                                item['pubAwarded'] == 'awarded'
-                                                    ? ImageFiltered(
-                                                        imageFilter:
-                                                            ImageFilter.blur(
-                                                                sigmaX: 2.0,
-                                                                sigmaY: 2.0),
-                                                        child: ClipRRect(
-                                                          borderRadius:
-                                                              BorderRadius.circular(
-                                                                  8.0), // Adjust the value to get the desired roundness
-                                                          child: Image.asset(
-                                                            '${item['pubLogo']}',
-                                                            fit: BoxFit.cover,
-                                                          ),
-                                                        ),
-                                                      )
-                                                    : ClipRRect(
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                                8.0), // Adjust the value to get the desired roundness
-                                                        child: Image.asset(
-                                                          '${item['pubLogo']}',
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                      ),
-                                          ),
-                                        ),
-                                        if (item['pubAwarded'] == 'awarded')
-                                          Positioned(
-                                            top: 0,
-                                            right: 0,
-                                            child: Icon(
-                                              Icons.check_circle,
-                                              color: Colors.green,
-                                              size:
-                                                  32.0, // Adjust size as needed
-                                            ),
-                                          ),
-                                      ],
-                                    ),
-                                    title: Text(
-                                      item['pubName'],
-                                      style: TextStyle(
-                                        fontSize: 16.0,
-                                        color: item['pubAwarded'] == 'awarded'
-                                            ? const Color.fromARGB(
-                                                255, 2, 119, 6)
-                                            : Colors.black,
-                                      ),
-                                    ),
-                                    subtitle: Text(
-                                      '${item['pubCheckIn']} check-ins',
-                                      style: TextStyle(
-                                        fontSize: 14.0,
-                                        color: item['pubAwarded'] == 'awarded'
-                                            ? const Color.fromARGB(
-                                                255, 2, 119, 6)
-                                            : Colors.black,
-                                      ),
-                                    ),
-                                  )),
-                            );
-                          },
-                        ),
-                      ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                )
-              ],
-            ),
-          ),
-          // Bottom Navigation Bar with blur effect
+          // Background
           Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: ClipRect(
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-                child: Container(
-                  color: Colors.black.withOpacity(0.2),
-                  child: BottomNavigationBar(
-                    backgroundColor: Colors.transparent,
-                    items: const <BottomNavigationBarItem>[
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.home),
-                        label: 'Home',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.qr_code_scanner),
-                        label: 'Scan',
-                      ),
-                    ],
-                    currentIndex: _selectedIndex,
-                    selectedItemColor: Colors.white,
-                    unselectedItemColor: Colors.white,
-                    onTap: _onItemTapped,
-                  ),
-                ),
-              ),
+            width: size.width * 1.7,
+            bottom: 100,
+            left: 100,
+            child: Image.asset('assets/Backgrounds/Spline.png'),
+          ),
+          Positioned.fill(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 20, sigmaY: 10),
+            ),
+          ),
+          const rive.RiveAnimation.asset('assets/RiveAssets/shapes.riv'),
+          Positioned.fill(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 20, sigmaY: 10),
+              child: const SizedBox(),
+            ),
+          ),
+
+          // Main Content
+          SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: _isLoading
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildGreeting(),
+                        const Center(
+                          child: LoadingScreen(loadingText: ""),
+                        ),
+                      ],
+                    )
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildGreeting(),
+                        // Container for pub list
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 20.0),
+                            child: SizedBox(
+                              height: size.height * 0.705,
+                              width: size.width * 0.9,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(20),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.1),
+                                      spreadRadius: 2,
+                                      blurRadius: 10,
+                                      offset: const Offset(0, 5),
+                                    ),
+                                  ],
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16.0),
+                                  child: _buildPubList(),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
             ),
           ),
         ],
       ),
+      bottomNavigationBar: CustomBottomNavigationBar(),
     );
   }
 }

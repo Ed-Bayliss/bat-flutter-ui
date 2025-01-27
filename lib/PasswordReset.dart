@@ -8,6 +8,8 @@ import 'dart:math';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PasswordResetScreen extends StatefulWidget {
+  const PasswordResetScreen({super.key});
+
   @override
   _PasswordResetScreenState createState() => _PasswordResetScreenState();
 }
@@ -43,7 +45,7 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
   void requestPasswordReset() async {
     String mobile = mobileController.text;
     String domain = "https://burtonaletrail.pawtul.com/";
-    String url = domain + 'reset_request';
+    String url = '${domain}reset_request';
 
     Map<String, String> body = {
       'mobile': mobile,
@@ -61,7 +63,7 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
 
       if (response.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text('Code sent to your mobile'),
             backgroundColor: Colors.green,
             duration: Duration(seconds: 1),
@@ -72,7 +74,7 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
         });
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text('We didn\'t find an account. Please Sign Up.'),
             backgroundColor: Colors.red,
             duration: Duration(seconds: 3),
@@ -96,7 +98,7 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
     // Navigate to the login page after saving the details
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => LoginScreen()),
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
     );
   }
 
@@ -104,7 +106,7 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
     String code = codeController.text;
     String mobile = mobileController.text;
     String domain = "https://burtonaletrail.pawtul.com/";
-    String url = domain + 'verify_reset_code';
+    String url = '${domain}verify_reset_code';
 
     Map<String, String> body = {
       'mobile': mobile,
@@ -123,7 +125,7 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
 
       if (response.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text('Code verified successfully'),
             backgroundColor: Colors.green,
             duration: Duration(seconds: 1),
@@ -133,7 +135,7 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
         // Navigate to password reset form or any other action
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text('Invalid code'),
             backgroundColor: Colors.red,
             duration: Duration(seconds: 1),
@@ -174,10 +176,10 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
                       'assets/images/marvin.png',
                       height: 150,
                     ),
-                    SizedBox(width: 20),
+                    const SizedBox(width: 20),
                   ],
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 if (!showCodeField) ...[
                   TextField(
                     controller: mobileController,
@@ -188,20 +190,20 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
                       ),
                     ),
                     keyboardType: TextInputType.phone,
-                    autofillHints: [AutofillHints.telephoneNumber],
+                    autofillHints: const [AutofillHints.telephoneNumber],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: requestPasswordReset,
-                    child: Text('Request Code'),
                     style: ElevatedButton.styleFrom(
-                      minimumSize: Size(double.infinity, 60),
+                      minimumSize: const Size(double.infinity, 60),
                       backgroundColor: Colors.yellow,
                       foregroundColor: Colors.black,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                     ),
+                    child: Text('Request Code'),
                   ),
                 ],
                 if (showCodeField) ...[
@@ -214,38 +216,38 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: submitCode,
-                    child: Text('Submit Code'),
                     style: ElevatedButton.styleFrom(
-                      minimumSize: Size(double.infinity, 60),
+                      minimumSize: const Size(double.infinity, 60),
                       backgroundColor: Colors.yellow,
                       foregroundColor: Colors.black,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                     ),
+                    child: Text('Submit Code'),
                   ),
                 ],
                 if (!showCodeField) ...[],
-                SizedBox(height: 10),
-                Spacer(),
+                const SizedBox(height: 10),
+                const Spacer(),
                 TextButton(
                   onPressed: () {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()),
+                      MaterialPageRoute(builder: (context) => const LoginScreen()),
                     );
                   },
-                  child: Text(
+                  child: const Text(
                     'Already have an account? Login here.',
                     style: TextStyle(
                       color: Colors.black,
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
               ],
             ),
           ),

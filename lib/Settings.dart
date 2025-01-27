@@ -8,6 +8,8 @@ import 'package:burtonaletrail_app/Home.dart'; // Import for navigation
 import 'package:burtonaletrail_app/QRScanner.dart'; // Import for navigation
 
 class SettingsScreen extends StatefulWidget {
+  const SettingsScreen({super.key});
+
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
 }
@@ -40,7 +42,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       IOClient ioClient = IOClient(httpClient);
 
       final response = await ioClient.delete(Uri.parse(
-          'https://burtonaletrail.pawtul.com/delete_account/' + uuid));
+          'https://burtonaletrail.pawtul.com/delete_account/$uuid'));
 
       if (response.statusCode == 200) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -65,10 +67,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         IOClient ioClient = IOClient(httpClient);
 
         final response = await ioClient.get(Uri.parse(
-            'https://burtonaletrail.pawtul.com/set_username/' +
-                usernameController.text +
-                '/' +
-                uuid));
+            'https://burtonaletrail.pawtul.com/set_username/${usernameController.text}/$uuid'));
         if (response.statusCode == 200) {
           Navigator.pushReplacement(
             context,
@@ -76,7 +75,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           );
         } else if (response.statusCode == 201) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
+            const SnackBar(
               content: Text('Please don\'t be offensive.'),
               backgroundColor: Colors.red,
               duration: Duration(seconds: 3),
@@ -84,7 +83,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           );
         } else if (response.statusCode == 202) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
+            const SnackBar(
               content: Text('This username is already in use.'),
               backgroundColor: Colors.red,
               duration: Duration(seconds: 3),
@@ -102,8 +101,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Privacy Policy'),
-          content: SingleChildScrollView(
+          title: const Text('Privacy Policy'),
+          content: const SingleChildScrollView(
             child: Text(
                 """This privacy policy applies between you, the User of this Website, and Burton Ale Trail, the owner and provider of this Website. Burton Ale Trail takes the privacy of your information very seriously. This privacy policy applies to our use of any and all Data collected by us or provided by you in relation to your use of the Website.
 
@@ -207,7 +206,7 @@ We use this cookie to keep you logged in"""),
           ),
           actions: [
             TextButton(
-              child: Text('Close'),
+              child: const Text('Close'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -223,8 +222,8 @@ We use this cookie to keep you logged in"""),
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('End User License Agreement (EULA)'),
-          content: SingleChildScrollView(
+          title: const Text('End User License Agreement (EULA)'),
+          content: const SingleChildScrollView(
             child: Text(
                 """This End User License Agreement (EULA) applies between you, the User of the software, and Burton Ale Trail, the owner and provider of this software. Burton Ale Trail takes the licensing and usage terms of the software seriously. This EULA applies to your use of the software.
 
@@ -283,7 +282,7 @@ If you do not agree to the revised terms, you must discontinue the use of the So
           ),
           actions: [
             TextButton(
-              child: Text('Close'),
+              child: const Text('Close'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -299,11 +298,11 @@ If you do not agree to the revised terms, you must discontinue the use of the So
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Change Username'),
+          title: const Text('Change Username'),
           content: SingleChildScrollView(
             child: TextField(
               controller: usernameController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Your new username',
               ),
@@ -314,13 +313,13 @@ If you do not agree to the revised terms, you must discontinue the use of the So
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 TextButton(
-                  child: Text('Cancel'),
+                  child: const Text('Cancel'),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
                 ),
                 TextButton(
-                  child: Text('Send'),
+                  child: const Text('Send'),
                   onPressed: () {
                     _saveUsername();
                     Navigator.of(context).pop();
@@ -343,22 +342,22 @@ If you do not agree to the revised terms, you must discontinue the use of the So
             borderRadius: BorderRadius.circular(8.0),
           ),
           child: Container(
-            padding: EdgeInsets.all(16.0),
-            constraints: BoxConstraints(maxHeight: 400, maxWidth: 600),
+            padding: const EdgeInsets.all(16.0),
+            constraints: const BoxConstraints(maxHeight: 400, maxWidth: 600),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
+                const Text(
                   'Send Feedback',
                   style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 Expanded(
                   child: SingleChildScrollView(
                     child: TextField(
                       controller: feedbackController,
                       maxLines: 10,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Your feedback',
                         alignLabelWithHint: true,
@@ -366,18 +365,18 @@ If you do not agree to the revised terms, you must discontinue the use of the So
                     ),
                   ),
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
-                      child: Text('Cancel'),
+                      child: const Text('Cancel'),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
                     ),
                     TextButton(
-                      child: Text('Send'),
+                      child: const Text('Send'),
                       onPressed: () {
                         _saveFeedback();
                         Navigator.of(context).pop();
@@ -412,7 +411,7 @@ If you do not agree to the revised terms, you must discontinue the use of the So
       case 1:
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => QRScanner()),
+          MaterialPageRoute(builder: (context) => const QRScanner()),
         );
         break;
     }
@@ -440,38 +439,38 @@ If you do not agree to the revised terms, you must discontinue the use of the So
                   'assets/app_logo.png',
                   height: 200,
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Expanded(
                   child: ListView(
-                    padding: EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(16.0),
                     children: [
                       ListTile(
-                        title: Text('Set Username'),
-                        trailing: Icon(Icons.arrow_forward),
+                        title: const Text('Set Username'),
+                        trailing: const Icon(Icons.arrow_forward),
                         onTap: _changeUsername,
                       ),
-                      Divider(),
+                      const Divider(),
                       ListTile(
-                        title: Text('Give Feedback'),
-                        trailing: Icon(Icons.arrow_forward),
+                        title: const Text('Give Feedback'),
+                        trailing: const Icon(Icons.arrow_forward),
                         onTap: _sendFeedback,
                       ),
-                      Divider(),
+                      const Divider(),
                       ListTile(
-                        title: Text('Privacy Policy'),
-                        trailing: Icon(Icons.arrow_forward),
+                        title: const Text('Privacy Policy'),
+                        trailing: const Icon(Icons.arrow_forward),
                         onTap: _showPrivacyPolicy,
                       ),
-                      Divider(),
+                      const Divider(),
                       ListTile(
-                        title: Text('End User License Agreement (EULA)'),
-                        trailing: Icon(Icons.arrow_forward),
+                        title: const Text('End User License Agreement (EULA)'),
+                        trailing: const Icon(Icons.arrow_forward),
                         onTap: _showEULA,
                       ),
-                      Divider(),
+                      const Divider(),
                       ListTile(
-                        title: Text('Delete Account'),
-                        trailing: Icon(Icons.delete, color: Colors.red),
+                        title: const Text('Delete Account'),
+                        trailing: const Icon(Icons.delete, color: Colors.red),
                         onTap: _deleteAccount,
                       ),
                     ],

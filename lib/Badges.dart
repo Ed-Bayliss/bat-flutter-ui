@@ -10,6 +10,8 @@ import 'package:burtonaletrail_app/Home.dart'; // Import for navigation
 import 'package:burtonaletrail_app/QRScanner.dart'; // Import for navigation
 
 class BadgesScreen extends StatefulWidget {
+  const BadgesScreen({super.key});
+
   @override
   _BadgesScreenState createState() => _BadgesScreenState();
 }
@@ -44,7 +46,7 @@ class _BadgesScreenState extends State<BadgesScreen> {
       IOClient ioClient = IOClient(httpClient);
 
       final response = await ioClient.get(
-          Uri.parse('https://burtonaletrail.pawtul.com/badge_data/' + uuid));
+          Uri.parse('https://burtonaletrail.pawtul.com/badge_data/$uuid'));
 
       if (response.statusCode == 200) {
         setState(() {
@@ -62,7 +64,7 @@ class _BadgesScreenState extends State<BadgesScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     uuid = prefs.getString('uuid');
     final response = await http.get(
-        Uri.parse('https://burtonaletrail.pawtul.com/total_points/' + uuid!));
+        Uri.parse('https://burtonaletrail.pawtul.com/total_points/${uuid!}'));
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
@@ -109,7 +111,7 @@ class _BadgesScreenState extends State<BadgesScreen> {
       case 1:
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => QRScanner()),
+          MaterialPageRoute(builder: (context) => const QRScanner()),
         );
         break;
     }
@@ -140,9 +142,9 @@ class _BadgesScreenState extends State<BadgesScreen> {
                   'assets/app_logo.png',
                   height: 200,
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 badgeData.isEmpty
-                    ? CircularProgressIndicator()
+                    ? const CircularProgressIndicator()
                     : Expanded(
                         child: ListView.builder(
                           padding: EdgeInsets.zero,
@@ -151,9 +153,9 @@ class _BadgesScreenState extends State<BadgesScreen> {
                           itemBuilder: (context, index) {
                             if (index == 0) {
                               // First header
-                              return Padding(
+                              return const Padding(
                                 padding:
-                                    const EdgeInsets.symmetric(vertical: 10.0),
+                                    EdgeInsets.symmetric(vertical: 10.0),
                                 child: Text(
                                   'September 2024',
                                   style: TextStyle(
@@ -164,9 +166,9 @@ class _BadgesScreenState extends State<BadgesScreen> {
                               );
                             } else if (index == 4) {
                               // Second header
-                              return Padding(
+                              return const Padding(
                                 padding:
-                                    const EdgeInsets.symmetric(vertical: 10.0),
+                                    EdgeInsets.symmetric(vertical: 10.0),
                                 child: Text(
                                   'March 2024',
                                   style: TextStyle(
@@ -182,13 +184,13 @@ class _BadgesScreenState extends State<BadgesScreen> {
                               final item = badgeData[0][adjustedIndex];
 
                               return Container(
-                                padding: EdgeInsets.symmetric(vertical: 10.0),
+                                padding: const EdgeInsets.symmetric(vertical: 10.0),
                                 child: Opacity(
                                   opacity: item['badgeState'] == 'locked'
                                       ? 0.25
                                       : 1.0,
                                   child: ListTile(
-                                    contentPadding: EdgeInsets.symmetric(
+                                    contentPadding: const EdgeInsets.symmetric(
                                         horizontal: 16.0, vertical: 0),
                                     leading: SizedBox(
                                       width: 50,
@@ -208,7 +210,7 @@ class _BadgesScreenState extends State<BadgesScreen> {
                                     ),
                                     title: Text(
                                       '${item['badgeName']}',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 16.0,
                                         color: Colors.black,
                                       ),
@@ -243,7 +245,7 @@ class _BadgesScreenState extends State<BadgesScreen> {
                           },
                         ),
                       ),
-                SizedBox(height: 80),
+                const SizedBox(height: 80),
               ],
             ),
           ),

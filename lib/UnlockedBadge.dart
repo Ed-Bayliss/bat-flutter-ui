@@ -9,7 +9,7 @@ class UnlockedBadgeScreen extends StatefulWidget {
   final String badgePoints;
   final String badgeDesc;
 
-  UnlockedBadgeScreen({
+  const UnlockedBadgeScreen({super.key, 
     required this.badgeName,
     required this.badgeGraphic,
     required this.badgePoints,
@@ -55,12 +55,12 @@ class _UnlockedBadgeScreenState extends State<UnlockedBadgeScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   // Logo image near the top
-                  SizedBox(height: 0), // Adds space at the top
+                  const SizedBox(height: 0), // Adds space at the top
                   Image.asset(
                     'assets/app_logo.png', // Path to your asset image
                     height: 100,
                   ),
-                  SizedBox(height: 40),
+                  const SizedBox(height: 40),
                   // Badge graphic with confetti animation
                   Stack(
                     alignment: Alignment.center,
@@ -89,30 +89,30 @@ class _UnlockedBadgeScreenState extends State<UnlockedBadgeScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   // Badge name text
                   Text(
                     widget.badgeName,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   // Badge points text
                   Text(
-                    '${widget.badgePoints}',
-                    style: TextStyle(
+                    widget.badgePoints,
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 20,
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   // Additional text below the badge details
-                  Text(
+                  const Text(
                     'Congratulations! You’ve proven your skills and unlocked a special badge',
                     style: TextStyle(
                       color: Colors.black,
@@ -120,7 +120,7 @@ class _UnlockedBadgeScreenState extends State<UnlockedBadgeScreen> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   // Got it button
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -129,20 +129,20 @@ class _UnlockedBadgeScreenState extends State<UnlockedBadgeScreen> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                     ),
                     onPressed: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => QRScanner()),
+                        MaterialPageRoute(builder: (context) => const QRScanner()),
                       );
                     },
-                    child: Text(
+                    child: const Text(
                       'GOT IT!',
                       style: TextStyle(fontSize: 18),
                     ),
                   ),
-                  SizedBox(height: 40), // Adds space at the bottom
+                  const SizedBox(height: 40), // Adds space at the bottom
                 ],
               ),
             ),

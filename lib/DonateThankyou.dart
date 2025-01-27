@@ -6,6 +6,8 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DonateThankyouScreen extends StatefulWidget {
+  const DonateThankyouScreen({super.key});
+
   @override
   _DonateThankyouScreenState createState() => _DonateThankyouScreenState();
 }
@@ -65,12 +67,12 @@ class _DonateThankyouScreenState extends State<DonateThankyouScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   // Logo image near the top
-                  SizedBox(height: 0), // Adds space at the top
+                  const SizedBox(height: 0), // Adds space at the top
                   Image.asset(
                     'assets/app_logo.png', // Path to your asset image
                     height: 100,
                   ),
-                  SizedBox(height: 40),
+                  const SizedBox(height: 40),
                   // Badge graphic with confetti animation
                   Stack(
                     alignment: Alignment.center,
@@ -99,9 +101,9 @@ class _DonateThankyouScreenState extends State<DonateThankyouScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   // Badge name text
-                  Text(
+                  const Text(
                     "DANCING QUEEN OF\nGENEROSITY",
                     style: TextStyle(
                       color: Colors.black,
@@ -110,9 +112,9 @@ class _DonateThankyouScreenState extends State<DonateThankyouScreen> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   // Badge points text
-                  Text(
+                  const Text(
                     '200 Points',
                     style: TextStyle(
                       color: Colors.black,
@@ -120,9 +122,9 @@ class _DonateThankyouScreenState extends State<DonateThankyouScreen> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   // Additional text below the badge details
-                  Text(
+                  const Text(
                     "Your donation has us 'staying alive!' Thanks for keeping the groove going!",
                     style: TextStyle(
                       color: Colors.black,
@@ -130,7 +132,7 @@ class _DonateThankyouScreenState extends State<DonateThankyouScreen> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   // Got it button
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -140,20 +142,20 @@ class _DonateThankyouScreenState extends State<DonateThankyouScreen> {
                         borderRadius: BorderRadius.circular(30.0),
                       ),
                       padding:
-                          EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                          const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                     ),
                     onPressed: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => QRScanner()),
+                        MaterialPageRoute(builder: (context) => const QRScanner()),
                       );
                     },
-                    child: Text(
+                    child: const Text(
                       'GOT IT!',
                       style: TextStyle(fontSize: 18),
                     ),
                   ),
-                  SizedBox(height: 40), // Adds space at the bottom
+                  const SizedBox(height: 40), // Adds space at the bottom
                 ],
               ),
             ),

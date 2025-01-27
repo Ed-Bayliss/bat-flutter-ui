@@ -9,6 +9,8 @@ import 'package:http/io_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TappingGamePage extends StatefulWidget {
+  const TappingGamePage({super.key});
+
   @override
   _TappingGamePageState createState() => _TappingGamePageState();
 }
@@ -27,7 +29,7 @@ class _TappingGamePageState extends State<TappingGamePage> {
     startTimer(level);
 
     // Simulate loading time for assets (you can replace this with actual loading logic if needed)
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 2), () {
       setState(() {
         isLoading = false;
       });
@@ -91,7 +93,7 @@ class _TappingGamePageState extends State<TappingGamePage> {
       // Handle status, assuming it's an int (1 for true, 0 for false)
       if (responseBody == true) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text(
                 'You can continue playing this but you\'ve already claimed your points.'),
             behavior: SnackBarBehavior.floating,
@@ -109,7 +111,7 @@ class _TappingGamePageState extends State<TappingGamePage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => LeaderboardScreen(),
+              builder: (context) => const LeaderboardScreen(),
             ),
           );
         } else {
@@ -187,7 +189,7 @@ class _TappingGamePageState extends State<TappingGamePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : Stack(
               children: [
                 // Background image
@@ -241,25 +243,25 @@ class _TappingGamePageState extends State<TappingGamePage> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(
+                        const Text(
                           'You must tap the mirror ball as many times as possible.',
                           style: TextStyle(fontSize: 12),
                         ),
-                        Text(
+                        const Text(
                           'You can only claim these points once.',
                           style: TextStyle(fontSize: 12),
                         ),
-                        Text(
+                        const Text(
                           'So make it count.',
                           style: TextStyle(fontSize: 12),
                         ),
                         Text(
                           'You reached level $level',
-                          style: TextStyle(fontSize: 32),
+                          style: const TextStyle(fontSize: 32),
                         ),
                         ElevatedButton(
                           onPressed: resetGame,
-                          child: Text('Try Again'),
+                          child: const Text('Try Again'),
                         ),
                         ElevatedButton(
                           onPressed: postScores,
@@ -273,7 +275,7 @@ class _TappingGamePageState extends State<TappingGamePage> {
                                   builder: (context) => HomeScreen()),
                             );
                           },
-                          child: Text('Exit'),
+                          child: const Text('Exit'),
                         ),
                       ],
                     ),

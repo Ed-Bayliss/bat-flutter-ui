@@ -19,8 +19,8 @@ class WebViewPage extends StatefulWidget {
   final String password;
   final String new_url;
 
-  WebViewPage(
-      {required this.url,
+  const WebViewPage(
+      {super.key, required this.url,
       required this.email,
       required this.password,
       required this.new_url});
@@ -51,7 +51,7 @@ class _WebViewPageState extends State<WebViewPage> {
         // Scan
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => QRScanner()),
+          MaterialPageRoute(builder: (context) => const QRScanner()),
         );
         break;
       case 2:
@@ -175,7 +175,7 @@ class _WebViewPageState extends State<WebViewPage> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => LoginScreen()),
+                              builder: (context) => const LoginScreen()),
                         );
                         return NavigationActionPolicy.CANCEL;
                       }
@@ -237,7 +237,7 @@ class _WebViewPageState extends State<WebViewPage> {
 class LoadingOverlay extends StatelessWidget {
   final double progress;
 
-  LoadingOverlay({required this.progress});
+  const LoadingOverlay({super.key, required this.progress});
 
   @override
   Widget build(BuildContext context) {
@@ -262,10 +262,10 @@ class LoadingOverlay extends StatelessWidget {
                 height: 100,
                 width: 100,
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text(
                 '${(progress * 100).toInt()}%',
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 20,
                 ),

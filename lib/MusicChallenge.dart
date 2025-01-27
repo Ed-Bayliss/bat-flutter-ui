@@ -8,6 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'Leaderboard.dart';
 
 class MusicChallengeScreen extends StatefulWidget {
+  const MusicChallengeScreen({super.key});
+
   @override
   _MusicChallengeScreenState createState() => _MusicChallengeScreenState();
 }
@@ -66,12 +68,12 @@ class _MusicChallengeScreenState extends State<MusicChallengeScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   // Logo image near the top
-                  SizedBox(height: 0), // Adds space at the top
+                  const SizedBox(height: 0), // Adds space at the top
                   Image.asset(
                     'assets/app_logo.png', // Path to your asset image
                     height: 100,
                   ),
-                  SizedBox(height: 40),
+                  const SizedBox(height: 40),
                   // Badge graphic with confetti animation
                   Stack(
                     alignment: Alignment.center,
@@ -100,9 +102,9 @@ class _MusicChallengeScreenState extends State<MusicChallengeScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   // Badge name text
-                  Text(
+                  const Text(
                     "YOU'RE A REAL DISCO DYNAMO",
                     style: TextStyle(
                       color: Colors.black,
@@ -111,9 +113,9 @@ class _MusicChallengeScreenState extends State<MusicChallengeScreen> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   // Badge points text
-                  Text(
+                  const Text(
                     '200 Points',
                     style: TextStyle(
                       color: Colors.black,
@@ -121,9 +123,9 @@ class _MusicChallengeScreenState extends State<MusicChallengeScreen> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   // Additional text below the badge details
-                  Text(
+                  const Text(
                     "You’ve got the rhythm! Thanks for listening all the way through. Here are some funky points just for you!",
                     style: TextStyle(
                       color: Colors.black,
@@ -131,7 +133,7 @@ class _MusicChallengeScreenState extends State<MusicChallengeScreen> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   // Got it button
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -141,21 +143,21 @@ class _MusicChallengeScreenState extends State<MusicChallengeScreen> {
                         borderRadius: BorderRadius.circular(30.0),
                       ),
                       padding:
-                          EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                          const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                     ),
                     onPressed: () {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => LeaderboardScreen()),
+                            builder: (context) => const LeaderboardScreen()),
                       );
                     },
-                    child: Text(
+                    child: const Text(
                       'EASTER EGG',
                       style: TextStyle(fontSize: 18),
                     ),
                   ),
-                  SizedBox(height: 40), // Adds space at the bottom
+                  const SizedBox(height: 40), // Adds space at the bottom
                 ],
               ),
             ),

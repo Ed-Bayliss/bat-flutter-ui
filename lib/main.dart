@@ -26,15 +26,15 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   // Constructor
-  MyApp({Key? key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
   // Method to get JWT Token
   Future<bool> _validateJwtToken() async {
     final prefs = await SharedPreferences.getInstance();
-    final access_token = prefs.getString('access_token');
-    final refresh_token = prefs.getString('refresh_token');
+    final accessToken = prefs.getString('access_token');
+    final refreshToken = prefs.getString('refresh_token');
 
-    if (access_token == null) {
+    if (accessToken == null) {
       // No token found
       return false;
     }
@@ -48,11 +48,11 @@ class MyApp extends StatelessWidget {
         headers: {
           'Content-Type': 'application/json',
           'Authorization':
-              'Bearer $access_token', // Adjust if your server expects a different auth header
+              'Bearer $accessToken', // Adjust if your server expects a different auth header
         },
         body: jsonEncode({
-          'access_token': access_token,
-          'refresh_token': refresh_token,
+          'access_token': accessToken,
+          'refresh_token': refreshToken,
           'push_token': OneSignal.User.pushSubscription.id.toString()
         }), // Adjust based on your server's expected payload
       );
@@ -88,14 +88,14 @@ class MyApp extends StatelessWidget {
       title: 'Burton Ale Trail',
       debugShowCheckedModeBanner: false,
       routes: {
-        '/login': (context) => LoginScreen(),
+        '/login': (context) => const LoginScreen(),
         '/home': (context) => HomeScreen(),
       },
       home: FutureBuilder<bool>(
         future: _validateJwtToken(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Scaffold(
+            return const Scaffold(
               body: Center(
                 child: LoadingScreen(
                   loadingText: "Authenticating",
@@ -105,7 +105,7 @@ class MyApp extends StatelessWidget {
           }
 
           if (snapshot.hasError || snapshot.data == false) {
-            return LoginScreen();
+            return const LoginScreen();
           }
 
           return HomeScreen();

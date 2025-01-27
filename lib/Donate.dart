@@ -16,7 +16,7 @@ import 'dart:math' as math;
 class Donate extends StatefulWidget {
   final String url;
 
-  Donate({required this.url});
+  const Donate({super.key, required this.url});
 
   @override
   _DonateState createState() => _DonateState();
@@ -45,7 +45,7 @@ class _DonateState extends State<Donate> {
         // Scan
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => QRScanner()),
+          MaterialPageRoute(builder: (context) => const QRScanner()),
         );
         break;
     }
@@ -111,7 +111,7 @@ class _DonateState extends State<Donate> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => LoginScreen()),
+                              builder: (context) => const LoginScreen()),
                         );
                         return NavigationActionPolicy.CANCEL;
                       }
@@ -173,7 +173,7 @@ class _DonateState extends State<Donate> {
 class LoadingOverlay extends StatelessWidget {
   final double progress;
 
-  LoadingOverlay({required this.progress});
+  const LoadingOverlay({super.key, required this.progress});
 
   @override
   Widget build(BuildContext context) {
@@ -198,10 +198,10 @@ class LoadingOverlay extends StatelessWidget {
                 height: 100,
                 width: 100,
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text(
                 '${(progress * 100).toInt()}%',
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 20,
                 ),

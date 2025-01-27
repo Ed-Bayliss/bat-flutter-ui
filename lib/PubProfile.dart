@@ -13,7 +13,7 @@ import 'package:burtonaletrail_app/QRScanner.dart'; // Import for navigation
 class PubProfileScreen extends StatefulWidget {
   final String pubId;
 
-  PubProfileScreen({required this.pubId});
+  const PubProfileScreen({super.key, required this.pubId});
 
   @override
   _PubProfileScreenState createState() => _PubProfileScreenState();
@@ -104,10 +104,7 @@ class _PubProfileScreenState extends State<PubProfileScreen> {
       IOClient ioClient = IOClient(httpClient);
 
       final response = await ioClient.get(Uri.parse(
-          'https://burtonaletrail.pawtul.com/pub_data_beer/' +
-              widget.pubId +
-              '/' +
-              uuid));
+          'https://burtonaletrail.pawtul.com/pub_data_beer/${widget.pubId}/$uuid'));
 
       if (response.statusCode == 200) {
         setState(() {
@@ -139,7 +136,7 @@ class _PubProfileScreenState extends State<PubProfileScreen> {
         // Scan
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => QRScanner()),
+          MaterialPageRoute(builder: (context) => const QRScanner()),
         );
         break;
     }
@@ -149,7 +146,7 @@ class _PubProfileScreenState extends State<PubProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: isLoading
-            ? Center(child: CircularProgressIndicator())
+            ? const Center(child: CircularProgressIndicator())
             : Stack(
                 children: [
                   // Background image
@@ -185,29 +182,29 @@ class _PubProfileScreenState extends State<PubProfileScreen> {
                                       ),
                                     )
                                   : Container(),
-                              SizedBox(height: 20),
+                              const SizedBox(height: 20),
                               Text(
                                 pubName ?? '',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 24.0, // Set font size for title
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(height: 10),
+                              const SizedBox(height: 10),
                               Text(
                                 pubDescription ?? '',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize:
                                       12.5, // Set font size for description
                                   color: Colors.black,
                                 ),
                               ),
-                              SizedBox(height: 20),
+                              const SizedBox(height: 20),
                               Text.rich(
                                 TextSpan(
                                   children: [
-                                    TextSpan(
+                                    const TextSpan(
                                       text: "Landlord: ",
                                       style: TextStyle(
                                         fontSize:
@@ -219,7 +216,7 @@ class _PubProfileScreenState extends State<PubProfileScreen> {
                                     ),
                                     TextSpan(
                                       text: pubLandlord ?? '',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize:
                                             16.0, // Set font size for the variable
                                         color: Colors.black,
@@ -233,7 +230,7 @@ class _PubProfileScreenState extends State<PubProfileScreen> {
                               Text.rich(
                                 TextSpan(
                                   children: [
-                                    TextSpan(
+                                    const TextSpan(
                                       text: "Phone: ",
                                       style: TextStyle(
                                         fontSize:
@@ -245,7 +242,7 @@ class _PubProfileScreenState extends State<PubProfileScreen> {
                                     ),
                                     TextSpan(
                                       text: landlordPhoneNumber ?? '',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize:
                                             16.0, // Set font size for the variable
                                         color: Colors.black,
@@ -256,8 +253,8 @@ class _PubProfileScreenState extends State<PubProfileScreen> {
                                   ],
                                 ),
                               ),
-                              SizedBox(height: 20),
-                              Text(
+                              const SizedBox(height: 20),
+                              const Text(
                                 "Opening Times:",
                                 style: TextStyle(
                                   fontSize:
@@ -268,14 +265,14 @@ class _PubProfileScreenState extends State<PubProfileScreen> {
                               ),
                               Text(
                                 openingTimes ?? '',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize:
                                       16.0, // Set font size for opening times
                                   color: Colors.black,
                                 ),
                               ),
-                              SizedBox(height: 20),
-                              Text(
+                              const SizedBox(height: 20),
+                              const Text(
                                 "Beers Available:",
                                 style: TextStyle(
                                   fontSize:
@@ -286,7 +283,7 @@ class _PubProfileScreenState extends State<PubProfileScreen> {
                               ),
                               ListView.builder(
                                 shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
+                                physics: const NeverScrollableScrollPhysics(),
                                 itemCount: beerData[0].length,
                                 itemBuilder: (context, index) {
                                   final item = beerData[0][index];
@@ -302,7 +299,7 @@ class _PubProfileScreenState extends State<PubProfileScreen> {
                                       );
                                     },
                                     child: ListTile(
-                                      contentPadding: EdgeInsets.symmetric(
+                                      contentPadding: const EdgeInsets.symmetric(
                                           horizontal: 0.0, vertical: 0.0),
                                       leading: item['beerGraphic'] != null
                                           ? Image.network(
@@ -322,13 +319,13 @@ class _PubProfileScreenState extends State<PubProfileScreen> {
                                         children: [
                                           Text(
                                             '${item['beerName']}',
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               fontSize:
                                                   16.0, // Set font size for beer name
                                               color: Colors.black,
                                             ),
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                               height:
                                                   4.0), // Space between name and details
                                         ],
@@ -342,9 +339,9 @@ class _PubProfileScreenState extends State<PubProfileScreen> {
                                         itemCount: 5,
                                         itemSize:
                                             20.0, // Change this value to make stars smaller
-                                        itemPadding: EdgeInsets.symmetric(
+                                        itemPadding: const EdgeInsets.symmetric(
                                             horizontal: 4.0),
-                                        itemBuilder: (context, _) => Icon(
+                                        itemBuilder: (context, _) => const Icon(
                                           Icons.star,
                                           color: Colors.amber,
                                         ),
@@ -359,7 +356,7 @@ class _PubProfileScreenState extends State<PubProfileScreen> {
                             ],
                           ),
                         ),
-                        SizedBox(height: 40),
+                        const SizedBox(height: 40),
                       ],
                     ),
                   ),

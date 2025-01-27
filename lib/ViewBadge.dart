@@ -13,7 +13,7 @@ class ViewBadgeScreen extends StatefulWidget {
   final String badgeUuid;
   final String badgeState;
 
-  ViewBadgeScreen({
+  const ViewBadgeScreen({super.key, 
     required this.badgeName,
     required this.badgeGraphic,
     required this.badgeDesc,
@@ -64,12 +64,12 @@ class _ViewBadgeScreenState extends State<ViewBadgeScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   // Logo image near the top
-                  SizedBox(height: 0), // Adds space at the top
+                  const SizedBox(height: 0), // Adds space at the top
                   Image.asset(
                     'assets/app_logo.png', // Path to your asset image
                     height: 100,
                   ),
-                  SizedBox(height: 40),
+                  const SizedBox(height: 40),
                   // Badge graphic with confetti animation and optional grayscale filter
                   Stack(
                     alignment: Alignment.center,
@@ -102,40 +102,40 @@ class _ViewBadgeScreenState extends State<ViewBadgeScreen> {
                       // ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   // Badge name text
                   Text(
                     widget.badgeState == 'locked' ? '???' : widget.badgeName,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   // Badge description text from GET request
                   Text(
                     widget.badgeState == 'locked' ? '???' : widget.badgeDesc,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 20,
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   // Additional text below the badge details
                   Text(
                     widget.badgeState == 'locked'
                         ? 'You haven\'t unlocked this badge yet, checkin to more pubs to earn it.'
                         : 'You earned this. Show it off!',
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 16,
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 100),
+                  const SizedBox(height: 100),
                   // Got it button
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -145,7 +145,7 @@ class _ViewBadgeScreenState extends State<ViewBadgeScreen> {
                         borderRadius: BorderRadius.circular(30.0),
                       ),
                       padding:
-                          EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                          const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                     ),
                     onPressed: () {
                       Navigator.pushReplacement(
@@ -153,12 +153,12 @@ class _ViewBadgeScreenState extends State<ViewBadgeScreen> {
                         MaterialPageRoute(builder: (context) => BadgesScreen()),
                       );
                     },
-                    child: Text(
+                    child: const Text(
                       'GOT IT!',
                       style: TextStyle(fontSize: 18),
                     ),
                   ),
-                  SizedBox(height: 40), // Adds space at the bottom
+                  const SizedBox(height: 40), // Adds space at the bottom
                 ],
               ),
             ),

@@ -1,22 +1,25 @@
 import 'dart:io';
 import 'dart:ui';
 import 'package:burtonaletrail_app/AppApi.dart';
+import 'package:burtonaletrail_app/AppColors.dart';
 import 'package:burtonaletrail_app/AppDrawer.dart';
+import 'package:burtonaletrail_app/AppMenuButton.dart';
 import 'package:burtonaletrail_app/BeerProfile.dart';
+import 'package:burtonaletrail_app/LoadingScreen.dart';
 import 'package:burtonaletrail_app/NavBar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+
 import 'package:rive/rive.dart' as rive;
 
 class BeersScreen extends StatefulWidget {
   final int startTabIndex;
 
-  // Accept a parameter for the starting tab index (default is 0).
-  BeersScreen({this.startTabIndex = 0});
+  const BeersScreen({super.key, this.startTabIndex = 0});
 
   @override
   _BeersScreenState createState() => _BeersScreenState();
@@ -31,33 +34,32 @@ class _BeersScreenState extends State<BeersScreen>
   List<dynamic> currentList = [];
   String searchText = "";
   bool _isLoading = false;
-  String _loadingString = 'Loading, please wait...';
   String? selectedFilter;
+  String userFirstname = '';
+  String userSurname = '';
+  String userMobile = '';
+  String userEmail = '';
+  String userName = '';
+  String userPoints = '0';
+  String userPosition = '0';
+  String userSupport = 'off';
+  String userImage = '';
+  String userTeam = '';
+  String userTeamImage = '';
+  String userTeamMembers = '';
+  String userTeamPoints = '';
 
   @override
   void initState() {
     super.initState();
+    _initializeState();
     _tabController = TabController(
       length: 2,
       vsync: this,
-      initialIndex:
-          widget.startTabIndex, // Use the passed-in starting tab index
+      initialIndex: widget.startTabIndex,
     );
     _tabController.addListener(_handleTabSelection);
     _loadBeers();
-
-    // Set the initial beer list based on the starting tab.
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() {
-        if (_tabController.index == 1) {
-          currentList =
-              allBeers.where((beer) => beer['isfavourite'] == true).toList();
-        } else {
-          currentList = allBeers;
-        }
-        _filterBeers();
-      });
-    });
   }
 
   void _handleTabSelection() {
@@ -95,15 +97,15 @@ class _BeersScreenState extends State<BeersScreen>
         final data = json.decode(response.body);
         if (data is List) {
           setState(() {
-            allBeers = data
-                .map((beer) => {
-                      ...beer,
-                      'isfavourite': beer['isfavourite'] ?? false,
-                      'votes_avg':
-                          double.tryParse(beer['votes_avg'].toString()) ?? 0.0,
-                      'votes_sum': beer['votes_sum'] ?? 0,
-                    })
-                .toList();
+            allBeers = data.map((beer) {
+              return {
+                ...beer,
+                'isfavourite': beer['isfavourite'] ?? false,
+                'votes_avg':
+                    double.tryParse(beer['votes_avg'].toString()) ?? 0.0,
+                'votes_sum': beer['votes_sum'] ?? 0,
+              };
+            }).toList();
             currentList = _tabController.index == 1
                 ? allBeers.where((beer) => beer['isfavourite'] == true).toList()
                 : allBeers;
@@ -145,6 +147,400 @@ class _BeersScreenState extends State<BeersScreen>
     });
   }
 
+  Widget _buildBeerList() {
+    return filteredBeers.isEmpty
+        ? const Center(child: Text('No beers found'))
+        : ListView.separated(
+            itemCount: filteredBeers.length,
+            separatorBuilder: (context, index) => Divider(
+              color: Colors.grey.shade300,
+              thickness: 0.5,
+              height: 1.0,
+            ),
+            itemBuilder: (context, index) {
+              final beer = filteredBeers[index];
+              final votesSum = beer['votes_sum'];
+              final votesAvg = beer['votes_avg'];
+              final isFavourited = beer['isfavourite'];
+
+              return GestureDetector(
+                onTap: () => _showBeerDetails(context, beer),
+                child: ListTile(
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  leading: SizedBox(
+                    width: 60,
+                    height: 60,
+                    child: CircleAvatar(
+                      radius: 30,
+                      backgroundImage: NetworkImage(beer['graphic'] ?? ''),
+                      backgroundColor: Colors.grey.shade200,
+                    ),
+                  ),
+                  title: Padding(
+                    padding: const EdgeInsets.only(bottom: 4.0),
+                    child: Text(
+                      beer['beer_name'] ?? '',
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  subtitle: Text(
+                    '${votesAvg.toStringAsFixed(2)} Average Rating ($votesSum votes)',
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  trailing: SizedBox(
+                    width: 48,
+                    height: 48,
+                    child: IconButton(
+                      icon: Icon(
+                        isFavourited ? Icons.favorite : Icons.favorite_border,
+                        color: isFavourited ? Colors.red : Colors.grey,
+                        size: 24,
+                      ),
+                      onPressed: () {
+                        _toggleFavourite(beer['beer_id'], beer['isfavourite']);
+                      },
+                    ),
+                  ),
+                ),
+              );
+            },
+          );
+  }
+
+  void _showBeerDetails(BuildContext context, dynamic beer) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (BuildContext context) {
+        double currentRating = beer['userRating']?.toDouble() ?? 0.0;
+
+        return Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                    width: 200,
+                    height: 200,
+                    child: CircleAvatar(
+                      radius: 30,
+                      backgroundImage: NetworkImage(beer['graphic'] ?? ''),
+                      backgroundColor: Colors.grey.shade200,
+                    )),
+                Text(
+                  beer['beer_name'] ?? 'Beer Name',
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  beer['tasting_notes'] ?? 'No description available.',
+                  style: const TextStyle(fontSize: 16, color: Colors.grey),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'Rating: ${beer['votes_avg'].toStringAsFixed(2)} (${beer['votes_sum']} votes)',
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.w500),
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  'Rate this beer:',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 8),
+                RatingBar.builder(
+                  initialRating: currentRating,
+                  minRating: 1,
+                  direction: Axis.horizontal,
+                  allowHalfRating: true,
+                  itemCount: 5,
+                  itemBuilder: (context, _) => const Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                  ),
+                  onRatingUpdate: (rating) async {
+                    // Save the new rating
+                    await _rateBeer(beer['beer_id'], rating);
+                    setState(() {
+                      beer['userRating'] = rating;
+                    });
+                  },
+                ),
+                const SizedBox(height: 16),
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text(
+                    'Close',
+                    style:
+                        TextStyle(fontSize: 16, color: AppColors.primaryColor),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _rateBeer(String beerId, double rating) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? accessToken = prefs.getString('access_token');
+
+    if (accessToken != null) {
+      try {
+        final response = await http.post(
+          Uri.parse(apiServerProfile), // Replace with your API endpoint
+          headers: {'Content-Type': 'application/json'},
+          body: json.encode({
+            'beerId': beerId,
+            'rating': rating,
+            'access_token': accessToken,
+          }),
+        );
+
+        if (response.statusCode != 200) {
+          throw Exception('Failed to submit rating');
+        }
+      } catch (e) {
+        print('Error submitting rating: $e');
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
+    return Scaffold(
+      extendBody: true,
+      body: Stack(
+        children: [
+          Positioned(
+            width: size.width * 1.7,
+            bottom: 100,
+            left: 100,
+            child: Image.asset('assets/Backgrounds/Spline.png'),
+          ),
+          Positioned.fill(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 20, sigmaY: 10),
+            ),
+          ),
+          const rive.RiveAnimation.asset('assets/RiveAssets/shapes.riv'),
+          Positioned.fill(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 20, sigmaY: 10),
+              child: const SizedBox(),
+            ),
+          ),
+          SafeArea(
+            child: _isLoading
+                ? SingleChildScrollView(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildGreeting(),
+                        TabBar(
+                          controller: _tabController,
+                          indicatorColor: AppColors.primaryColor,
+                          labelColor: AppColors.primaryColor,
+                          unselectedLabelColor: Colors.grey,
+                          tabs: const [
+                            Tab(text: 'Available Beers'),
+                            Tab(text: 'Favourite Beers'),
+                          ],
+                        ),
+                        const Center(
+                          child: LoadingScreen(
+                            loadingText: "",
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : SingleChildScrollView(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildGreeting(),
+                        TabBar(
+                          controller: _tabController,
+                          indicatorColor: AppColors.primaryColor,
+                          labelColor: AppColors.primaryColor,
+                          unselectedLabelColor: Colors.grey,
+                          tabs: const [
+                            Tab(text: 'Available Beers'),
+                            Tab(text: 'Favourite Beers'),
+                          ],
+                        ),
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              top: 20.0, // Add padding at the top
+                              // left: 16.0, // Add padding on the left
+                              // right: 16.0, // Add padding on the right
+                            ),
+                            child: SizedBox(
+                              height: size.height * 0.65,
+                              width: size.width *
+                                  0.9, // Ensure the width is 90% of the screen
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white, // White background
+                                  borderRadius:
+                                      BorderRadius.circular(20), // Curved edges
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(
+                                          0.1), // Optional shadow for depth
+                                      spreadRadius: 2,
+                                      blurRadius: 10,
+                                      offset: const Offset(0, 5),
+                                    ),
+                                  ],
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal:
+                                          16.0), // Add padding inside the box for text
+
+                                  child: TabBarView(
+                                    controller: _tabController,
+                                    children: [_buildBeerList()],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+          ),
+        ],
+      ),
+      drawer: const AppDrawer(activeItem: 1),
+      bottomNavigationBar: CustomBottomNavigationBar(),
+    );
+  }
+
+  Future<void> _initializeState() async {
+    // Create an instance of the Token class
+    final token = Token();
+
+    // Call the refresh method
+    bool tokenRefreshed = await token.refresh();
+
+    if (tokenRefreshed) {
+      print('JWT token refreshed successfully');
+      // Continue with additional initialization logic if necessary
+    } else {
+      print('Failed to refresh JWT token');
+      // Handle the failure case, e.g., navigate to login or show an alert
+    }
+
+    // Fetch other user data or perform additional initialization here
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      userName = prefs.getString('userName') ?? '';
+      userPoints = prefs.getString('userPoints') ?? '0';
+      userPosition = prefs.getString('userPosition') ?? '0';
+      userSupport = prefs.getString('userSupport') ?? 'off';
+      userImage = prefs.getString('userImage') ?? '';
+      userTeam = prefs.getString('userTeam') ?? '';
+      userTeamImage = prefs.getString('userTeamImage') ?? '';
+      userTeamMembers = prefs.getString('userTeamMembers') ?? '';
+      userTeamPoints = prefs.getString('userTeamPoints') ?? '';
+    });
+  }
+
+  Widget _buildGreeting() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 16),
+        Row(
+          children: [
+            Builder(
+              builder: (context) {
+                return AppMenuButton(
+                  onTap: () => Scaffold.of(context).openDrawer(),
+                );
+              },
+            ),
+            const SizedBox(width: 10),
+            const Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'The Beer Menu',
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  'There is something for everyone',
+                  style: TextStyle(fontSize: 16, color: Colors.grey),
+                ),
+              ],
+            ),
+            const Spacer(),
+            InkWell(
+              onTap: () {
+                // Navigate to profile screen
+              },
+              child: CircleAvatar(
+                backgroundImage:
+                    (userImage.isNotEmpty && isValidBase64(userImage))
+                        ? MemoryImage(base64Decode(userImage))
+                        : null,
+                child: (userImage.isEmpty || !isValidBase64(userImage))
+                    ? const Icon(Icons.person)
+                    : null,
+              ),
+            ),
+            const SizedBox(width: 20),
+          ],
+        ),
+      ],
+    );
+  }
+
+  /// Check if base64 is valid
+  bool isValidBase64(String? base64String) {
+    if (base64String == null || base64String.isEmpty) {
+      return false;
+    }
+    try {
+      base64Decode(base64String);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<void> _toggleFavourite(String beerId, bool isfavourite) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accessToken = prefs.getString('access_token');
@@ -181,153 +577,5 @@ class _BeersScreenState extends State<BeersScreen>
         print('Error toggling favourite: $e');
       }
     }
-  }
-
-  Widget _buildBeerList() {
-    return filteredBeers.isEmpty
-        ? const Center(child: Text('No beers found'))
-        : ListView.separated(
-            itemCount: filteredBeers.length,
-            separatorBuilder: (context, index) => Divider(
-              color: Colors.grey.shade300,
-              thickness: 0.5,
-              height: 1.0,
-            ),
-            itemBuilder: (context, index) {
-              final beer = filteredBeers[index];
-              final votesSum = beer['votes_sum'];
-              final votesAvg = beer['votes_avg'];
-              final isFavourited = beer['isfavourite'];
-
-              return ListTile(
-                leading: CircleAvatar(
-                  backgroundImage: NetworkImage(beer['graphic'] ?? ''),
-                  backgroundColor: Colors.grey.shade200,
-                ),
-                title: Text(
-                  beer['beer_name'] ?? '',
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 16),
-                ),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                        '${votesAvg.toStringAsFixed(2)} Average Rating ($votesSum votes)'),
-                    Text(beer['tasting_notes'] ?? ''),
-                  ],
-                ),
-                trailing: IconButton(
-                  icon: Icon(
-                    isFavourited ? Icons.favorite : Icons.favorite_border,
-                    color: isFavourited ? Colors.red : Colors.grey,
-                  ),
-                  onPressed: () =>
-                      _toggleFavourite(beer['beer_id'], isFavourited),
-                ),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => BeerProfileScreen(
-                        beerId: beer['beer_id'],
-                      ),
-                    ),
-                  );
-                },
-              );
-            },
-          );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Beers'),
-        bottom: TabBar(
-          controller: _tabController,
-          tabs: const [
-            Tab(text: 'All Beers'),
-            Tab(text: 'Favourites'),
-          ],
-        ),
-      ),
-      body: Column(
-        children: [
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Material(
-                    elevation: 2,
-                    borderRadius: BorderRadius.circular(25.0),
-                    child: TextField(
-                      onChanged: (value) {
-                        setState(() {
-                          searchText = value;
-                          _filterBeers();
-                        });
-                      },
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 20.0, vertical: 15.0),
-                        hintText: 'Search Beers',
-                        prefixIcon: const Icon(Icons.search),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                          borderSide: BorderSide.none,
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 12.0),
-                Material(
-                  elevation: 2,
-                  borderRadius: BorderRadius.circular(20.0),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    child: DropdownButton<String>(
-                      value: selectedFilter,
-                      hint: const Text('Filter'),
-                      onChanged: (value) {
-                        setState(() {
-                          selectedFilter = value;
-                          _filterBeers();
-                        });
-                      },
-                      items: [
-                        DropdownMenuItem(
-                          value: 'average_rating',
-                          child: Text('Average Rating'),
-                        ),
-                        DropdownMenuItem(
-                          value: 'total_votes',
-                          child: Text('Total Votes'),
-                        ),
-                        DropdownMenuItem(
-                          value: 'most_favourited',
-                          child: Text('Most Favourited'),
-                        ),
-                      ],
-                      icon: const Icon(Icons.filter_list),
-                      underline: Container(),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Expanded(child: _buildBeerList()),
-        ],
-      ),
-      drawer: const AppDrawer(activeItem: 1),
-      bottomNavigationBar: CustomBottomNavigationBar(),
-    );
   }
 }

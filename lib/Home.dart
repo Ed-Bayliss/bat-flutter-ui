@@ -13,11 +13,14 @@ import 'package:burtonaletrail_app/NavBar.dart';
 import 'package:burtonaletrail_app/ProfilePage.dart';
 import 'package:burtonaletrail_app/Sponsers.dart';
 import 'package:flutter/material.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/io_client.dart';
 import 'package:rive/rive.dart' as rive;
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -43,33 +46,40 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    // _testNotification();
-    _fetchUserData();
+    _initializeState();
 
     // Initialize PageController
     _pageController = PageController();
 
     // Start automatic sliding
-    _autoSlideTimer = Timer.periodic(const Duration(seconds: 3), (timer) {
+    _autoSlideTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
       if (_pageController.hasClients) {
         final nextPage = (_pageController.page?.toInt() ?? 0) + 1;
         _pageController.animateToPage(
           nextPage % 2, // Cycle between 0 and 1 for the two leaderboards
-          duration: const Duration(milliseconds: 300),
+          duration: const Duration(seconds: 2),
           curve: Curves.easeInOut,
         );
       }
     });
   }
 
-  @override
-  void dispose() {
-    _autoSlideTimer.cancel();
-    _pageController.dispose();
-    super.dispose();
-  }
+  Future<void> _initializeState() async {
+    // Create an instance of the Token class
+    final token = Token();
 
-  void _fetchUserData() async {
+    // Call the refresh method
+    bool tokenRefreshed = await token.refresh();
+
+    if (tokenRefreshed) {
+      print('JWT token refreshed successfully');
+      // Continue with additional initialization logic if necessary
+    } else {
+      print('Failed to refresh JWT token');
+      // Handle the failure case, e.g., navigate to login or show an alert
+    }
+
+    // Fetch other user data or perform additional initialization here
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     // Load locally saved user data
@@ -141,7 +151,6 @@ class _HomeScreenState extends State<HomeScreen> {
             prefs.setString('userTeamImage', userTeamImage);
             prefs.setString('userTeamMembers', userTeamMembers);
             prefs.setString('userTeamPoints', userTeamPoints);
-            ;
             // Save leaderboard data
             if (data['soloLeaderboardData'] != null) {
               prefs.setString('soloLeaderboardData',
@@ -162,6 +171,13 @@ class _HomeScreenState extends State<HomeScreen> {
     } else {
       throw Exception('Access token not found');
     }
+  }
+
+  @override
+  void dispose() {
+    _autoSlideTimer.cancel();
+    _pageController.dispose();
+    super.dispose();
   }
 
   void _testNotification() async {
@@ -298,13 +314,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => LeaderboardScreen(),
+                                      builder: (context) =>
+                                          const LeaderboardScreen(),
                                     ),
                                   );
                                 },
                                 child: LeaderboardCarousel(
                                   leaderboardGroups: [snapshot.data![0]],
-                                  titles: ["Solo Leaderboard"],
+                                  titles: const ["Solo Leaderboard"],
                                   currentTeamName: userTeam,
                                   currentUserName: userName,
                                   currentUserImage: userImage,
@@ -316,13 +333,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => LeaderboardScreen(),
+                                      builder: (context) =>
+                                          const LeaderboardScreen(),
                                     ),
                                   );
                                 },
                                 child: LeaderboardCarousel(
                                   leaderboardGroups: [snapshot.data![1]],
-                                  titles: ["Team Leaderboard"],
+                                  titles: const ["Team Leaderboard"],
                                   currentTeamName: userTeam,
                                   currentUserName: userName,
                                   currentUserImage: userImage,
@@ -351,6 +369,61 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer: const AppDrawer(activeItem: 1),
       bottomNavigationBar: CustomBottomNavigationBar(),
     );
+  }
+
+  Future<bool> _validateJwtToken() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final accessToken = prefs.getString('access_token');
+      final refreshToken = prefs.getString('refresh_token');
+
+      if (accessToken == null) {
+        // No token found
+        return false;
+      }
+
+      // Implement logic to refresh token if needed before sending it to the server
+
+      final httpClient = HttpClient();
+      final ioClient = IOClient(httpClient);
+
+      final response = await ioClient.post(
+        Uri.parse(apiServerJWTValidate),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'refresh_token': refreshToken,
+          // Include push_token only if using OneSignal
+          'push_token': OneSignal.User.pushSubscription.id?.toString(),
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+
+        if (jsonResponse['access_token'] != null) {
+          final newAccessToken = jsonResponse['access_token'];
+          final newRefreshToken = jsonResponse['refresh_token'];
+          // Store the new tokens in shared preferences
+          await prefs.setString('access_token', newAccessToken);
+          await prefs.setString('refresh_token', newRefreshToken);
+        }
+
+        // Handle OneSignal login if needed
+        OneSignal.login(jsonResponse['user_id']);
+
+        return true;
+      } else {
+        // Token validation failed
+        print('Token validation failed with status: ${response.statusCode}');
+        return false;
+      }
+    } catch (e) {
+      // Handle errors during SharedPreferences or HTTP request
+      print('Error validating token: $e');
+      return false;
+    }
   }
 
   String getGreeting() {
@@ -405,11 +478,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               },
               child: CircleAvatar(
-                backgroundImage: (userImage != null && isValidBase64(userImage))
+                backgroundImage: (isValidBase64(userImage))
                     ? MemoryImage(base64Decode(userImage))
                     : null,
-                child: (userImage == null || !isValidBase64(userImage))
-                    ? Icon(Icons.person)
+                child: (!isValidBase64(userImage))
+                    ? const Icon(Icons.person)
                     : null,
               ),
             ),
@@ -518,7 +591,7 @@ class _HomeScreenState extends State<HomeScreen> {
               color: const Color(0xFF061237),
               borderRadius: BorderRadius.circular(20),
               image: DecorationImage(
-                image: AssetImage('assets/images/map.png'),
+                image: const AssetImage('assets/images/map.png'),
                 fit: BoxFit.cover,
                 colorFilter: ColorFilter.mode(
                   Colors.black.withOpacity(0.5),

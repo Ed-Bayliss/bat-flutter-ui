@@ -37,14 +37,14 @@ class AppTextField extends StatelessWidget {
           isPassword, // To handle password obscuring if it's a password field
       decoration: InputDecoration(
         filled: true, // Enable background color
-        fillColor: Color(0xFFFAFAFA), // Set the background color to #FAFAFA
+        fillColor: const Color(0xFFFAFAFA), // Set the background color to #FAFAFA
         constraints: BoxConstraints(maxWidth: size.width, minWidth: size.width),
         suffixIcon: suffix,
         hintText: hint,
         prefixIcon: isEmail
-            ? Icon(Icons.email, color: AppColors.primaryColor)
+            ? const Icon(Icons.email, color: AppColors.primaryColor)
             : isPassword
-                ? Icon(Icons.lock, color: AppColors.primaryColor)
+                ? const Icon(Icons.lock, color: AppColors.primaryColor)
                 : null, // No prefix icon if neither isEmail nor isPassword
 
         // Remove all borders but keep the rounded corners

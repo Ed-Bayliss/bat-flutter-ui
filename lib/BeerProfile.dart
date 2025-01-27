@@ -12,7 +12,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 class BeerProfileScreen extends StatefulWidget {
   final String beerId;
 
-  BeerProfileScreen({required this.beerId});
+  const BeerProfileScreen({super.key, required this.beerId});
 
   @override
   _BeerProfileScreenState createState() => _BeerProfileScreenState();
@@ -108,7 +108,7 @@ class _BeerProfileScreenState extends State<BeerProfileScreen> {
 
       if (response.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             backgroundColor: Colors.green,
             duration: Duration(seconds: 1),
             content: Text('Rating submitted successfully!'),
@@ -116,7 +116,7 @@ class _BeerProfileScreenState extends State<BeerProfileScreen> {
         );
       } else if (response.statusCode == 700) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             backgroundColor: Colors.green,
             duration: Duration(seconds: 1),
             content: Text('Your vote was changed, no points were added.'),
@@ -124,7 +124,7 @@ class _BeerProfileScreenState extends State<BeerProfileScreen> {
         );
       } else if (response.statusCode == 600) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             backgroundColor: Colors.red,
             duration: Duration(seconds: 1),
             content: Text('The event has not yet started.'),
@@ -155,7 +155,7 @@ class _BeerProfileScreenState extends State<BeerProfileScreen> {
         // Scan
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => QRScanner()),
+          MaterialPageRoute(builder: (context) => const QRScanner()),
         );
         break;
     }
@@ -165,7 +165,7 @@ class _BeerProfileScreenState extends State<BeerProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : Stack(
               children: [
                 // Background image
@@ -198,43 +198,43 @@ class _BeerProfileScreenState extends State<BeerProfileScreen> {
                                       fit: BoxFit.contain,
                                     )
                                   : Container(),
-                              SizedBox(height: 20),
+                              const SizedBox(height: 20),
                               Center(
                                 child: Text(
                                   beerName ?? '',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 24.0, // Set font size for title
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ),
-                              SizedBox(height: 10),
+                              const SizedBox(height: 10),
                               if (beerPubs != null)
                                 Center(
                                   child: Text(
                                     'Available At: $beerPubs',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize:
                                           16.0, // Set font size for description
                                       color: Colors.black,
                                     ),
                                   ),
                                 ),
-                              SizedBox(height: 10),
+                              const SizedBox(height: 10),
                               if (beerDesc != null)
                                 Center(
                                   child: Text(
                                     beerDesc!,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize:
                                           16.0, // Set font size for description
                                       color: Colors.black,
                                     ),
                                   ),
                                 ),
-                              SizedBox(height: 20),
-                              Text(
+                              const SizedBox(height: 20),
+                              const Text(
                                 'Add your vote by clicking the stars below',
                                 style: TextStyle(
                                   fontSize:
@@ -251,8 +251,8 @@ class _BeerProfileScreenState extends State<BeerProfileScreen> {
                                     allowHalfRating: true,
                                     itemCount: 5,
                                     itemPadding:
-                                        EdgeInsets.symmetric(horizontal: 4.0),
-                                    itemBuilder: (context, _) => Icon(
+                                        const EdgeInsets.symmetric(horizontal: 4.0),
+                                    itemBuilder: (context, _) => const Icon(
                                       Icons.star,
                                       color: Colors.amber,
                                     ),
@@ -265,7 +265,7 @@ class _BeerProfileScreenState extends State<BeerProfileScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 120),
+                      const SizedBox(height: 120),
                     ],
                   ),
                 ),

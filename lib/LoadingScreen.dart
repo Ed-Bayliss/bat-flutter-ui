@@ -17,7 +17,10 @@ class LoadingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10.0), // Added rounded corners
+      ),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -32,7 +35,7 @@ class LoadingScreen extends StatelessWidget {
                   width: 40, // Smaller size
                   height: 40,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 50, // Smaller CircularProgressIndicator
                   height: 50,
                   child: CircularProgressIndicator(
