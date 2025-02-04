@@ -26,9 +26,11 @@ class PubsScreen extends StatefulWidget {
 class _PubsScreenState extends State<PubsScreen> {
   List<dynamic> allPubs = [];
   List<dynamic> filteredPubs = [];
-
   bool _isLoading = false;
   String searchText = "";
+
+  // TextEditingController for search
+  final TextEditingController _searchController = TextEditingController();
 
   // User Info
   String userName = '';
@@ -49,6 +51,18 @@ class _PubsScreenState extends State<PubsScreen> {
     super.initState();
     _initializeState();
     _fetchPubs();
+    _searchController.addListener(() {
+      setState(() {
+        searchText = _searchController.text;
+        _filterPubs();
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   /// Fetch all pubs from the backend
@@ -96,12 +110,11 @@ class _PubsScreenState extends State<PubsScreen> {
     }
   }
 
-  /// Filter pubs by name if you want to add a search bar
   void _filterPubs() {
     setState(() {
       filteredPubs = allPubs.where((pub) {
         final nameMatches =
-            pub['pub_name']?.toLowerCase().contains(searchText.toLowerCase()) ??
+            pub['name']?.toLowerCase().contains(searchText.toLowerCase()) ??
                 false;
         return nameMatches;
       }).toList();
@@ -185,9 +198,6 @@ class _PubsScreenState extends State<PubsScreen> {
       ),
       itemBuilder: (context, index) {
         final beer = beers[index];
-        // final votesSum = beer['votes_sum'];
-        // final votesAvg = beer['votes_avg'];
-
         return GestureDetector(
           onTap: () => _showBeerDetails(context, beer),
           child: ListTile(
@@ -213,14 +223,6 @@ class _PubsScreenState extends State<PubsScreen> {
                 ),
               ),
             ),
-            // subtitle: Text(
-            //   '${votesAvg.toStringAsFixed(2)} Average Rating ($votesSum votes)',
-            //   style: const TextStyle(
-            //     fontSize: 14,
-            //     color: Colors.grey,
-            //   ),
-            // ),
-            // Removed the favorite icon
             trailing: null,
           ),
         );
@@ -248,17 +250,12 @@ class _PubsScreenState extends State<PubsScreen> {
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
         'access_token': accessToken,
-        // If 'pub['id']' is an integer, use it directly.
-        // If it's a string, parse it:
-        // 'pub_id': int.parse(pub['id']),
         'pub_id': pub['id'],
       }),
     );
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-
-      // If it’s a List, parse into List<Map<String, dynamic>>
       if (data is List) {
         setState(() {
           beers = List<Map<String, dynamic>>.from(data);
@@ -282,9 +279,9 @@ class _PubsScreenState extends State<PubsScreen> {
       ),
       builder: (BuildContext context) {
         return DraggableScrollableSheet(
-          initialChildSize: 0.9, // Opens at 70% of the screen height
-          minChildSize: 0.3, // Minimum height is 30% of the screen
-          maxChildSize: 0.9, // Maximum height is 90% of the screen
+          initialChildSize: 0.9,
+          minChildSize: 0.3,
+          maxChildSize: 0.9,
           expand: false,
           builder: (_, scrollController) {
             return SingleChildScrollView(
@@ -295,7 +292,6 @@ class _PubsScreenState extends State<PubsScreen> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // Large circle avatar for pub image
                     SizedBox(
                       width: 120,
                       height: 120,
@@ -321,7 +317,6 @@ class _PubsScreenState extends State<PubsScreen> {
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 20),
-                    // Beer list
                     _buildBeerList(),
                     const SizedBox(height: 20),
                     TextButton(
@@ -345,7 +340,6 @@ class _PubsScreenState extends State<PubsScreen> {
   }
 
   /// Example "show beer details" method.
-  /// Adjust this as needed (currently just shows a placeholder dialog).
   void _showBeerDetails(BuildContext context, dynamic beer) {
     showModalBottomSheet(
       context: context,
@@ -356,7 +350,6 @@ class _PubsScreenState extends State<PubsScreen> {
       ),
       builder: (BuildContext context) {
         double currentRating = beer['userRating']?.toDouble() ?? 0.0;
-
         return Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
@@ -364,13 +357,14 @@ class _PubsScreenState extends State<PubsScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 SizedBox(
-                    width: 200,
-                    height: 200,
-                    child: CircleAvatar(
-                      radius: 30,
-                      backgroundImage: NetworkImage(beer['graphic'] ?? ''),
-                      backgroundColor: Colors.grey.shade200,
-                    )),
+                  width: 200,
+                  height: 200,
+                  child: CircleAvatar(
+                    radius: 30,
+                    backgroundImage: NetworkImage(beer['graphic'] ?? ''),
+                    backgroundColor: Colors.grey.shade200,
+                  ),
+                ),
                 Text(
                   beer['beer_name'] ?? 'Beer Name',
                   style: const TextStyle(
@@ -383,12 +377,6 @@ class _PubsScreenState extends State<PubsScreen> {
                   style: const TextStyle(fontSize: 16, color: Colors.grey),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 16),
-                // Text(
-                //   'Rating: ${beer['votes_avg'].toStringAsFixed(2)} (${beer['votes_sum']} votes)',
-                //   style:
-                //       const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                // ),
                 const SizedBox(height: 16),
                 const Text(
                   'Rate this beer:',
@@ -406,8 +394,6 @@ class _PubsScreenState extends State<PubsScreen> {
                     color: Colors.amber,
                   ),
                   onRatingUpdate: (rating) async {
-                    // Save the new rating
-                    // await _rateBeer(beer['beer_id'], rating);
                     setState(() {
                       beer['userRating'] = rating;
                     });
@@ -418,8 +404,10 @@ class _PubsScreenState extends State<PubsScreen> {
                   onPressed: () => Navigator.of(context).pop(),
                   child: const Text(
                     'Close',
-                    style:
-                        TextStyle(fontSize: 16, color: AppColors.primaryColor),
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: AppColors.primaryColor,
+                    ),
                   ),
                 ),
               ],
@@ -432,10 +420,7 @@ class _PubsScreenState extends State<PubsScreen> {
 
   /// Initialize user data and refresh token
   Future<void> _initializeState() async {
-    // Create an instance of the Token class
     final token = Token();
-
-    // Call the refresh method
     bool tokenRefreshed = await token.refresh();
 
     if (tokenRefreshed) {
@@ -522,6 +507,28 @@ class _PubsScreenState extends State<PubsScreen> {
             const SizedBox(width: 20),
           ],
         ),
+        const SizedBox(height: 16),
+        // Red-themed search text field
+        TextField(
+          controller: _searchController,
+          decoration: InputDecoration(
+            labelText: 'Search for pubs',
+            labelStyle: const TextStyle(color: Colors.red),
+            prefixIcon: const Icon(Icons.search, color: Colors.red),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: const BorderSide(color: Colors.red),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: const BorderSide(color: Colors.red),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: const BorderSide(color: Colors.red, width: 2),
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -554,7 +561,6 @@ class _PubsScreenState extends State<PubsScreen> {
               child: const SizedBox(),
             ),
           ),
-
           // Main Content
           SafeArea(
             child: SingleChildScrollView(

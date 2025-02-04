@@ -9,7 +9,9 @@ import 'package:burtonaletrail_app/Beers.dart';
 import 'package:burtonaletrail_app/Leaderboard.dart';
 import 'package:burtonaletrail_app/LeaderboardWidget.dart';
 import 'package:burtonaletrail_app/LoadingScreen.dart';
+import 'package:burtonaletrail_app/Map.dart';
 import 'package:burtonaletrail_app/NavBar.dart';
+import 'package:burtonaletrail_app/Notifications.dart';
 import 'package:burtonaletrail_app/ProfilePage.dart';
 import 'package:burtonaletrail_app/Sponsers.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +28,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String userId = '';
   String userFirstname = '';
   String userSurname = '';
   String userMobile = '';
@@ -39,6 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String userTeamImage = '';
   String userTeamMembers = '';
   String userTeamPoints = '';
+  String userTeamAdmin = '';
 
   late PageController _pageController;
   late Timer _autoSlideTimer;
@@ -57,11 +61,54 @@ class _HomeScreenState extends State<HomeScreen> {
         final nextPage = (_pageController.page?.toInt() ?? 0) + 1;
         _pageController.animateToPage(
           nextPage % 2, // Cycle between 0 and 1 for the two leaderboards
-          duration: const Duration(seconds: 2),
+          duration: const Duration(milliseconds: 500),
           curve: Curves.easeInOut,
         );
       }
     });
+  }
+
+  _handleStreak(loginSteak) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String awarded = prefs.getString('streakAward') ?? 'false';
+    if (awarded == 'false') {
+      if (loginSteak >= 3) {
+        prefs.setString('streakAward', 'true');
+
+        NotificationSetup();
+
+        // Setup HTTP client with a self-signed certificate callback.
+        bool trustSelfSigned = true;
+        HttpClient httpClient = HttpClient()
+          ..badCertificateCallback =
+              (X509Certificate cert, String host, int port) => trustSelfSigned;
+        IOClient ioClient = IOClient(httpClient);
+
+        try {
+          String? accessToken = prefs.getString('access_token');
+          final response = await ioClient.post(
+            Uri.parse(apiServerUnlockStreak),
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: jsonEncode({
+              'access_token': accessToken,
+            }),
+          );
+
+          if (response.statusCode == 200) {
+            await NotificationService().showNotification(
+              title: "BADGE AWARDED",
+              body: "You have unlocked the STEAKER badge",
+            );
+          }
+        } catch (e) {
+          // In case of error, you might want to log the error.
+          // Here, we return 1 as a fallback, but you can adjust this behavior.
+          return 1;
+        }
+      }
+    }
   }
 
   Future<void> _initializeState() async {
@@ -70,9 +117,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // Call the refresh method
     bool tokenRefreshed = await token.refresh();
+    int loginStreak = await token.streak();
 
     if (tokenRefreshed) {
       print('JWT token refreshed successfully');
+      _handleStreak(loginStreak);
       // Continue with additional initialization logic if necessary
     } else {
       print('Failed to refresh JWT token');
@@ -84,6 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // Load locally saved user data
     setState(() {
+      userId = prefs.getString('userId') ?? '';
       userName = prefs.getString('userName') ?? '';
       userPoints = prefs.getString('userPoints') ?? '0';
       userPosition = prefs.getString('userPosition') ?? '0';
@@ -93,6 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
       userTeamImage = prefs.getString('userTeamImage') ?? '';
       userTeamMembers = prefs.getString('userTeamMembers') ?? '';
       userTeamPoints = prefs.getString('userTeamPoints') ?? '';
+      userTeamAdmin = prefs.getString('userTeamAdmin') ?? '';
     });
 
     // Attempt to fetch updated data from the server
@@ -118,9 +169,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
         if (response.statusCode == 200) {
           final data = jsonDecode(response.body);
-
           // Safely retrieve user and leaderboard data
           setState(() {
+            userId = data['userId']?.toString() ?? userId;
             userFirstname = data['userFirstname']?.toString() ?? userFirstname;
             userSurname = data['userSurname']?.toString() ?? userSurname;
             userMobile = data['userMobile']?.toString() ?? userMobile;
@@ -136,8 +187,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 data['userTeamMembers']?.toString() ?? userTeamMembers;
             userTeamPoints =
                 data['userTeamPoints']?.toString() ?? userTeamPoints;
+            userTeamAdmin = data['userTeamAdmin']?.toString() ?? userTeamAdmin;
 
             // Save user data locally
+            prefs.setString('userId', userId);
             prefs.setString('userName', userName);
             prefs.setString('userFirstname', userFirstname);
             prefs.setString('userSurname', userSurname);
@@ -151,6 +204,7 @@ class _HomeScreenState extends State<HomeScreen> {
             prefs.setString('userTeamImage', userTeamImage);
             prefs.setString('userTeamMembers', userTeamMembers);
             prefs.setString('userTeamPoints', userTeamPoints);
+            prefs.setString('userTeamAdmin', userTeamAdmin);
             // Save leaderboard data
             if (data['soloLeaderboardData'] != null) {
               prefs.setString('soloLeaderboardData',
@@ -178,50 +232,6 @@ class _HomeScreenState extends State<HomeScreen> {
     _autoSlideTimer.cancel();
     _pageController.dispose();
     super.dispose();
-  }
-
-  void _testNotification() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    // Attempt to fetch updated data from the server
-    String? accessToken = prefs.getString('access_token');
-    print(accessToken);
-
-    if (accessToken != null) {
-      bool trustSelfSigned = true;
-      HttpClient httpClient = HttpClient()
-        ..badCertificateCallback =
-            (X509Certificate cert, String host, int port) => trustSelfSigned;
-      IOClient ioClient = IOClient(httpClient);
-
-      try {
-        final response = await ioClient.post(
-          Uri.parse(apiServerNotification),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: jsonEncode({
-            'access_token': accessToken,
-            'body': "Test Body",
-            'heading': 'Test Heading'
-          }),
-        );
-
-        if (response.statusCode == 200) {
-          final data = jsonDecode(response.body);
-          print(data);
-          // Safely retrieve user and leaderboard data
-          setState(() {});
-        } else {
-          print(
-              'Failed to load user data. Status code: ${response.statusCode}');
-        }
-      } catch (e) {
-        print('Error fetching user data: $e');
-      }
-    } else {
-      throw Exception('Access token not found');
-    }
   }
 
   Future<List<Map<String, dynamic>>> _getsoloLeaderboardData() async {
@@ -355,7 +365,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       }
                     },
                   ),
-                  const SizedBox(height: 16),
+                  // const SizedBox(height: 12),
                   _buildFavouritesSection(),
                   const SizedBox(height: 16),
                   _buildFindPubsSection(),
@@ -580,7 +590,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildFindPubsSection() {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const MapScreen()),
+        );
+      },
       child: Stack(
         clipBehavior: Clip.none,
         children: [
@@ -612,7 +627,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 SizedBox(height: 8),
                 Text(
-                  "Locate ales near you",
+                  "Locate pubs near you",
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.white,

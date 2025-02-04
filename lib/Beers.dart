@@ -13,7 +13,6 @@ import 'package:http/io_client.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-
 import 'package:rive/rive.dart' as rive;
 
 class BeersScreen extends StatefulWidget {
@@ -49,6 +48,9 @@ class _BeersScreenState extends State<BeersScreen>
   String userTeamMembers = '';
   String userTeamPoints = '';
 
+  // Add the TextEditingController for the search filter.
+  final TextEditingController _searchController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -60,6 +62,21 @@ class _BeersScreenState extends State<BeersScreen>
     );
     _tabController.addListener(_handleTabSelection);
     _loadBeers();
+
+    // Listen for changes in the search field.
+    _searchController.addListener(() {
+      setState(() {
+        searchText = _searchController.text;
+        _filterBeers();
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    _tabController.dispose();
+    super.dispose();
   }
 
   void _handleTabSelection() {
@@ -392,12 +409,36 @@ class _BeersScreenState extends State<BeersScreen>
                             Tab(text: 'Favourite Beers'),
                           ],
                         ),
+                        // Add the search text field here.
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16.0),
+                          child: TextField(
+                            controller: _searchController,
+                            decoration: InputDecoration(
+                              labelText: 'Search for beers',
+                              labelStyle: const TextStyle(color: Colors.red),
+                              prefixIcon:
+                                  const Icon(Icons.search, color: Colors.red),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: const BorderSide(color: Colors.red),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: const BorderSide(color: Colors.red),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: const BorderSide(
+                                    color: Colors.red, width: 2),
+                              ),
+                            ),
+                          ),
+                        ),
                         Center(
                           child: Padding(
                             padding: const EdgeInsets.only(
-                              top: 20.0, // Add padding at the top
-                              // left: 16.0, // Add padding on the left
-                              // right: 16.0, // Add padding on the right
+                              top: 10.0, // Add padding at the top
                             ),
                             child: SizedBox(
                               height: size.height * 0.65,
@@ -420,9 +461,7 @@ class _BeersScreenState extends State<BeersScreen>
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal:
-                                          16.0), // Add padding inside the box for text
-
+                                      horizontal: 16.0),
                                   child: TabBarView(
                                     controller: _tabController,
                                     children: [_buildBeerList()],

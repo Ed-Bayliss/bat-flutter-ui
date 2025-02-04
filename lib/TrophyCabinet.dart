@@ -76,7 +76,6 @@ class _TrophyCabinetScreenState extends State<TrophyCabinetScreen>
 
       if (response.statusCode == 200) {
         final List<dynamic> data = jsonDecode(response.body);
-        print(data);
         setState(() {
           unlockedBadges = data
               .where((badge) => badge['badge_unlocked'] == true)
@@ -85,6 +84,7 @@ class _TrophyCabinetScreenState extends State<TrophyCabinetScreen>
                     'title': badge['badge_name'] ?? 'Unknown Badge',
                     'description': badge['badge_description'] ?? '',
                     'detailed': badge['badge_detailed_unlocked'] ?? '',
+                    'event': badge['badge_event_name'] ?? 'Unknown Event',
                   })
               .toList();
 
@@ -95,6 +95,7 @@ class _TrophyCabinetScreenState extends State<TrophyCabinetScreen>
                     'title': badge['badge_name'] ?? 'Unknown Badge',
                     'description': badge['badge_description'] ?? '',
                     'detailed': badge['badge_detailed'] ?? '',
+                    'event': badge['badge_event_name'] ?? 'Unknown Event',
                   })
               .toList();
         });
@@ -142,10 +143,81 @@ class _TrophyCabinetScreenState extends State<TrophyCabinetScreen>
     });
   }
 
-  Widget _buildBadge(String imageBase64, String title,
-      {bool isDisabled = false,
-      String? description = '',
-      String? detailed = ''}) {
+  /// Builds the grid of badges **grouped by event**.
+  Widget _buildGroupedBadges(List<Map<String, dynamic>> badges,
+      {bool isDisabled = false}) {
+    // Group badges by their event name
+    final Map<String, List<Map<String, dynamic>>> groupedBadges = {};
+    for (var badge in badges) {
+      final eventName = badge['event'] ?? 'Unknown Event';
+      if (!groupedBadges.containsKey(eventName)) {
+        groupedBadges[eventName] = [];
+      }
+      groupedBadges[eventName]!.add(badge);
+    }
+
+    // For each event category, build a heading + a grid of badges
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      child: Column(
+        children: groupedBadges.entries.map((entry) {
+          final eventName = entry.key;
+          final eventBadges = entry.value;
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Event name heading
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Text(
+                  eventName,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.primaryColor,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 8),
+              // The grid of badges for this event
+              GridView.builder(
+                // Make the grid take up only the needed space
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  mainAxisSpacing: 16,
+                  crossAxisSpacing: 16,
+                  childAspectRatio: 0.85,
+                ),
+                itemCount: eventBadges.length,
+                itemBuilder: (context, index) {
+                  final badge = eventBadges[index];
+                  return _buildBadge(
+                    badge['imageBase64'],
+                    badge['title'],
+                    isDisabled: isDisabled,
+                    description: badge['description'],
+                    detailed: badge['detailed'],
+                  );
+                },
+              ),
+              const SizedBox(height: 24),
+            ],
+          );
+        }).toList(),
+      ),
+    );
+  }
+
+  /// Builds an individual badge widget (tap -> modal bottom sheet).
+  Widget _buildBadge(
+    String imageBase64,
+    String title, {
+    bool isDisabled = false,
+    String? description = '',
+    String? detailed = '',
+  }) {
     return GestureDetector(
       onTap: () {
         showModalBottomSheet(
@@ -215,7 +287,9 @@ class _TrophyCabinetScreenState extends State<TrophyCabinetScreen>
                             child: const Text(
                               'Close',
                               style: TextStyle(
-                                  fontSize: 16, color: AppColors.primaryColor),
+                                fontSize: 16,
+                                color: AppColors.primaryColor,
+                              ),
                             ),
                           ),
                         ],
@@ -284,30 +358,17 @@ class _TrophyCabinetScreenState extends State<TrophyCabinetScreen>
     );
   }
 
-  Widget _buildBadgesGrid(List<Map<String, dynamic>> badges,
-      {bool isDisabled = false}) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: GridView.builder(
-        physics: const AlwaysScrollableScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          mainAxisSpacing: 16,
-          crossAxisSpacing: 16,
-        ),
-        itemCount: badges.length,
-        itemBuilder: (context, index) {
-          final badge = badges[index];
-          return _buildBadge(
-            badge['imageBase64'],
-            badge['title'],
-            description: badge['description'],
-            detailed: badge['detailed'],
-            isDisabled: isDisabled,
-          );
-        },
-      ),
-    );
+  /// Check if base64 is valid
+  bool isValidBase64(String? base64String) {
+    if (base64String == null || base64String.isEmpty) {
+      return false;
+    }
+    try {
+      base64Decode(base64String);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   @override
@@ -318,6 +379,7 @@ class _TrophyCabinetScreenState extends State<TrophyCabinetScreen>
       extendBody: true,
       body: Stack(
         children: [
+          // Background Decoration
           Positioned(
             width: size.width * 1.7,
             bottom: 100,
@@ -355,9 +417,7 @@ class _TrophyCabinetScreenState extends State<TrophyCabinetScreen>
                           ],
                         ),
                         const Center(
-                          child: LoadingScreen(
-                            loadingText: "",
-                          ),
+                          child: LoadingScreen(loadingText: ""),
                         ),
                       ],
                     ),
@@ -382,22 +442,19 @@ class _TrophyCabinetScreenState extends State<TrophyCabinetScreen>
                           child: Padding(
                             padding: const EdgeInsets.only(
                               top: 20.0, // Add padding at the top
-                              // left: 16.0, // Add padding on the left
-                              // right: 16.0, // Add padding on the right
                             ),
                             child: SizedBox(
-                              height: size.height * 0.65,
-                              width: size.width *
-                                  0.9, // Ensure the width is 90% of the screen
+                              // You can fix a height if you want a specific viewport,
+                              // or let the SingleChildScrollView handle it
+                              // height: size.height * 0.65,
+                              width: size.width * 0.9,
                               child: Container(
                                 decoration: BoxDecoration(
                                   color: Colors.white, // White background
-                                  borderRadius:
-                                      BorderRadius.circular(20), // Curved edges
+                                  borderRadius: BorderRadius.circular(20),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.black.withOpacity(
-                                          0.1), // Optional shadow for depth
+                                      color: Colors.black.withOpacity(0.1),
                                       spreadRadius: 2,
                                       blurRadius: 10,
                                       offset: const Offset(0, 5),
@@ -406,16 +463,20 @@ class _TrophyCabinetScreenState extends State<TrophyCabinetScreen>
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal:
-                                          16.0), // Add padding inside the box for text
-
-                                  child: TabBarView(
-                                    controller: _tabController,
-                                    children: [
-                                      _buildBadgesGrid(unlockedBadges),
-                                      _buildBadgesGrid(lockedBadges,
-                                          isDisabled: true),
-                                    ],
+                                      horizontal: 16.0),
+                                  child: SizedBox(
+                                    // This SizedBox can control your TabBarView height if desired
+                                    height: size.height * 0.65,
+                                    child: TabBarView(
+                                      controller: _tabController,
+                                      children: [
+                                        // Unlocked Badges (grouped by event)
+                                        _buildGroupedBadges(unlockedBadges),
+                                        // Locked/Available Badges (grouped by event)
+                                        _buildGroupedBadges(lockedBadges,
+                                            isDisabled: true),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -431,19 +492,6 @@ class _TrophyCabinetScreenState extends State<TrophyCabinetScreen>
       drawer: const AppDrawer(activeItem: 1),
       bottomNavigationBar: CustomBottomNavigationBar(),
     );
-  }
-
-  /// Check if base64 is valid
-  bool isValidBase64(String? base64String) {
-    if (base64String == null || base64String.isEmpty) {
-      return false;
-    }
-    try {
-      base64Decode(base64String);
-      return true;
-    } catch (e) {
-      return false;
-    }
   }
 
   Widget _buildGreeting() {

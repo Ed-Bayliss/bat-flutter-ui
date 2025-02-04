@@ -1,7 +1,9 @@
 import 'package:burtonaletrail_app/AppColors.dart';
 import 'package:burtonaletrail_app/Beers.dart';
+import 'package:burtonaletrail_app/EditProfile.dart';
 import 'package:burtonaletrail_app/Home.dart';
 import 'package:burtonaletrail_app/Leaderboard.dart';
+import 'package:burtonaletrail_app/ProfilePage.dart';
 import 'package:burtonaletrail_app/Pubs.dart';
 import 'package:burtonaletrail_app/Settings.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +52,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
             break;
           case 4:
             Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => SettingsScreen()),
+                MaterialPageRoute(builder: (context) => ProfileScreen()),
                 (Route<dynamic> route) => false);
         }
       },

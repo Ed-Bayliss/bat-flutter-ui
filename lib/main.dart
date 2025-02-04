@@ -13,6 +13,7 @@ import 'package:http/http.dart' as http;
 void main() async {
   // Ensure all Flutter bindings are initialized
   WidgetsFlutterBinding.ensureInitialized();
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
   OneSignal.initialize(
@@ -26,60 +27,14 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   // Constructor
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
+  final token = Token();
 
   // Method to get JWT Token
   Future<bool> _validateJwtToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    final accessToken = prefs.getString('access_token');
-    final refreshToken = prefs.getString('refresh_token');
-
-    if (accessToken == null) {
-      // No token found
-      return false;
-    }
-
-    final url = Uri.parse(
-        apiServerJWTValidate); // Replace with your actual server endpoint
-
-    try {
-      final response = await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization':
-              'Bearer $accessToken', // Adjust if your server expects a different auth header
-        },
-        body: jsonEncode({
-          'access_token': accessToken,
-          'refresh_token': refreshToken,
-          'push_token': OneSignal.User.pushSubscription.id.toString()
-        }), // Adjust based on your server's expected payload
-      );
-
-      if (response.statusCode == 200) {
-        final jsonResponse = jsonDecode(response.body);
-        OneSignal.login(jsonResponse['user_id']);
-
-        if (jsonResponse['access_token'] != null) {
-          final accessToken = jsonResponse['access_token'];
-          final refreshToken = jsonResponse['refresh_token'];
-          // Store the access token in shared preferences
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          await prefs.setString('access_token', accessToken);
-          await prefs.setString('refresh_token', refreshToken);
-        }
-        return true;
-      } else {
-        // Token is invalid or other error
-        print('Token validation failed with status: ${response.statusCode}');
-        return false;
-      }
-    } catch (e) {
-      // Handle any errors during the HTTP request
-      print('Error validating token: $e');
-      return false;
-    }
+    bool result = await token.refresh();
+    await token.streak();
+    return result; // or return false based on your logic
   }
 
   @override

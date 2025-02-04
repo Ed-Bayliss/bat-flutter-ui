@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:burtonaletrail_app/AppApi.dart';
 import 'package:burtonaletrail_app/Home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:http/io_client.dart';
 import 'package:shared_preferences/shared_preferences.dart'; // Add this package in pubspec.yaml
 import 'package:rive/rive.dart';
 import 'dart:convert';
@@ -48,15 +51,24 @@ class _SignInFormState extends State<SignInForm> {
         });
 
         _formKey.currentState!.save();
-        final response = await http.post(
+        HttpClient httpClient = HttpClient()
+          ..badCertificateCallback =
+              (X509Certificate cert, String host, int port) => true;
+
+        IOClient ioClient = IOClient(httpClient);
+
+        final response = await ioClient.post(
           Uri.parse(apiServerOTP),
+          headers: {"Content-Type": "application/json"},
           body: jsonEncode({
             "firstName": firstName,
             "lastName": lastName,
             "mobileNumber": mobileNumber,
           }),
-          headers: {"Content-Type": "application/json"},
         );
+
+// Close the IOClient when done
+        ioClient.close();
 
         setState(() {
           isShowLoading = false;
@@ -83,13 +95,19 @@ class _SignInFormState extends State<SignInForm> {
         });
 
         _formKey.currentState!.save();
-        final response = await http.post(
+        HttpClient httpClient = HttpClient()
+          ..badCertificateCallback =
+              (X509Certificate cert, String host, int port) => true;
+
+        IOClient ioClient = IOClient(httpClient);
+
+        final response = await ioClient.post(
           Uri.parse(apiServerOTPValidate),
+          headers: {"Content-Type": "application/json"},
           body: jsonEncode({
             "mobileNumber": mobileNumber,
             "secureCode": secureCode,
           }),
-          headers: {"Content-Type": "application/json"},
         );
 
         setState(() {

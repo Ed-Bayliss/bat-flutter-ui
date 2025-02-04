@@ -34,7 +34,7 @@ dependencies:
   path_provider: ^2.0.15
   webview_flutter: ^4.2.1
   google_fonts: ^6.2.1
-  permission_handler: ^10.2.0
+  permission_handler: ^11.3.1
   url_launcher: ^6.1.11
   http: ^1.2.1
   shared_preferences: ^2.3.0
@@ -42,16 +42,22 @@ dependencies:
   qr_code_scanner: 1.0.1
   get: ^4.6.6
   flutter_rating_bar: ^4.0.0
-  confetti: ^0.6.0
+  confetti: ^0.8.0
   audioplayers: ^6.0.0
   cupertino_icons: ^1.0.8
-  camera: ^0.11.0+1
-  intl: ^0.19.0
+#  camera: ^0.11.0+1
+#  camera_android_camerax: any
+  intl: ^0.20.2
   rive: ^0.13.20
-  onesignal_flutter: 5.0.4
+  onesignal_flutter: ^5.2.9
   image_picker: ^1.1.2
-  image_cropper: ^8.1.0
+  image_cropper: ^9.0.0
   image: ^4.0.17
+  flutter_local_notifications: ^17.0.0
+  flutter_map: ^7.0.0   # Use the latest version available
+  latlong2: ^0.9.1    
+  geolocator: ^9.0.2
+  gpx: ^2.0.0
 
 
 # platforms:
@@ -62,13 +68,12 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: ^0.13.1
-  flutter_lints: ^2.0.0
+  flutter_launcher_icons: ^0.14.3
+  flutter_lints: ^5.0.0
 
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/app_logo.png"
 
 flutter:
   # The following line ensures that the Material Icons font is
@@ -78,7 +83,6 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/app_logo.png
     - assets/images/backdrop.jpg
     - assets/images/discoball.gif
     - assets/images/marvin.png
@@ -88,3 +92,4 @@ flutter:
     - assets/Backgrounds/
     - assets/icons/
     - assets/RiveAssets/
+    - assets/Test.gpx

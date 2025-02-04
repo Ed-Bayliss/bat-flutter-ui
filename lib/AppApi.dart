@@ -1,12 +1,15 @@
 import 'dart:convert';
-
-import 'package:http/http.dart' as http;
+import 'dart:io';
+import 'package:http/io_client.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:burtonaletrail_app/Notifications.dart'; // Assumes apiServerCreateTeam is defined here.
 
-String apiServer = 'https://burtonaletrail.pawtul.com'; //Server
-// String apiServer = 'http://localhost:5000'; //iOS Simulator // Localhost
-// String apiServer = 'http://192.168.1.54:5000'; //Real Device // Andriod Device
+// String apiServer = 'https://burtonaletrail.pawtul.com'; //Server
+
+final String apiServer = Platform.isAndroid
+    ? 'http://10.0.2.2:5000' // Android device or emulator
+    : 'http://127.0.0.1:5000'; // iOS simulator
 
 // AUTHENTICATION
 String apiServerOTP = '$apiServer/api/auth/otp';
@@ -38,8 +41,25 @@ String apiServerLeaderboards = '$apiServer/api/leaderboards/all';
 String apiServerLeaderboardsTeamQuery =
     '$apiServer/api/leaderboards/team/query';
 
+//TEAMS
+String apiServerLeaveTeam = '$apiServer/api/team/leave';
+String apiServerRemoveTeamMember = '$apiServer/api/team/remove';
+String apiServerAddTeamMember = '$apiServer/api/team/add';
+String apiServerDeleteTeam = '$apiServer/api/team/delete';
+
+String apiServerCreateTeam = '$apiServer/api/team/create';
+String apiServerEditTeam = '$apiServer/api/team/edit';
+String apiServerGetTeamMembers = '$apiServer/api/team/members';
+
 //TROPHIES
 String apiServerTrophys = '$apiServer/api/trophycabinet/all';
+String apiServerUnlockStreak = '$apiServer/api/badges/streak';
+
+String apiServerMapInformation = '$apiServer/api/map/all';
+
+void NotificationSetup() async {
+  await NotificationService().initialize();
+}
 
 class Token {
   Future<bool> refresh() async {
@@ -51,25 +71,27 @@ class Token {
       // No token found
       return false;
     }
+    bool trustSelfSigned = true;
 
-    final url = Uri.parse(
-        apiServerJWTValidate); // Replace with your actual server endpoint
+    HttpClient httpClient = HttpClient()
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => trustSelfSigned;
+
+    IOClient ioClient = IOClient(httpClient);
 
     try {
-      final response = await http.post(
-        url,
+      final response = await ioClient.post(
+        Uri.parse(apiServerJWTValidate), // Correctly parsing the URI
         headers: {
           'Content-Type': 'application/json',
-          'Authorization':
-              'Bearer $accessToken', // Adjust if your server expects a different auth header
+          'Authorization': 'Bearer $accessToken',
         },
         body: jsonEncode({
           'access_token': accessToken,
           'refresh_token': refreshToken,
-          'push_token': OneSignal.User.pushSubscription.id.toString()
-        }), // Adjust based on your server's expected payload
+          'push_token': OneSignal.User.pushSubscription.id?.toString() ?? '',
+        }),
       );
-
       if (response.statusCode == 200) {
         final jsonResponse = jsonDecode(response.body);
 
@@ -92,5 +114,54 @@ class Token {
       print('Error validating token: $e');
       return false;
     }
+  }
+
+  Future<int> streak() async {
+    // For testing purposes: override the initial streak count.
+    // Set this to a non-null integer value to simulate a starting streak count.
+    // Set to null to use the value stored in SharedPreferences.
+    final int? testingStreakOverride = 1; // <-- Change this value for testing
+
+    final prefs = await SharedPreferences.getInstance();
+
+    // Get today's date without the time portion.
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+
+    // Retrieve the last login date.
+    final lastLoginStr = prefs.getString('last_login_date');
+
+    // Use the testing override if available; otherwise, use the stored streak or default to 0.
+    int streakCount =
+        testingStreakOverride ?? prefs.getInt('login_streak') ?? 0;
+
+    if (lastLoginStr != null) {
+      // Parse the last login date.
+      final lastLoginDate = DateTime.parse(lastLoginStr);
+      final lastLoginDay =
+          DateTime(lastLoginDate.year, lastLoginDate.month, lastLoginDate.day);
+
+      // Calculate the difference in days.
+      final difference = today.difference(lastLoginDay).inDays;
+
+      if (difference == 1) {
+        // Last login was yesterday; increment the streak.
+        streakCount += 1;
+      } else if (difference == 0) {
+        // Already logged in today; do nothing.
+        return streakCount;
+      } else {
+        // More than one day has passed, so reset the streak.
+        streakCount = 1;
+      }
+    } else {
+      // No previous login record exists; start streak at 1.
+      streakCount = 1;
+    }
+
+    // Update SharedPreferences with the new streak count and today's date.
+    await prefs.setInt('login_streak', streakCount);
+    await prefs.setString('last_login_date', today.toIso8601String());
+    return streakCount;
   }
 }

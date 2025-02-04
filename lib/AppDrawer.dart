@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'package:burtonaletrail_app/Badges.dart';
 import 'package:burtonaletrail_app/Beers.dart';
 import 'package:burtonaletrail_app/DrawListItem.dart';
+import 'package:burtonaletrail_app/EditProfile.dart';
 import 'package:burtonaletrail_app/Home.dart';
 import 'package:burtonaletrail_app/Leaderboard.dart';
 import 'package:burtonaletrail_app/Login.dart';
+import 'package:burtonaletrail_app/ProfilePage.dart';
 import 'package:burtonaletrail_app/Pubs.dart';
 import 'package:burtonaletrail_app/QRScanner.dart';
 import 'package:burtonaletrail_app/Settings.dart';
@@ -222,7 +224,7 @@ class _AppDrawerState extends State<AppDrawer> {
         // _verticalSpace(size.height * 0.016),
         DrawerListItem(
           onTap: () => Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => SettingsScreen()),
+            MaterialPageRoute(builder: (context) => ProfileScreen()),
             (Route<dynamic> route) => false,
           ),
           tileIcon: 'assets/svgs/settingsicon.svg',

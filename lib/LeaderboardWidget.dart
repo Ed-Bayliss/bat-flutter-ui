@@ -145,7 +145,7 @@ class _LeaderboardCarouselState extends State<LeaderboardCarousel> {
         children: [
           Text(
             title,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
           SizedBox(
@@ -175,7 +175,7 @@ class _LeaderboardCarouselState extends State<LeaderboardCarousel> {
                       Text(
                         entry['rank'].toString().padLeft(2, '0'),
                         style: const TextStyle(
-                          fontSize: 16,
+                          fontSize: 12,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -204,7 +204,7 @@ class _LeaderboardCarouselState extends State<LeaderboardCarousel> {
                                 // Name
                                 Text(
                                   userName,
-                                  style: const TextStyle(fontSize: 16),
+                                  style: const TextStyle(fontSize: 12),
                                 ),
                                 // Position difference arrow
                                 Row(

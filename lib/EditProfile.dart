@@ -83,7 +83,8 @@ class _EditProfileScreenState extends State<EditProfileScreen>
           userSurnameController.text.isEmpty ||
           userMobileController.text.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Please fill in all fields before saving.')),
+          const SnackBar(
+              content: Text('Please fill in all fields before saving.')),
         );
         return;
       }
@@ -117,7 +118,7 @@ class _EditProfileScreenState extends State<EditProfileScreen>
           await prefs.setString('userMobile', userMobileController.text);
           // await prefs.setString('userEmail', userEmailController.text);
           await prefs.setString('userImage', profileImageBase64!);
-                  ScaffoldMessenger.of(context).showSnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Profile updated sucessfully')),
           );
 

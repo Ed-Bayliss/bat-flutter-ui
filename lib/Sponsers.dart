@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:burtonaletrail_app/AppApi.dart';
 import 'package:burtonaletrail_app/LoadingScreen.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:http/io_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SpecialOffer {
@@ -85,8 +87,19 @@ class _SpecialOfferCarouselState extends State<SpecialOfferCarousel> {
     var url = apiServerSponsers;
 
     try {
-      final response =
-          await http.get(Uri.parse(url)).timeout(const Duration(seconds: 8));
+      HttpClient httpClient = HttpClient()
+        ..badCertificateCallback =
+            (X509Certificate cert, String host, int port) => true;
+
+      IOClient ioClient = IOClient(httpClient);
+
+      final response = await ioClient
+          .get(Uri.parse(url))
+          .timeout(const Duration(seconds: 8));
+
+// Close the IOClient when done
+      ioClient.close();
+
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         if (data.containsKey("images")) {
@@ -100,7 +113,6 @@ class _SpecialOfferCarouselState extends State<SpecialOfferCarousel> {
               if (base64String != null) {
                 try {
                   final decodedBytes = base64Decode(base64String);
-
                   tempOffers.add(SpecialOffer(
                     imageBytes: decodedBytes,
                     actionUrl: actionUrl,
@@ -114,6 +126,7 @@ class _SpecialOfferCarouselState extends State<SpecialOfferCarousel> {
 
           setState(() {
             _offers = tempOffers;
+            _isLoading = false;
           });
 
           if (_offers.isNotEmpty) {
@@ -151,17 +164,20 @@ class _SpecialOfferCarouselState extends State<SpecialOfferCarousel> {
   }
 
   void _startAutoScroll() {
+    // Ensure only one timer is active.
+    if (_autoScrollTimer != null && _autoScrollTimer!.isActive) return;
+
     _autoScrollTimer = Timer.periodic(const Duration(seconds: 4), (timer) {
       if (_pageController.hasClients && _offers.isNotEmpty) {
-        int nextPage = (_currentPage + 1) % _offers.length;
+        // Get the current page index from the controller and calculate the next page.
+        int currentPage = _pageController.page?.round() ?? _currentPage;
+        int nextPage = (currentPage + 1) % _offers.length;
+
         _pageController.animateToPage(
           nextPage,
           duration: const Duration(milliseconds: 500),
           curve: Curves.easeInOut,
         );
-        setState(() {
-          _currentPage = nextPage;
-        });
       }
     });
   }
@@ -209,9 +225,10 @@ class _SpecialOfferCarouselState extends State<SpecialOfferCarousel> {
   Widget build(BuildContext context) {
     if (_isLoading) {
       return const Center(
-          child: LoadingScreen(
-        loadingText: "",
-      ));
+        child: LoadingScreen(
+          loadingText: "",
+        ),
+      );
     }
     if (_errorMessage != null) {
       return Center(child: Text(_errorMessage!));
